@@ -3,7 +3,7 @@
 
 #include "frs.core_global.h"
 
-class FRS.CORE_EXPORT Core
+class FRS_CORE_EXPORT Core
 {
 public:
     Core();
