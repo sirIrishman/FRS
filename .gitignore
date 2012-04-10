@@ -1,0 +1,31 @@
+# git ignore file
+
+# Visual Studio Solution User Options
+*.suo
+
+# Visual Studio Project User Options file
+*.user
+
+# VS Binary Resource Script Data
+*.aps
+
+# VC++ Project Filters File
+*.filters
+
+# NCrunch solution
+*.ncrunchsolution
+
+# Intermediate file directories
+Debug
+Release
+
+# Output file directory
+bin
+
+# Generated file directory
+GeneratedFIles
+
+# Intellisense PreCompiled Headers
+ipch
+*.sdf
+*.opensdf
