@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ImportGroup Label="PropertySheets" />
+
+  <PropertyGroup Label="UserMacros">
+    <OpenCvHeaderDir>$(SolutionDir)opencv\include</OpenCvHeaderDir>
+    <OpenCvLibDir>$(SolutionDir)opencv\lib</OpenCvLibDir>
+    <OpenCvSrcDir>$(SolutionDir)opencv\src</OpenCvSrcDir>
+    <OpenCvDataDir>$(SolutionDir)opencv\data</OpenCvDataDir>
+  </PropertyGroup>
+
+  <ItemDefinitionGroup />
+
+  <ItemGroup>
+    <BuildMacro Include="OpenCvHeaderDir">
+      <Value>$(OpenCvHeaderDir)</Value>
+    </BuildMacro>
+
+    <BuildMacro Include="OpenCvLibDir">
+      <Value>$(OpenCvLibDir)</Value>
+    </BuildMacro>
+
+    <BuildMacro Include="OpenCvSrcDir">
+      <Value>$(OpenCvSrcDir)</Value>
+    </BuildMacro>
+
+    <BuildMacro Include="OpenCvDataDir">
+      <Value>$(OpenCvDataDir)</Value>
+    </BuildMacro>
+  </ItemGroup>
+</Project>
