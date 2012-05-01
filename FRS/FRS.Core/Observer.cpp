@@ -7,7 +7,7 @@ namespace Patterns {
     class Observer {
     public:
         virtual ~Observer();
-        virtual void Update(ObservableSubject* observableSubject) = 0;
+        virtual void update(ObservableSubject* observableSubject) = 0;
 
     protected:
         Observer();
@@ -22,17 +22,17 @@ namespace Patterns {
             }
         }
 
-        void Attach(Observer* observer) {
+        void attach(Observer* observer) {
             _observerCollection->append(observer);
         }
-        void Detach(Observer* observer) {
+        void detach(Observer* observer) {
             _observerCollection->removeOne(observer);
         }
 
-        void Notify() {
+        void notify() {
             for ( QList<Observer*>::const_iterator iterator = _observerCollection->constBegin(); iterator != _observerCollection->constEnd(); ++iterator) {
                 Observer* observer = *iterator;
-                observer->Update(this);
+                observer->update(this);
             }
         }
 
