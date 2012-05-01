@@ -17,7 +17,7 @@ View::~View() {
     delete _model;
 }
 
-void View::subscibeToEvents() {
+void View::subscribeToEvents() {
 
 }
 

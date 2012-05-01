@@ -20,9 +20,9 @@ protected:
         _controller = controller;
         _model = model;
         _model->attach(this);
-        subscibeToEvents();
+        subscribeToEvents();
     }
-    virtual void subscibeToEvents();
+    virtual void subscribeToEvents();
     void update();
 
 private:
