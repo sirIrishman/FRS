@@ -4,6 +4,9 @@ Microsoft Visual Studio Solution File, Format Version 11.00
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "FRS.Core", "FRS.Core\FRS.Core.vcxproj", "{792472C1-FDA3-4314-B78D-1556E3275FC8}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "FRS.GUI", "FRS.GUI\FRS.GUI.vcxproj", "{FDAAEDCE-22AF-4AA2-9CDE-F64AC5E302CE}"
+	ProjectSection(ProjectDependencies) = postProject
+		{792472C1-FDA3-4314-B78D-1556E3275FC8} = {792472C1-FDA3-4314-B78D-1556E3275FC8}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
