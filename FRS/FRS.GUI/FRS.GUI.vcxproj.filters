@@ -33,6 +33,9 @@
       <Extensions>cpp;moc</Extensions>
       <SourceControlFiles>False</SourceControlFiles>
     </Filter>
+    <Filter Include="lib">
+      <UniqueIdentifier>{0c0ea258-2c05-48c0-9336-fe0edf3eda64}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -69,5 +72,13 @@
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="FRS.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="lib\QtCored4.dll">
+      <Filter>lib</Filter>
+    </None>
+    <None Include="lib\QtGuid4.dll">
+      <Filter>lib</Filter>
+    </None>
   </ItemGroup>
 </Project>

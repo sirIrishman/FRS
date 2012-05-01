@@ -23,9 +23,6 @@
       <Extensions>moc;h;cpp</Extensions>
       <SourceControlFiles>False</SourceControlFiles>
     </Filter>
-    <Filter Include="Source Files\MVC">
-      <UniqueIdentifier>{fd8ea827-d0e8-4afc-beda-5934e75d3b2e}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header Files\Framework">
       <UniqueIdentifier>{aba54763-705f-4787-9311-0bd51b7f32ee}</UniqueIdentifier>
     </Filter>
@@ -40,9 +37,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="core.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Guard.h">
       <Filter>Header Files\Utils</Filter>
     </ClCompile>
@@ -52,14 +46,9 @@
     <ClCompile Include="Observer.h">
       <Filter>Header Files\Patterns\Observer</Filter>
     </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="core.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="frs.core_global.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
+    <ClCompile Include="Model.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="opencv.props" />

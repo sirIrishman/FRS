@@ -80,14 +80,10 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="core.cpp" />
     <ClCompile Include="Exceptions.h" />
     <ClCompile Include="Guard.h" />
+    <ClCompile Include="Model.cpp" />
     <ClCompile Include="Observer.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="core.h" />
-    <ClInclude Include="frs.core_global.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="opencv.props" />
