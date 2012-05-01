@@ -33,9 +33,6 @@
       <Extensions>cpp;moc</Extensions>
       <SourceControlFiles>False</SourceControlFiles>
     </Filter>
-    <Filter Include="lib">
-      <UniqueIdentifier>{0c0ea258-2c05-48c0-9336-fe0edf3eda64}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header Files\Framework">
       <UniqueIdentifier>{3178bc4a-16c3-44b4-bd4e-fbb040c2a077}</UniqueIdentifier>
     </Filter>
@@ -96,14 +93,5 @@
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="FRS.rc" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="lib\QtCored4.dll">
-      <Filter>lib</Filter>
-    </None>
-    <None Include="lib\QtGuid4.dll">
-      <Filter>lib</Filter>
-    </None>
-    <None Include="opencv.props" />
   </ItemGroup>
 </Project>

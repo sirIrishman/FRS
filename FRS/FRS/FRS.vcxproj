@@ -61,7 +61,8 @@
       <AdditionalOptions>/ignore:4099 %(AdditionalOptions)</AdditionalOptions>
     </Link>
     <PostBuildEvent>
-      <Command>copy "$(ProjectDir)lib\*.dll" "$(ProjectDir)bin\$(Configuration)"</Command>
+      <Command>copy "$(ProjectDir)lib\*231d.dll" "$(ProjectDir)bin\$(Configuration)"
+copy "$(ProjectDir)lib\Qt*.dll" "$(ProjectDir)bin\$(Configuration)"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -81,6 +82,10 @@
       <GenerateDebugInformation>false</GenerateDebugInformation>
       <AdditionalDependencies>qtmain.lib;QtCore4.lib;QtGui4.lib;QtMultimedia4.lib;$(OpenCvLibDir)\opencv_calib3d231.lib;$(OpenCvLibDir)\opencv_contrib231.lib;$(OpenCvLibDir)\opencv_core231.lib;$(OpenCvLibDir)\opencv_features2d231.lib;$(OpenCvLibDir)\opencv_flann231.lib;$(OpenCvLibDir)\opencv_gpu231.lib;$(OpenCvLibDir)\opencv_haartraining_engine.lib;$(OpenCvLibDir)\opencv_highgui231.lib;$(OpenCvLibDir)\opencv_imgproc231.lib;$(OpenCvLibDir)\opencv_legacy231.lib;$(OpenCvLibDir)\opencv_ml231.lib;$(OpenCvLibDir)\opencv_objdetect231.lib;$(OpenCvLibDir)\opencv_ts231.lib;$(OpenCvLibDir)\opencv_video231.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <PostBuildEvent>
+      <Command>copy "$(ProjectDir)lib\*231.dll" "$(ProjectDir)bin\$(Configuration)"
+copy "$(ProjectDir)lib\Qt*.dll" "$(ProjectDir)bin\$(Configuration)"</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Model.cpp" />
@@ -145,17 +150,6 @@
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="FRS.rc" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="opencv.props">
-      <FileType>Document</FileType>
-    </None>
-    <None Include="lib\QtCored4.dll">
-      <DeploymentContent>true</DeploymentContent>
-    </None>
-    <None Include="lib\QtGuid4.dll">
-      <DeploymentContent>true</DeploymentContent>
-    </None>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
