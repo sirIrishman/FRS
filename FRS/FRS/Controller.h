@@ -1,0 +1,4 @@
+namespace FRS {
+    class Controller {
+    };
+}

@@ -1,10 +1,8 @@
-#include "Observer.h"
+#include <QtGui/qimage.h>
+#include "Model.h"
 
-using namespace Patterns;
+using namespace FRS;
 
-namespace FRS {
-    class Model : public ObservableSubject {
-    public:
-        ;
-    };
+QImage Model::frame() {
+    return QImage("d:\\cat_smiles.jpg", "jpg");
 }

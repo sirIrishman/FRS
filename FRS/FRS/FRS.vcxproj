@@ -131,9 +131,11 @@ copy "$(ProjectDir)lib\Qt*.dll" "$(ProjectDir)bin\$(Configuration)"</Command>
     </CustomBuild>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Controller.h" />
     <ClInclude Include="Exceptions.h" />
     <ClInclude Include="GeneratedFiles\ui_View.h" />
     <ClInclude Include="Guard.h" />
+    <ClInclude Include="Model.h" />
     <ClInclude Include="Observer.h" />
   </ItemGroup>
   <ItemGroup>

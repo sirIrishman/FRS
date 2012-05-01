@@ -1,16 +1,13 @@
-#include <qglobal.h>
 #include <qlist.h>
 
 namespace Patterns {
-    class ObservableSubject;
-
     class Observer {
     public:
-        virtual ~Observer();
-        virtual void update(ObservableSubject* observableSubject) = 0;
+        virtual ~Observer() {}
+        virtual void update() = 0;
 
     protected:
-        Observer();
+        Observer() {}
     };
 
     class ObservableSubject {
@@ -32,7 +29,7 @@ namespace Patterns {
         void notify() {
             for ( QList<Observer*>::const_iterator iterator = _observerCollection->constBegin(); iterator != _observerCollection->constEnd(); ++iterator) {
                 Observer* observer = *iterator;
-                observer->update(this);
+                observer->update();
             }
         }
 
