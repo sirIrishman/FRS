@@ -9,9 +9,6 @@
 # VS Binary Resource Script Data
 *.aps
 
-# VC++ Project Filters File
-*.filters
-
 # NCrunch solution
 *.ncrunchsolution
 
