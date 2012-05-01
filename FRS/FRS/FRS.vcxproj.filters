@@ -36,6 +36,18 @@
     <Filter Include="lib">
       <UniqueIdentifier>{0c0ea258-2c05-48c0-9336-fe0edf3eda64}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Framework">
+      <UniqueIdentifier>{3178bc4a-16c3-44b4-bd4e-fbb040c2a077}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Patterns">
+      <UniqueIdentifier>{e300fb9e-672a-4162-b3df-8418143a5ed6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Patterns\Observer">
+      <UniqueIdentifier>{5220e962-23b7-4a09-b201-0b95f762ed77}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Utils">
+      <UniqueIdentifier>{b2e79ec1-aa70-4dcb-bf65-70b7537d73c5}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -53,6 +65,9 @@
     <ClCompile Include="GeneratedFiles\qrc_mainwindow.cpp">
       <Filter>Generated Files</Filter>
     </ClCompile>
+    <ClCompile Include="Model.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="mainwindow.h">
@@ -69,6 +84,15 @@
     <ClInclude Include="GeneratedFiles\ui_mainwindow.h">
       <Filter>Generated Files</Filter>
     </ClInclude>
+    <ClInclude Include="Guard.h">
+      <Filter>Header Files\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="Observer.h">
+      <Filter>Header Files\Patterns\Observer</Filter>
+    </ClInclude>
+    <ClInclude Include="Exceptions.h">
+      <Filter>Header Files\Framework</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="FRS.rc" />
@@ -80,5 +104,6 @@
     <None Include="lib\QtGuid4.dll">
       <Filter>lib</Filter>
     </None>
+    <None Include="opencv.props" />
   </ItemGroup>
 </Project>
