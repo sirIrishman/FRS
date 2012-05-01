@@ -45,42 +45,45 @@
     <Filter Include="Header Files\Utils">
       <UniqueIdentifier>{b2e79ec1-aa70-4dcb-bf65-70b7537d73c5}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\MVC">
+      <UniqueIdentifier>{392c9d48-f224-4882-bd3b-7fe1af86c1d0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="mainwindow.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Debug\moc_mainwindow.cpp">
+    <ClCompile Include="GeneratedFiles\Debug\moc_View.cpp">
       <Filter>Generated Files\Debug</Filter>
     </ClCompile>
-    <ClCompile Include="GeneratedFiles\Release\moc_mainwindow.cpp">
+    <ClCompile Include="GeneratedFiles\Release\moc_View.cpp">
       <Filter>Generated Files\Release</Filter>
     </ClCompile>
-    <ClCompile Include="GeneratedFiles\qrc_mainwindow.cpp">
-      <Filter>Generated Files</Filter>
-    </ClCompile>
     <ClCompile Include="Model.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\MVC</Filter>
+    </ClCompile>
+    <ClCompile Include="View.cpp">
+      <Filter>Source Files\MVC</Filter>
+    </ClCompile>
+    <ClCompile Include="Controller.cpp">
+      <Filter>Source Files\MVC</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\qrc_View.cpp">
+      <Filter>Generated Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <CustomBuild Include="mainwindow.h">
+    <CustomBuild Include="View.h">
       <Filter>Header Files</Filter>
     </CustomBuild>
-    <CustomBuild Include="mainwindow.ui">
+    <CustomBuild Include="View.ui">
       <Filter>Form Files</Filter>
     </CustomBuild>
-    <CustomBuild Include="mainwindow.qrc">
+    <CustomBuild Include="View.qrc">
       <Filter>Resource Files</Filter>
     </CustomBuild>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="GeneratedFiles\ui_mainwindow.h">
-      <Filter>Generated Files</Filter>
-    </ClInclude>
     <ClInclude Include="Guard.h">
       <Filter>Header Files\Utils</Filter>
     </ClInclude>
@@ -89,6 +92,9 @@
     </ClInclude>
     <ClInclude Include="Exceptions.h">
       <Filter>Header Files\Framework</Filter>
+    </ClInclude>
+    <ClInclude Include="GeneratedFiles\ui_View.h">
+      <Filter>Generated Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

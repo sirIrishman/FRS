@@ -2,15 +2,15 @@
 #define MAINWINDOW_H
 
 #include <QtGui/QMainWindow>
-#include "ui_mainwindow.h"
+#include "ui_View.h"
 
-class MainWindow : public QMainWindow
+class View : public QMainWindow
 {
     Q_OBJECT
 
 public:
-    MainWindow(QWidget *parent = 0, Qt::WFlags flags = 0);
-    ~MainWindow();
+    View(QWidget *parent = 0, Qt::WFlags flags = 0);
+    ~View();
 
 private:
     Ui::MainWindowClass ui;
