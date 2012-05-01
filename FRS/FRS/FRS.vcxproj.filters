@@ -48,6 +48,9 @@
     <Filter Include="Source Files\MVC">
       <UniqueIdentifier>{392c9d48-f224-4882-bd3b-7fe1af86c1d0}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\MVC">
+      <UniqueIdentifier>{700bf56c-035c-40fc-91b8-5bf5d13650d3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -73,14 +76,14 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <CustomBuild Include="View.h">
-      <Filter>Header Files</Filter>
-    </CustomBuild>
     <CustomBuild Include="View.ui">
       <Filter>Form Files</Filter>
     </CustomBuild>
     <CustomBuild Include="View.qrc">
       <Filter>Resource Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="View.h">
+      <Filter>Header Files\MVC</Filter>
     </CustomBuild>
   </ItemGroup>
   <ItemGroup>
