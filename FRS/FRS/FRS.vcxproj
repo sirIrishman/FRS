@@ -61,8 +61,9 @@
       <AdditionalOptions>/ignore:4099 %(AdditionalOptions)</AdditionalOptions>
     </Link>
     <PostBuildEvent>
-      <Command>copy "$(ProjectDir)lib\*231d.dll" "$(ProjectDir)bin\$(Configuration)"
-copy "$(ProjectDir)lib\Qt*.dll" "$(ProjectDir)bin\$(Configuration)"</Command>
+      <Command>copy "$(ProjectDir)dll\*231d.dll" "$(ProjectDir)bin\$(Configuration)"
+copy "$(ProjectDir)dll\Qt*.dll" "$(ProjectDir)bin\$(Configuration)"
+copy "$(ProjectDir)dll\tbb_debug.dll" "$(ProjectDir)bin\$(Configuration)"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -83,11 +84,18 @@ copy "$(ProjectDir)lib\Qt*.dll" "$(ProjectDir)bin\$(Configuration)"</Command>
       <AdditionalDependencies>qtmain.lib;QtCore4.lib;QtGui4.lib;QtMultimedia4.lib;$(OpenCvLibDir)\opencv_calib3d231.lib;$(OpenCvLibDir)\opencv_contrib231.lib;$(OpenCvLibDir)\opencv_core231.lib;$(OpenCvLibDir)\opencv_features2d231.lib;$(OpenCvLibDir)\opencv_flann231.lib;$(OpenCvLibDir)\opencv_gpu231.lib;$(OpenCvLibDir)\opencv_haartraining_engine.lib;$(OpenCvLibDir)\opencv_highgui231.lib;$(OpenCvLibDir)\opencv_imgproc231.lib;$(OpenCvLibDir)\opencv_legacy231.lib;$(OpenCvLibDir)\opencv_ml231.lib;$(OpenCvLibDir)\opencv_objdetect231.lib;$(OpenCvLibDir)\opencv_ts231.lib;$(OpenCvLibDir)\opencv_video231.lib;QtUiTools.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
-      <Command>copy "$(ProjectDir)lib\*231.dll" "$(ProjectDir)bin\$(Configuration)"
-copy "$(ProjectDir)lib\Qt*.dll" "$(ProjectDir)bin\$(Configuration)"</Command>
+      <Command>copy "$(ProjectDir)dll\*231.dll" "$(ProjectDir)bin\$(Configuration)"
+copy "$(ProjectDir)dll\Qt*.dll" "$(ProjectDir)bin\$(Configuration)"
+copy "$(ProjectDir)dll\tbb.dll" "$(ProjectDir)bin\$(Configuration)"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="GeneratedFiles\Debug\moc_Model.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_Model.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="SourceFiles\Controller.cpp" />
     <ClCompile Include="GeneratedFiles\Debug\moc_View.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
@@ -110,7 +118,7 @@ copy "$(ProjectDir)lib\Qt*.dll" "$(ProjectDir)bin\$(Configuration)"</Command>
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath);$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>
       <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Moc%27ing View.h...</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp</Outputs>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp"  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_CORE_LIB -DQT_GUI_LIB -DQT_MULTIMEDIA_LIB "-DOpenCvDataDir=$(OpenCvDataDir)\." "-I." "-I.\GeneratedFiles" "-I$(QTDIR)\include" "-I.\GeneratedFiles\$(ConfigurationName)\." "-I." "-I$(QTDIR)\include\QtCore" "-I$(QTDIR)\include\QtGui" "-I$(QTDIR)\include\QtMultimedia" "-I$(QTDIR)\include\QtUiTools" "-I$(OpenCvHeaderDir)\." "-I$(OpenCvHeaderDir)\opencv2" "-I." "-I." "-I." "-I."</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(QTDIR)\bin\moc.exe"   -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_CORE_LIB -DQT_GUI_LIB -DQT_MULTIMEDIA_LIB "-DOpenCvDataDir=$(OpenCvDataDir)\."  "-I." "-I.\GeneratedFiles" "-I$(QTDIR)\include" "-I.\GeneratedFiles\$(ConfigurationName)\." "-I." "-I$(QTDIR)\include\QtCore" "-I$(QTDIR)\include\QtGui" "-I$(QTDIR)\include\QtMultimedia" "-I$(QTDIR)\include\QtUiTools" "-I$(OpenCvHeaderDir)\." "-I$(OpenCvHeaderDir)\opencv2" "-I." "-I." "-I." "-I." "%(FullPath)" -o ".\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp"</Command>
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath);$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>
       <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Moc%27ing View.h...</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">.\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp</Outputs>
@@ -136,7 +144,16 @@ copy "$(ProjectDir)lib\Qt*.dll" "$(ProjectDir)bin\$(Configuration)"</Command>
     <ClInclude Include="Exceptions.h" />
     <ClInclude Include="GeneratedFiles\ui_View.h" />
     <ClInclude Include="Guard.h" />
-    <ClInclude Include="Model.h" />
+    <CustomBuild Include="Model.h">
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Moc%27ing Model.h...</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(QTDIR)\bin\moc.exe"   -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_CORE_LIB -DQT_GUI_LIB -DQT_MULTIMEDIA_LIB "-DOpenCvDataDir=$(OpenCvDataDir)\."  "-I." "-I.\GeneratedFiles" "-I$(QTDIR)\include" "-I.\GeneratedFiles\$(ConfigurationName)\." "-I." "-I$(QTDIR)\include\QtCore" "-I$(QTDIR)\include\QtGui" "-I$(QTDIR)\include\QtMultimedia" "-I$(QTDIR)\include\QtUiTools" "-I$(OpenCvHeaderDir)\." "-I$(OpenCvHeaderDir)\opencv2" "-I." "-I." "-I." "-I." "%(FullPath)" -o ".\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp"</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Moc%27ing Model.h...</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">.\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp"  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_NO_DEBUG -DNDEBUG -DQT_CORE_LIB -DQT_GUI_LIB -DQT_MULTIMEDIA_LIB "-I." "-I.\GeneratedFiles" "-I$(QTDIR)\include" "-I.\GeneratedFiles\$(ConfigurationName)\." "-I$(QTDIR)\include\QtCore" "-I$(QTDIR)\include\QtGui" "-I$(QTDIR)\include\QtMultimedia" "-I." "-I$(OpenCvHeaderDir)\." "-I$(QTDIR)\include\QtUiTools" "-I." "-I." "-I." "-I."</Command>
+    </CustomBuild>
     <ClInclude Include="Observer.h" />
   </ItemGroup>
   <ItemGroup>
@@ -154,6 +171,9 @@ copy "$(ProjectDir)lib\Qt*.dll" "$(ProjectDir)bin\$(Configuration)"</Command>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="FRS.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="opencv.props" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

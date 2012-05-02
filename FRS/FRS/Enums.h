@@ -1,7 +1,7 @@
 namespace FRS {
     enum FrameSource { 
         None = 0,
-        GraphicFile, 
+        ImageFile, 
         VideoFile, 
         Webcam 
     };

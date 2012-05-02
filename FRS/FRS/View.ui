@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>758</width>
-    <height>516</height>
+    <width>756</width>
+    <height>652</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -40,47 +40,34 @@
      <string>Load Video</string>
     </property>
    </widget>
-   <widget class="QScrollArea" name="scrollArea">
+   <widget class="QPushButton" name="pshBttn_Webcam">
+    <property name="geometry">
+     <rect>
+      <x>230</x>
+      <y>0</y>
+      <width>111</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Webcam</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="lbl_Frame">
     <property name="geometry">
      <rect>
       <x>0</x>
       <y>30</y>
       <width>751</width>
-      <height>391</height>
+      <height>551</height>
      </rect>
     </property>
-    <property name="widgetResizable">
-     <bool>true</bool>
+    <property name="autoFillBackground">
+     <bool>false</bool>
     </property>
-    <property name="alignment">
-     <set>Qt::AlignJustify|Qt::AlignTop</set>
+    <property name="text">
+     <string>Frame</string>
     </property>
-    <widget class="QWidget" name="scrollAreaWidgetContents">
-     <property name="geometry">
-      <rect>
-       <x>0</x>
-       <y>0</y>
-       <width>749</width>
-       <height>389</height>
-      </rect>
-     </property>
-     <widget class="QLabel" name="lbl_Frame">
-      <property name="geometry">
-       <rect>
-        <x>0</x>
-        <y>0</y>
-        <width>741</width>
-        <height>381</height>
-       </rect>
-      </property>
-      <property name="autoFillBackground">
-       <bool>false</bool>
-      </property>
-      <property name="text">
-       <string>Frame</string>
-      </property>
-     </widget>
-    </widget>
    </widget>
   </widget>
   <widget class="QMenuBar" name="menuBar">
@@ -88,7 +75,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>758</width>
+     <width>756</width>
      <height>21</height>
     </rect>
    </property>

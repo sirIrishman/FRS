@@ -12,6 +12,12 @@ namespace Utils {
                 throwException(QString("Argument '%1' can not be null").arg(argumentName));
         }
 
+        template<typename T>
+        static void argumentInRange(typename T const& argumentValue, QString const& argumentName, typename T minValue, typename T maxValue) {
+            if(argumentValue < minValue || argumentValue > maxValue)
+                throwException(QString("Argument '%1' is out of range [%2, %3]").arg(argumentName, minValue, maxValue));
+        }
+
         static void argumentNotNullOrEmpty(QString const& argumentValue, QString const& argumentName) {
             if(argumentValue.isNull() || argumentValue.isEmpty())
                 throwException(QString("Argument '%1' can not be null or empty").arg(argumentName));

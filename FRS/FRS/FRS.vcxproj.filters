@@ -74,6 +74,12 @@
     <ClCompile Include="SourceFiles\View.cpp">
       <Filter>Source Files\MVC</Filter>
     </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_Model.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_Model.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="View.ui">
@@ -83,6 +89,9 @@
       <Filter>Resource Files</Filter>
     </CustomBuild>
     <CustomBuild Include="View.h">
+      <Filter>Header Files\MVC</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Model.h">
       <Filter>Header Files\MVC</Filter>
     </CustomBuild>
   </ItemGroup>
@@ -102,14 +111,14 @@
     <ClInclude Include="Guard.h">
       <Filter>Header Files\Utils</Filter>
     </ClInclude>
-    <ClInclude Include="Model.h">
-      <Filter>Header Files\MVC</Filter>
-    </ClInclude>
     <ClInclude Include="Observer.h">
       <Filter>Header Files\Patterns\Observer</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="FRS.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="opencv.props" />
   </ItemGroup>
 </Project>

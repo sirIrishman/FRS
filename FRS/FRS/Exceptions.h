@@ -11,7 +11,7 @@ namespace Framework {
         }
 
         void raise() const {
-            throw *this;
+            throw this;
         }
         virtual Exception *clone() const {
             return new BaseException(*_message);
