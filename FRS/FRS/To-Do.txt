@@ -1,0 +1,1 @@
+1. Release frame and image resources in model destructor.

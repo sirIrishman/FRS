@@ -62,23 +62,23 @@
     <ClCompile Include="GeneratedFiles\qrc_View.cpp">
       <Filter>Generated Files</Filter>
     </ClCompile>
-    <ClCompile Include="SourceFiles\Controller.cpp">
-      <Filter>Source Files\MVC</Filter>
-    </ClCompile>
-    <ClCompile Include="SourceFiles\main.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="SourceFiles\Model.cpp">
-      <Filter>Source Files\MVC</Filter>
-    </ClCompile>
-    <ClCompile Include="SourceFiles\View.cpp">
-      <Filter>Source Files\MVC</Filter>
-    </ClCompile>
     <ClCompile Include="GeneratedFiles\Debug\moc_Model.cpp">
       <Filter>Generated Files\Debug</Filter>
     </ClCompile>
     <ClCompile Include="GeneratedFiles\Release\moc_Model.cpp">
       <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="SourceFiles\Controller.cpp">
+      <Filter>Source Files\MVC</Filter>
+    </ClCompile>
+    <ClCompile Include="SourceFiles\View.cpp">
+      <Filter>Source Files\MVC</Filter>
+    </ClCompile>
+    <ClCompile Include="SourceFiles\Model.cpp">
+      <Filter>Source Files\MVC</Filter>
+    </ClCompile>
+    <ClCompile Include="SourceFiles\main.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -120,5 +120,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="opencv.props" />
+    <None Include="To-Do.txt" />
   </ItemGroup>
 </Project>
