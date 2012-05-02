@@ -53,26 +53,26 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="main.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="GeneratedFiles\Debug\moc_View.cpp">
       <Filter>Generated Files\Debug</Filter>
     </ClCompile>
     <ClCompile Include="GeneratedFiles\Release\moc_View.cpp">
       <Filter>Generated Files\Release</Filter>
     </ClCompile>
-    <ClCompile Include="Model.cpp">
-      <Filter>Source Files\MVC</Filter>
-    </ClCompile>
-    <ClCompile Include="View.cpp">
-      <Filter>Source Files\MVC</Filter>
-    </ClCompile>
-    <ClCompile Include="Controller.cpp">
-      <Filter>Source Files\MVC</Filter>
-    </ClCompile>
     <ClCompile Include="GeneratedFiles\qrc_View.cpp">
       <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SourceFiles\Controller.cpp">
+      <Filter>Source Files\MVC</Filter>
+    </ClCompile>
+    <ClCompile Include="SourceFiles\main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SourceFiles\Model.cpp">
+      <Filter>Source Files\MVC</Filter>
+    </ClCompile>
+    <ClCompile Include="SourceFiles\View.cpp">
+      <Filter>Source Files\MVC</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -87,23 +87,26 @@
     </CustomBuild>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Guard.h">
-      <Filter>Header Files\Utils</Filter>
+    <ClInclude Include="GeneratedFiles\ui_View.h">
+      <Filter>Generated Files</Filter>
     </ClInclude>
-    <ClInclude Include="Observer.h">
-      <Filter>Header Files\Patterns\Observer</Filter>
+    <ClInclude Include="Controller.h">
+      <Filter>Header Files\MVC</Filter>
+    </ClInclude>
+    <ClInclude Include="Enums.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Exceptions.h">
       <Filter>Header Files\Framework</Filter>
     </ClInclude>
-    <ClInclude Include="GeneratedFiles\ui_View.h">
-      <Filter>Generated Files</Filter>
+    <ClInclude Include="Guard.h">
+      <Filter>Header Files\Utils</Filter>
     </ClInclude>
     <ClInclude Include="Model.h">
       <Filter>Header Files\MVC</Filter>
     </ClInclude>
-    <ClInclude Include="Controller.h">
-      <Filter>Header Files\MVC</Filter>
+    <ClInclude Include="Observer.h">
+      <Filter>Header Files\Patterns\Observer</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

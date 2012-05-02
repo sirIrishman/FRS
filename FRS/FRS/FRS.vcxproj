@@ -88,7 +88,7 @@ copy "$(ProjectDir)lib\Qt*.dll" "$(ProjectDir)bin\$(Configuration)"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Controller.cpp" />
+    <ClCompile Include="SourceFiles\Controller.cpp" />
     <ClCompile Include="GeneratedFiles\Debug\moc_View.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
     </ClCompile>
@@ -101,9 +101,9 @@ copy "$(ProjectDir)lib\Qt*.dll" "$(ProjectDir)bin\$(Configuration)"</Command>
     <ClCompile Include="GeneratedFiles\Release\moc_View.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
     </ClCompile>
-    <ClCompile Include="Model.cpp" />
-    <ClCompile Include="main.cpp" />
-    <ClCompile Include="View.cpp" />
+    <ClCompile Include="SourceFiles\Model.cpp" />
+    <ClCompile Include="SourceFiles\main.cpp" />
+    <ClCompile Include="SourceFiles\View.cpp" />
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="View.h">
@@ -132,6 +132,7 @@ copy "$(ProjectDir)lib\Qt*.dll" "$(ProjectDir)bin\$(Configuration)"</Command>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Controller.h" />
+    <ClInclude Include="Enums.h" />
     <ClInclude Include="Exceptions.h" />
     <ClInclude Include="GeneratedFiles\ui_View.h" />
     <ClInclude Include="Guard.h" />

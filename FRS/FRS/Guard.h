@@ -12,8 +12,8 @@ namespace Utils {
                 throwException(QString("Argument '%1' can not be null").arg(argumentName));
         }
 
-        static void argumentNotNullOrEmpty(QString* const& argumentValue, QString const& argumentName) {
-            if(argumentValue == NULL || argumentValue->isEmpty())
+        static void argumentNotNullOrEmpty(QString const& argumentValue, QString const& argumentName) {
+            if(argumentValue.isNull() || argumentValue.isEmpty())
                 throwException(QString("Argument '%1' can not be null or empty").arg(argumentName));
         }
 

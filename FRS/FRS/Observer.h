@@ -19,10 +19,10 @@ namespace Patterns {
             }
         }
 
-        void attach(Observer* observer) {
+        void attach(Observer* const& observer) {
             _observerCollection->append(observer);
         }
-        void detach(Observer* observer) {
+        void detach(Observer* const& observer) {
             _observerCollection->removeOne(observer);
         }
 

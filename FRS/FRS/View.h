@@ -1,34 +1,32 @@
-#ifndef MAINWINDOW_H
-#define MAINWINDOW_H
+#ifndef VIEW_H
+#define VIEW_H
 
 #include <QtGui/QMainWindow>
 #include "ui_View.h"
-#include "Model.h"
 #include "Controller.h"
 
-using namespace FRS;
 using namespace Patterns;
 
-class View : public QMainWindow, public Observer {
-    Q_OBJECT
-public:
-    View(Controller* controller, Model* model, QWidget *parent = 0, Qt::WFlags flags = 0);
-    ~View();
+namespace FRS {
+    class View : public QMainWindow, public Observer {
+        Q_OBJECT
+    public:
+        View(Model* model, Controller* controller, QWidget *parent = 0, Qt::WFlags flags = 0);
+        ~View();
 
-protected:
-    virtual void initialize(Controller* controller, Model* model) {
-        _controller = controller;
-        _model = model;
-        _model->attach(this);
-        subscribeToEvents();
-    }
-    virtual void subscribeToEvents();
-    void update();
+    protected:
+        virtual void initialize(Model* model, Controller* controller);
+        virtual void subscribeToEvents();
+        void update();
 
-private:
-    Ui::MainWindowClass _ui;
-    Controller* _controller;
-    Model* _model;
-};
+    private:
+        Ui::MainWindowClass _ui;
+        Model* _model;
+        Controller* _controller;
 
-#endif // MAINWINDOW_H
+    private slots:
+        void pshBtn_LoadImage_Clicked();
+    };
+}
+
+#endif // VIEW_H

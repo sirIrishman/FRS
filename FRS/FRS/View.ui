@@ -6,36 +6,81 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>600</width>
-    <height>400</height>
+    <width>758</width>
+    <height>516</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>MainWindow</string>
   </property>
   <widget class="QWidget" name="centralWidget">
-   <widget class="QToolButton" name="toolButton">
+   <widget class="QPushButton" name="pshBttn_LoadImage">
     <property name="geometry">
      <rect>
       <x>10</x>
       <y>0</y>
-      <width>581</width>
+      <width>91</width>
       <height>23</height>
      </rect>
     </property>
     <property name="text">
-     <string>PushButton</string>
+     <string>Load Image</string>
     </property>
    </widget>
-   <widget class="QGraphicsView" name="graphicsView">
+   <widget class="QPushButton" name="pshBttn_LoadVideo">
+    <property name="geometry">
+     <rect>
+      <x>110</x>
+      <y>0</y>
+      <width>111</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Load Video</string>
+    </property>
+   </widget>
+   <widget class="QScrollArea" name="scrollArea">
     <property name="geometry">
      <rect>
       <x>0</x>
       <y>30</y>
-      <width>601</width>
-      <height>311</height>
+      <width>751</width>
+      <height>391</height>
      </rect>
     </property>
+    <property name="widgetResizable">
+     <bool>true</bool>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignJustify|Qt::AlignTop</set>
+    </property>
+    <widget class="QWidget" name="scrollAreaWidgetContents">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>0</y>
+       <width>749</width>
+       <height>389</height>
+      </rect>
+     </property>
+     <widget class="QLabel" name="lbl_Frame">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>0</y>
+        <width>741</width>
+        <height>381</height>
+       </rect>
+      </property>
+      <property name="autoFillBackground">
+       <bool>false</bool>
+      </property>
+      <property name="text">
+       <string>Frame</string>
+      </property>
+     </widget>
+    </widget>
    </widget>
   </widget>
   <widget class="QMenuBar" name="menuBar">
@@ -43,7 +88,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>600</width>
+     <width>758</width>
      <height>21</height>
     </rect>
    </property>
@@ -60,7 +105,7 @@
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <resources>
-  <include location="mainwindow.qrc"/>
+  <include location="View.qrc"/>
  </resources>
  <connections/>
 </ui>
