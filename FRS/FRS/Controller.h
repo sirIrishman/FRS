@@ -6,9 +6,9 @@ namespace FRS {
     public:
         Controller(Model* const& model);
 
-        void loadImageFromFile(QString const& filePath);
-        void loadVideoFromFile(QString const& filePath);
-        void loadVideoFromWebcam(int webcamIndex);
+        void loadImage(QString const& filePath);
+        void loadVideo(QString const& filePath);
+        void captureVideo(int webcamIndex);
 
     private:
         Model* _model;

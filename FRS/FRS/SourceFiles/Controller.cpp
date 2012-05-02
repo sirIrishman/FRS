@@ -8,17 +8,17 @@ Controller::Controller(Model* const& model) {
     _model = model;
 }
 
-void Controller::loadImageFromFile(QString const& filePath) {
+void Controller::loadImage(QString const& filePath) {
     Utils::Guard::argumentNotNullOrEmpty(filePath, "filePath");
     _model->setSource(ImageFile, filePath);
 }
 
-void Controller::loadVideoFromFile(QString const& filePath) {
+void Controller::loadVideo(QString const& filePath) {
     Utils::Guard::argumentNotNullOrEmpty(filePath, "filePath");
     _model->setSource(VideoFile, filePath);
 }
 
-void Controller::loadVideoFromWebcam(int webcamIndex) {
+void Controller::captureVideo(int webcamIndex) {
     //Utils::Guard::argumentInRange(webcamIndex, "webcamIndex", 0, 10);
     _model->setSource(Webcam);
 }

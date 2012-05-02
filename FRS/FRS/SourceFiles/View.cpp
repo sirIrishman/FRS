@@ -25,9 +25,9 @@ void View::initialize(Model* model, Controller* controller) {
 }
 
 void View::subscribeToEvents() {
-    connect(_ui.pshBttn_LoadImage, SIGNAL(clicked()), this, SLOT(pshBtn_LoadImage_Clicked()));
-    connect(_ui.pshBttn_LoadVideo, SIGNAL(clicked()), this, SLOT(pshBtn_LoadVideo_Clicked()));
-    connect(_ui.pshBttn_Webcam, SIGNAL(clicked()), this, SLOT(pshBtn_Webcam_Clicked()));
+    connect(_ui.actn_LoadImage, SIGNAL(triggered()), this, SLOT(actn_LoadImage_Triggered()));
+    connect(_ui.actn_LoadVideo, SIGNAL(triggered()), this, SLOT(actn_LoadVideo_Triggered()));
+    connect(_ui.actn_captureVideo, SIGNAL(triggered()), this, SLOT(actn_CaptureVideo_Triggered()));
 }
 
 void View::update() {
@@ -43,14 +43,14 @@ void View::update() {
     //cvReleaseImage(&sourceFrame);
 }
 
-void View::pshBtn_LoadImage_Clicked() {
-    _controller->loadImageFromFile("d:\\cat_smiles.jpg");
+void View::actn_LoadImage_Triggered() {
+    _controller->loadImage("d:\\cat_smiles.jpg");
 }
 
-void View::pshBtn_LoadVideo_Clicked() {
-    _controller->loadVideoFromFile("d:\\m4_penthouse.avi");
+void View::actn_LoadVideo_Triggered() {
+    _controller->loadVideo("d:\\m4_penthouse.avi");
 }
 
-void View::pshBtn_Webcam_Clicked() {
-    _controller->loadVideoFromWebcam(-1);
+void View::actn_CaptureVideo_Triggered() {
+    _controller->captureVideo(-1);
 }

@@ -25,9 +25,9 @@ namespace FRS {
         Controller* _controller;
 
     private slots:
-        void pshBtn_LoadImage_Clicked();
-        void pshBtn_LoadVideo_Clicked();
-        void pshBtn_Webcam_Clicked();
+        void actn_LoadImage_Triggered();
+        void actn_LoadVideo_Triggered();
+        void actn_CaptureVideo_Triggered();
     };
 }
 
