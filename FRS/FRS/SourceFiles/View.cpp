@@ -27,20 +27,17 @@ void View::initialize(Model* model, Controller* controller) {
 void View::subscribeToEvents() {
     connect(_ui.actn_LoadImage, SIGNAL(triggered()), this, SLOT(actn_LoadImage_Triggered()));
     connect(_ui.actn_LoadVideo, SIGNAL(triggered()), this, SLOT(actn_LoadVideo_Triggered()));
-    connect(_ui.actn_captureVideo, SIGNAL(triggered()), this, SLOT(actn_CaptureVideo_Triggered()));
+    connect(_ui.actn_CaptureVideo, SIGNAL(triggered()), this, SLOT(actn_CaptureVideo_Triggered()));
+    connect(_ui.actn_CaptureImage, SIGNAL(triggered()), this, SLOT(actn_CaptureImage_Triggered()));
 }
 
 void View::update() {
-    IplImage* sourceFrame = _model->frame();
-    if(sourceFrame == NULL)
+    IplImage* frame = _model->frame();
+    if(frame == NULL)
         return;
-    IplImage* destFrame = cvCreateImage(cvGetSize(sourceFrame), sourceFrame->depth, sourceFrame->nChannels);
-    cvCvtColor(sourceFrame, destFrame, CV_BGR2RGB);
-    QImage* image = new QImage((uchar*)destFrame->imageData, destFrame->width, destFrame->height, destFrame->widthStep, QImage::Format_RGB888);
-    _ui.lbl_Frame->setPixmap(QPixmap::fromImage(*image));
+    QImage* image = new QImage((uchar*)frame->imageData, frame->width, frame->height, frame->widthStep, QImage::Format_RGB888);
+    _ui.lbl_Frame->setPixmap(QPixmap::fromImage(image->rgbSwapped()));
     delete image;
-    cvReleaseImage(&destFrame);
-    //cvReleaseImage(&sourceFrame);
 }
 
 void View::actn_LoadImage_Triggered() {
@@ -53,4 +50,8 @@ void View::actn_LoadVideo_Triggered() {
 
 void View::actn_CaptureVideo_Triggered() {
     _controller->captureVideo(-1);
+}
+
+void View::actn_CaptureImage_Triggered() {
+    _controller->captureImage(-1);
 }

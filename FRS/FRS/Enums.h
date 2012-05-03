@@ -6,7 +6,8 @@ namespace FRS {
         None = 0,
         ImageFile, 
         VideoFile, 
-        Webcam 
+        VideoWebcam,
+        ImageWebcam
     };
 }
 

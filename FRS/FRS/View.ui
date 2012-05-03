@@ -72,7 +72,8 @@
    </attribute>
    <addaction name="actn_LoadImage"/>
    <addaction name="actn_LoadVideo"/>
-   <addaction name="actn_captureVideo"/>
+   <addaction name="actn_CaptureVideo"/>
+   <addaction name="actn_CaptureImage"/>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
   <action name="actn_LoadImage">
@@ -99,13 +100,21 @@
     <string>Загрузить видео файл</string>
    </property>
   </action>
-  <action name="actn_captureVideo">
+  <action name="actn_CaptureVideo">
    <property name="icon">
     <iconset resource="View.qrc">
      <normaloff>:/MainWindow/webcam.png</normaloff>:/MainWindow/webcam.png</iconset>
    </property>
    <property name="text">
     <string>Получить видео с вебкамеры</string>
+   </property>
+  </action>
+  <action name="actn_CaptureImage">
+   <property name="text">
+    <string>Получить изображение с вебкамеры</string>
+   </property>
+   <property name="toolTip">
+    <string>Получить изображение с вебкамеры</string>
    </property>
   </action>
  </widget>

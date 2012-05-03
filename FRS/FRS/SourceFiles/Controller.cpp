@@ -20,5 +20,10 @@ void Controller::loadVideo(QString const& filePath) {
 
 void Controller::captureVideo(int webcamIndex) {
     //Utils::Guard::argumentInRange(webcamIndex, "webcamIndex", 0, 10);
-    _model->setSource(Webcam);
+    _model->setSource(VideoWebcam);
+}
+
+void Controller::captureImage(int webcamIndex) {
+    //Utils::Guard::argumentInRange(webcamIndex, "webcamIndex", 0, 10);
+    _model->setSource(ImageWebcam);
 }

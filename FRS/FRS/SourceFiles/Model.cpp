@@ -1,4 +1,5 @@
 #include <QtGui/qimage.h>
+#include <Windows.h>
 #include "Model.h"
 
 using namespace FRS;
@@ -19,7 +20,7 @@ void Model::setSource(FrameSource const& frameSource) {
 }
 
 void Model::setSource(FrameSource const& frameSource, QString const& filePath) {
-    if(_frameSource == VideoFile || _frameSource == Webcam)
+    if(_frameSource == VideoFile || _frameSource == VideoWebcam)
         unsetVideoSource();
 
     _frameSource = frameSource;
@@ -29,15 +30,23 @@ void Model::setSource(FrameSource const& frameSource, QString const& filePath) {
         notify();
     else if(_frameSource == VideoFile)
         setVideoSource(cvCaptureFromFile(_filePath.toLatin1().constData()));
-    else if(_frameSource == Webcam)
+    else if(_frameSource == VideoWebcam)
         setVideoSource(cvCaptureFromCAM(-1));
+    else if(_frameSource == ImageWebcam) {
+        setVideoSource(cvCaptureFromCAM(-1));
+        Sleep(200); //waiting for a webcam initializing
+        notify();
+        unsetVideoSource();
+    }
 }
 
-IplImage* Model::frame() const {
+IplImage* Model::frame() {
     if(_frameSource == ImageFile)
         return cvLoadImage(_filePath.toLatin1().constData());
-    else //if(_frameSource == VideoFile || _frameSource == Webcam)
-        return cvQueryFrame(_capture);
+    else {//?
+        _frame = cvQueryFrame(_capture);
+        return _frame;
+    }
 }
 
 int Model::interval() const {
@@ -64,4 +73,5 @@ void Model::setVideoSource(CvCapture* capture) {
 void Model::unsetVideoSource() {
     stopTimer();
     cvReleaseCapture(&_capture);
+    //cvReleaseImage(&_frame);
 }

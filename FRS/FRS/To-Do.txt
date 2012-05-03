@@ -1,7 +1,9 @@
 Active:
 	1. Release frame and image resources in model destructor
-	2. Fix 'actn_captureVideo' typo
-	4. Add webcam image capturing functionality
+	2. Add OFD for image & video file loading
+	3. Fix Guard's argumentInRange method
 
 Fixed:
 	3. Surround header's code with #ifndef #define ... #endif
+	2. Fix 'actn_captureVideo' typo
+	4. Add webcam image capturing functionality

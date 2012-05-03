@@ -20,7 +20,7 @@ namespace FRS {
 
         void setSource(FrameSource const& frameSource);
         void setSource(FrameSource const& frameSource, QString const& filePath);
-        IplImage* frame() const;
+        IplImage* frame();
 
     private:
         const int __fps;
@@ -28,7 +28,7 @@ namespace FRS {
         FrameSource _frameSource;
         QString _filePath;
         QTimer* _timer;
-        //IplImage* _frame;
+        IplImage* _frame;
         CvCapture* _capture;
 
         int interval() const;

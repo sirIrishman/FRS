@@ -28,6 +28,7 @@ namespace FRS {
         void actn_LoadImage_Triggered();
         void actn_LoadVideo_Triggered();
         void actn_CaptureVideo_Triggered();
+        void actn_CaptureImage_Triggered();
     };
 }
 
