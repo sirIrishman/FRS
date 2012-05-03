@@ -13,8 +13,8 @@
 *.ncrunchsolution
 
 # Intermediate file directories
-Debug
-Release
+FRS/FRS/Debug
+FRS/FRS/Release
 
 # Output file directory
 bin
