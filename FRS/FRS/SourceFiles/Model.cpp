@@ -4,7 +4,7 @@
 
 using namespace FRS;
 
-Model::Model() : __fps(30), __msecInSec(1000) {
+Model::Model() : __fps(30), __msecInSec(1000), __webcamInitTimeInMsec(250) {
     _frameSource = None;
     _timer = new QTimer();
     connect(_timer, SIGNAL(timeout()), this, SLOT(tick()));
@@ -34,7 +34,7 @@ void Model::setSource(FrameSource const& frameSource, QString const& filePath) {
         setVideoSource(cvCaptureFromCAM(-1));
     else if(_frameSource == ImageWebcam) {
         setVideoSource(cvCaptureFromCAM(-1));
-        Sleep(200); //waiting for a webcam initializing
+        Sleep(__webcamInitTimeInMsec); //waiting for a webcam initializing
         notify();
         unsetVideoSource();
     }

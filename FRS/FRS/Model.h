@@ -25,6 +25,7 @@ namespace FRS {
     private:
         const int __fps;
         const int __msecInSec;
+        const int __webcamInitTimeInMsec;
         FrameSource _frameSource;
         QString _filePath;
         QTimer* _timer;
