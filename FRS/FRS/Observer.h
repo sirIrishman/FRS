@@ -1,3 +1,6 @@
+#ifndef OBSERVER_H
+#define OBSERVER_H
+
 #include <qlist.h>
 
 namespace Patterns {
@@ -42,3 +45,5 @@ namespace Patterns {
         QList<Observer*>* _observerCollection;
     };
 }
+
+#endif //OBSERVER_H

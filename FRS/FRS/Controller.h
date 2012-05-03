@@ -1,3 +1,6 @@
+#ifndef CONTROLLER_H
+#define CONTROLLER_H
+
 #include <qstring.h>
 #include "Model.h"
 
@@ -14,3 +17,5 @@ namespace FRS {
         Model* _model;
     };
 }
+
+#endif //CONTROLLER_H

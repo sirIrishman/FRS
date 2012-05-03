@@ -1,4 +1,7 @@
-#include <QtCore>
+#ifndef GUARD_H
+#define GUARD_H
+
+#include <qstring.h>
 #include "Exceptions.h"
 
 using namespace Framework;
@@ -32,3 +35,5 @@ namespace Utils {
         }
     };
 }
+
+#endif //GUARD_H

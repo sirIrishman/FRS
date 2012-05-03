@@ -1,3 +1,6 @@
+#ifndef EXCEPTIONS_H
+#define EXCEPTIONS_H
+
 #include <QtCore>
 
 namespace Framework {
@@ -42,3 +45,5 @@ namespace Framework {
         ArgumentException(QString const& message) : BaseException(message) {}
     };
 }
+
+#endif //EXCEPTIONS_H

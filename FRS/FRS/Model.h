@@ -1,3 +1,6 @@
+#ifndef MODEL_H
+#define MODEL_H
+
 #include <qimage.h>
 #include <qstring.h>
 #include <qtimer.h>
@@ -39,3 +42,5 @@ namespace FRS {
         void tick();
     };
 }
+
+#endif //MODEL_H

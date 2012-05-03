@@ -1,3 +1,6 @@
+#ifndef ENUMS_H
+#define ENUMS_H
+
 namespace FRS {
     enum FrameSource { 
         None = 0,
@@ -6,3 +9,5 @@ namespace FRS {
         Webcam 
     };
 }
+
+#endif //ENUMS_H
