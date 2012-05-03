@@ -1,4 +1,5 @@
-#include <imgproc\imgproc_c.h>
+#include <qfiledialog.h>
+#include <qstring.h>
 #include "View.h"
 #include "Guard.h"
 
@@ -41,11 +42,17 @@ void View::update() {
 }
 
 void View::actn_LoadImage_Triggered() {
-    _controller->loadImage("d:\\cat_smiles.jpg");
+    QString imageFileName = fileName(Image);
+    if(imageFileName.isNull())
+        return;
+    _controller->loadImage(imageFileName);
 }
 
 void View::actn_LoadVideo_Triggered() {
-    _controller->loadVideo("d:\\m4_penthouse.avi");
+    QString videoFileName = fileName(Video);
+    if(videoFileName.isNull())
+        return;
+    _controller->loadVideo(videoFileName);
 }
 
 void View::actn_CaptureVideo_Triggered() {
@@ -54,4 +61,17 @@ void View::actn_CaptureVideo_Triggered() {
 
 void View::actn_CaptureImage_Triggered() {
     _controller->captureImage(-1);
+}
+
+QString View::fileName(FileType fileType) {
+    QString fileFilter = (fileType == Video) 
+        ? tr("All supported video files (*.avi);; AVI files (*.avi)") 
+        : tr("All supported image files (*.bmp *.dib *.jpeg *.jpg *.jpe *.png *.pbm *.pgm *.ppm *.sr *.ras *.tiff *.tif);;Windows bitmaps (*.bmp *.dib);;JPEG files (*.jpeg *.jpg *.jpe);;Portable Network Graphics (*.png);;Portable image format (*.pbm *.pgm *.ppm);;Sun rasters (*.sr *.ras);;TIFF files (*.tiff *.tif)");
+    return QFileDialog::getOpenFileName( 
+        this, 
+        tr("Open file"), 
+        QDir::currentPath(), 
+        fileFilter,
+        0,
+        QFileDialog::ReadOnly);
 }

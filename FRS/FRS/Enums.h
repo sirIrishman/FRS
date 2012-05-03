@@ -9,6 +9,11 @@ namespace FRS {
         VideoWebcam,
         ImageWebcam
     };
+
+    enum FileType {
+        Image, 
+        Video 
+    };
 }
 
 #endif //FRS_ENUMS_H

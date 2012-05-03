@@ -2,6 +2,7 @@
 #define FRS_VIEW_H
 
 #include <QtGui/QMainWindow>
+#include <qstring.h>
 #include "ui_View.h"
 #include "Controller.h"
 
@@ -23,6 +24,7 @@ namespace FRS {
         Ui::MainWindowClass _ui;
         Model* _model;
         Controller* _controller;
+        QString fileName(FileType fileType);
 
     private slots:
         void actn_LoadImage_Triggered();

@@ -1,9 +1,16 @@
 Active:
-	1. Release frame and image resources in model destructor
-	2. Add OFD for image & video file loading
-	3. Fix Guard's argumentInRange method
+	1. Release frame and image resources in model's destructor
+	6. Fix Guard's argumentInRange method
+	7. Add capability to change FPS
+	8. Add capability to change active webcam
+	9. Add new icons for actions
+	10. Move webcam initializing time to constant
+	11. Add method for converting QString to char*
+	12. Does not update frame if video file have ended
+	13. Find out supported video files for 'cvCaptureFromFile' method
 
 Fixed:
 	3. Surround header's code with #ifndef #define ... #endif
 	2. Fix 'actn_captureVideo' typo
 	4. Add webcam image capturing functionality
+	5. Add OFD for image & video file loading
