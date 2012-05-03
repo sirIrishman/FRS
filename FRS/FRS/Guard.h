@@ -1,5 +1,5 @@
-#ifndef GUARD_H
-#define GUARD_H
+#ifndef FRS_GUARD_H
+#define FRS_GUARD_H
 
 #include <qstring.h>
 #include "Exceptions.h"
@@ -36,4 +36,4 @@ namespace Utils {
     };
 }
 
-#endif //GUARD_H
+#endif //FRS_GUARD_H

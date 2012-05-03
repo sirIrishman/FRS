@@ -1,5 +1,5 @@
-#ifndef ENUMS_H
-#define ENUMS_H
+#ifndef FRS_ENUMS_H
+#define FRS_ENUMS_H
 
 namespace FRS {
     enum FrameSource { 
@@ -10,4 +10,4 @@ namespace FRS {
     };
 }
 
-#endif //ENUMS_H
+#endif //FRS_ENUMS_H

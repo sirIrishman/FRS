@@ -1,5 +1,5 @@
-#ifndef OBSERVER_H
-#define OBSERVER_H
+#ifndef FRS_OBSERVER_H
+#define FRS_OBSERVER_H
 
 #include <qlist.h>
 
@@ -46,4 +46,4 @@ namespace Patterns {
     };
 }
 
-#endif //OBSERVER_H
+#endif //FRS_OBSERVER_H

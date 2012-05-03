@@ -1,5 +1,5 @@
-#ifndef EXCEPTIONS_H
-#define EXCEPTIONS_H
+#ifndef FRS_EXCEPTIONS_H
+#define FRS_EXCEPTIONS_H
 
 #include <QtCore>
 
@@ -46,4 +46,4 @@ namespace Framework {
     };
 }
 
-#endif //EXCEPTIONS_H
+#endif //FRS_EXCEPTIONS_H

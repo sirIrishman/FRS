@@ -1,5 +1,5 @@
-#ifndef VIEW_H
-#define VIEW_H
+#ifndef FRS_VIEW_H
+#define FRS_VIEW_H
 
 #include <QtGui/QMainWindow>
 #include "ui_View.h"
@@ -31,4 +31,4 @@ namespace FRS {
     };
 }
 
-#endif // VIEW_H
+#endif // FRS_VIEW_H

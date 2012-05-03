@@ -1,5 +1,5 @@
-#ifndef MODEL_H
-#define MODEL_H
+#ifndef FRS_MODEL_H
+#define FRS_MODEL_H
 
 #include <qimage.h>
 #include <qstring.h>
@@ -43,4 +43,4 @@ namespace FRS {
     };
 }
 
-#endif //MODEL_H
+#endif //FRS_MODEL_H
