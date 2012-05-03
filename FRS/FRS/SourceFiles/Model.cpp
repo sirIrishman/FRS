@@ -29,7 +29,7 @@ void Model::setSource(FrameSource const& frameSource, QString const& filePath) {
     if(_frameSource == ImageFile)
         notify();
     else if(_frameSource == VideoFile)
-        setVideoSource(cvCaptureFromFile(_filePath.toLatin1().constData()));
+        setVideoSource(cvCaptureFromFile(_filePath.toUtf8().constData()));
     else if(_frameSource == VideoWebcam)
         setVideoSource(cvCaptureFromCAM(-1));
     else if(_frameSource == ImageWebcam) {
@@ -42,7 +42,7 @@ void Model::setSource(FrameSource const& frameSource, QString const& filePath) {
 
 IplImage* Model::frame() {
     if(_frameSource == ImageFile)
-        return cvLoadImage(_filePath.toLatin1().constData());
+        return cvLoadImage(_filePath.toUtf8().constData());
     else {//?
         _frame = cvQueryFrame(_capture);
         return _frame;

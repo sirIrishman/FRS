@@ -4,7 +4,6 @@ Active:
 	7. Add capability to change FPS
 	8. Add capability to change active webcam
 	9. Add new icons for actions
-	11. Add method for converting QString to char*
 	12. Does not update frame if video file have ended
 	13. Find out supported video files for 'cvCaptureFromFile' method
 
