@@ -11,8 +11,9 @@ namespace FRS {
 
         void loadImage(QString const& filePath);
         void loadVideo(QString const& filePath);
-        void captureVideo(int webcamIndex);
-        void captureImage(int webcamIndex);
+        void captureVideo();
+        void captureImage();
+        void setActiveWebcamIndex(int webcamIndex);
 
     private:
         Model* _model;

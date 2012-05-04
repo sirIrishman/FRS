@@ -8,6 +8,7 @@ Model::Model() : __fps(30), __msecInSec(1000), __webcamInitTimeInMsec(250) {
     _frameSource = None;
     _capture = NULL;
     _frame = NULL;
+    _activeWebcamIndex = -1;
     _timer = new QTimer();
     connect(_timer, SIGNAL(timeout()), this, SLOT(tick()));
 }
@@ -92,4 +93,16 @@ void Model::unsetVideoSource() {
         cvReleaseCapture(&_capture);
         _capture = NULL;
     }
+}
+
+int Model::webcamCount() const {
+    return 5;
+}
+
+int Model::activeWebcamIndex() const {
+    return _activeWebcamIndex;
+}
+
+void Model::setActiveWebcamIndex(int webcamIndex) {
+    _activeWebcamIndex = webcamIndex;
 }

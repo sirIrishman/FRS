@@ -21,6 +21,9 @@ namespace FRS {
         void setSource(FrameSource const& frameSource);
         void setSource(FrameSource const& frameSource, QString const& filePath);
         IplImage* frame();
+        int webcamCount() const;
+        int activeWebcamIndex() const;
+        void setActiveWebcamIndex(int webcamIndex);
 
     private:
         const int __fps;
@@ -31,6 +34,7 @@ namespace FRS {
         QTimer* _timer;
         IplImage* _frame;
         CvCapture* _capture;
+        int _activeWebcamIndex;
 
         int interval() const;
         void startTimer();
