@@ -29,7 +29,7 @@ namespace Patterns {
             _observerCollection->removeOne(observer);
         }
 
-        void notify() {
+        void notify() const {
             for ( QList<Observer*>::const_iterator iterator = _observerCollection->constBegin(); iterator != _observerCollection->constEnd(); ++iterator) {
                 Observer* observer = *iterator;
                 observer->update();

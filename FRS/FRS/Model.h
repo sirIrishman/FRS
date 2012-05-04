@@ -40,7 +40,7 @@ namespace FRS {
         void unsetVideoSource();
 
     private slots:
-        void tick();
+        void tick() const;
     };
 }
 

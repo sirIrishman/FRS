@@ -6,12 +6,14 @@ using namespace FRS;
 
 Model::Model() : __fps(30), __msecInSec(1000), __webcamInitTimeInMsec(250) {
     _frameSource = None;
+    _capture = NULL;
+    _frame = NULL;
     _timer = new QTimer();
     connect(_timer, SIGNAL(timeout()), this, SLOT(tick()));
-    /*_frame = NULL;*/
 }
 
 Model::~Model() {
+    unsetVideoSource();
     delete _timer;
 }
 
@@ -41,12 +43,20 @@ void Model::setSource(FrameSource const& frameSource, QString const& filePath) {
 }
 
 IplImage* Model::frame() {
-    if(_frameSource == ImageFile)
-        return cvLoadImage(_filePath.toUtf8().constData());
-    else {//?
+    switch(_frameSource) {
+    case ImageFile:
+        _frame = cvLoadImage(_filePath.toUtf8().constData());
+        break;
+    case VideoFile:
+    case VideoWebcam:
+    case ImageWebcam:
         _frame = cvQueryFrame(_capture);
-        return _frame;
+        break;
+    default:
+        _frame = NULL;
+        break;
     }
+    return _frame;
 }
 
 int Model::interval() const {
@@ -54,14 +64,16 @@ int Model::interval() const {
 }
 
 void Model::startTimer() {
-    _timer->start(interval());
+    if(!_timer->isActive())
+        _timer->start(interval());
 }
 
 void Model::stopTimer() {
-    _timer->stop();
+    if(_timer->isActive())
+        _timer->stop();
 }
 
-void Model::tick() {
+void Model::tick() const {
     notify();
 }
 
@@ -72,6 +84,12 @@ void Model::setVideoSource(CvCapture* capture) {
 
 void Model::unsetVideoSource() {
     stopTimer();
-    cvReleaseCapture(&_capture);
-    //cvReleaseImage(&_frame);
+    if(_frameSource == ImageFile && _frame != NULL) {
+        cvReleaseImage(&_frame);
+        _frame = NULL;
+    }
+    if(_capture != NULL) {
+        cvReleaseCapture(&_capture);
+        _capture = NULL;
+    }
 }
