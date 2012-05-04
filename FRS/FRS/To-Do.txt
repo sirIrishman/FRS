@@ -5,7 +5,6 @@ Active:
 	9. Add new icons for actions
 	12. Does not update frame if video file have ended
 	13. Find out supported video files for 'cvCaptureFromFile' method
-	14. Solve runtime exception on cvReleaseImage after playing video
 	15. Add frame getting strategies
 
 Fixed:
