@@ -56,11 +56,11 @@ void View::actn_LoadVideo_Triggered() {
 }
 
 void View::actn_CaptureVideo_Triggered() {
-    _controller->captureVideo();
+    _controller->captureVideo(0);
 }
 
 void View::actn_CaptureImage_Triggered() {
-    _controller->captureImage();
+    _controller->captureImage(0);
 }
 
 QString View::fileName(FileType fileType) {

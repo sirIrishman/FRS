@@ -3,7 +3,10 @@ Active:
 	9. Add new icons for actions
 	12. Does not update frame if video file have ended
 	13. Find out supported video files for 'cvCaptureFromFile' method
-	15. Add frame getting strategies
+	16. Add API for object recognition
+	17. Rename header and source files according to c++ style
+	18. Review getting frame strategy's hierarchy and its factory
+	19. Add info string into status bar
 
 Fixed:
 	3. Surround header's code with #ifndef #define ... #endif
@@ -14,3 +17,4 @@ Fixed:
 	1. Release frame and image resources in model's destructor
 	8. Add capability to change active webcam
 	6. Fix Guard's argumentInRange method
+	15. Add frame getting strategies

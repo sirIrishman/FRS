@@ -10,23 +10,20 @@ Controller::Controller(Model* const& model) {
 
 void Controller::loadImage(QString const& filePath) {
     Utils::Guard::argumentNotNullOrEmpty(filePath, "filePath");
-    _model->setSource(ImageFile, filePath);
+    _model->setFrameSource(ImageFile, filePath);
 }
 
 void Controller::loadVideo(QString const& filePath) {
     Utils::Guard::argumentNotNullOrEmpty(filePath, "filePath");
-    _model->setSource(VideoFile, filePath);
+    _model->setFrameSource(VideoFile, filePath);
 }
 
-void Controller::captureVideo() {
-    _model->setSource(VideoWebcam);
-}
-
-void Controller::captureImage() {
-    _model->setSource(ImageWebcam);
-}
-
-void Controller::setActiveWebcamIndex(int webcamIndex) {
+void Controller::captureVideo(int webcamIndex) {
     Utils::Guard::argumentInRange(webcamIndex, "webcamIndex", 0, _model->webcamCount());
-    _model->setActiveWebcamIndex(webcamIndex);
+    _model->setFrameSource(VideoWebcam, webcamIndex);
+}
+
+void Controller::captureImage(int webcamIndex) {
+    Utils::Guard::argumentInRange(webcamIndex, "webcamIndex", 0, _model->webcamCount());
+    _model->setFrameSource(ImageWebcam, webcamIndex);
 }

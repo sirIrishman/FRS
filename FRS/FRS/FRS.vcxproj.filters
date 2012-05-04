@@ -39,9 +39,6 @@
     <Filter Include="Header Files\Patterns">
       <UniqueIdentifier>{e300fb9e-672a-4162-b3df-8418143a5ed6}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\Patterns\Observer">
-      <UniqueIdentifier>{5220e962-23b7-4a09-b201-0b95f762ed77}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header Files\Utils">
       <UniqueIdentifier>{b2e79ec1-aa70-4dcb-bf65-70b7537d73c5}</UniqueIdentifier>
     </Filter>
@@ -50,6 +47,9 @@
     </Filter>
     <Filter Include="Header Files\MVC">
       <UniqueIdentifier>{700bf56c-035c-40fc-91b8-5bf5d13650d3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Native">
+      <UniqueIdentifier>{024c2e9a-484f-4e3b-829f-47033f6f9920}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -62,12 +62,6 @@
     <ClCompile Include="GeneratedFiles\qrc_View.cpp">
       <Filter>Generated Files</Filter>
     </ClCompile>
-    <ClCompile Include="GeneratedFiles\Debug\moc_Model.cpp">
-      <Filter>Generated Files\Debug</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Release\moc_Model.cpp">
-      <Filter>Generated Files\Release</Filter>
-    </ClCompile>
     <ClCompile Include="SourceFiles\Controller.cpp">
       <Filter>Source Files\MVC</Filter>
     </ClCompile>
@@ -79,6 +73,12 @@
     </ClCompile>
     <ClCompile Include="SourceFiles\main.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_GettingFrameStrategy.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_GettingFrameStrategy.cpp">
+      <Filter>Generated Files\Release</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -93,6 +93,9 @@
     </CustomBuild>
     <CustomBuild Include="Model.h">
       <Filter>Header Files\MVC</Filter>
+    </CustomBuild>
+    <CustomBuild Include="GettingFrameStrategy.h">
+      <Filter>Header Files\Native</Filter>
     </CustomBuild>
   </ItemGroup>
   <ItemGroup>
@@ -112,7 +115,10 @@
       <Filter>Header Files\Utils</Filter>
     </ClInclude>
     <ClInclude Include="Observer.h">
-      <Filter>Header Files\Patterns\Observer</Filter>
+      <Filter>Header Files\Patterns</Filter>
+    </ClInclude>
+    <ClInclude Include="GettingFrameStrategyCachingFactory.h">
+      <Filter>Header Files\Native</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
