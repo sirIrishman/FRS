@@ -53,48 +53,48 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="GeneratedFiles\Debug\moc_View.cpp">
+    <ClCompile Include="GeneratedFiles\Debug\moc_view.cpp">
       <Filter>Generated Files\Debug</Filter>
     </ClCompile>
-    <ClCompile Include="GeneratedFiles\Release\moc_View.cpp">
+    <ClCompile Include="GeneratedFiles\Release\moc_view.cpp">
       <Filter>Generated Files\Release</Filter>
     </ClCompile>
     <ClCompile Include="GeneratedFiles\qrc_View.cpp">
       <Filter>Generated Files</Filter>
     </ClCompile>
-    <ClCompile Include="SourceFiles\Controller.cpp">
+    <ClCompile Include="SourceFiles\controller.cpp">
       <Filter>Source Files\MVC</Filter>
     </ClCompile>
-    <ClCompile Include="SourceFiles\View.cpp">
+    <ClCompile Include="SourceFiles\view.cpp">
       <Filter>Source Files\MVC</Filter>
     </ClCompile>
-    <ClCompile Include="SourceFiles\Model.cpp">
+    <ClCompile Include="SourceFiles\model.cpp">
       <Filter>Source Files\MVC</Filter>
     </ClCompile>
     <ClCompile Include="SourceFiles\main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="GeneratedFiles\Debug\moc_GettingFrameStrategy.cpp">
+    <ClCompile Include="GeneratedFiles\Debug\moc_gettingFrameStrategy.cpp">
       <Filter>Generated Files\Debug</Filter>
     </ClCompile>
-    <ClCompile Include="GeneratedFiles\Release\moc_GettingFrameStrategy.cpp">
+    <ClCompile Include="GeneratedFiles\Release\moc_gettingFrameStrategy.cpp">
       <Filter>Generated Files\Release</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <CustomBuild Include="View.ui">
+    <CustomBuild Include="view.ui">
       <Filter>Form Files</Filter>
     </CustomBuild>
-    <CustomBuild Include="View.qrc">
+    <CustomBuild Include="view.qrc">
       <Filter>Resource Files</Filter>
     </CustomBuild>
-    <CustomBuild Include="View.h">
+    <CustomBuild Include="view.h">
       <Filter>Header Files\MVC</Filter>
     </CustomBuild>
-    <CustomBuild Include="Model.h">
+    <CustomBuild Include="model.h">
       <Filter>Header Files\MVC</Filter>
     </CustomBuild>
-    <CustomBuild Include="GettingFrameStrategy.h">
+    <CustomBuild Include="gettingFrameStrategy.h">
       <Filter>Header Files\Native</Filter>
     </CustomBuild>
   </ItemGroup>
@@ -102,27 +102,27 @@
     <ClInclude Include="GeneratedFiles\ui_View.h">
       <Filter>Generated Files</Filter>
     </ClInclude>
-    <ClInclude Include="Controller.h">
+    <ClInclude Include="controller.h">
       <Filter>Header Files\MVC</Filter>
     </ClInclude>
-    <ClInclude Include="Enums.h">
+    <ClInclude Include="enums.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Exceptions.h">
+    <ClInclude Include="exceptions.h">
       <Filter>Header Files\Framework</Filter>
     </ClInclude>
-    <ClInclude Include="Guard.h">
+    <ClInclude Include="guard.h">
       <Filter>Header Files\Utils</Filter>
     </ClInclude>
-    <ClInclude Include="Observer.h">
+    <ClInclude Include="observer.h">
       <Filter>Header Files\Patterns</Filter>
     </ClInclude>
-    <ClInclude Include="GettingFrameStrategyCachingFactory.h">
+    <ClInclude Include="gettingFrameStrategyCachingFactory.h">
       <Filter>Header Files\Native</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="FRS.rc" />
+    <ResourceCompile Include="frs.rc" />
   </ItemGroup>
   <ItemGroup>
     <None Include="opencv.props" />
