@@ -5,6 +5,8 @@ Active:
 	16. Add API for object recognition
 	18. Review getting frame strategy's hierarchy and its factory
 	20. Fix opening files with non-latin symbols in path
+	21. Use c++ OpenCV API instead of c API
+	22. Update OpenCV from 2.3.1 to 2.4.0 version
 
 Fixed/Implemented:
 	3. Surround header's code with #ifndef #define ... #endif
