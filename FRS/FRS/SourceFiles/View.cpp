@@ -1,5 +1,6 @@
 #include <qfiledialog.h>
 #include <qstring.h>
+#include <core\core.hpp>
 #include "view.h"
 #include "guard.h"
 
@@ -33,11 +34,12 @@ void View::subscribeToEvents() {
 }
 
 void View::update() {
-    IplImage* frame = _model->frame();
-    if(frame == NULL)
+    cv::Mat frame = _model->frame();
+    if(frame.empty())
         return;
-    QImage* image = new QImage((uchar*)frame->imageData, frame->width, frame->height, frame->widthStep, QImage::Format_RGB888);
+    QImage* image = new QImage(frame.data, frame.cols, frame.rows, frame.step[0], QImage::Format_RGB888);
     _ui.lbl_Frame->setPixmap(QPixmap::fromImage(image->rgbSwapped()));
+    frame.release();
     delete image;
 }
 

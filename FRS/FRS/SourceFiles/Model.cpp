@@ -1,6 +1,7 @@
 #include "model.h"
 
 using namespace FRS;
+using namespace FRS::Native;
 
 Model::Model() {
     _frameStrategyFactory = new GettingFrameStrategyCachingFactory(this);
@@ -11,7 +12,7 @@ Model::~Model() {
     delete _frameStrategyFactory;
 }
 
-IplImage* Model::frame() {
+cv::Mat Model::frame() const {
     return _activeGettingFrameStrategy->frame();
 }
 

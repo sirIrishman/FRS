@@ -5,7 +5,6 @@ Active:
 	16. Add API for object recognition
 	18. Review getting frame strategy's hierarchy and its factory
 	20. Fix opening files with non-latin symbols in path
-	21. Use c++ OpenCV API instead of c API
 	22. Update OpenCV from 2.3.1 to 2.4.0 version
 
 Fixed/Implemented:
@@ -21,3 +20,4 @@ Fixed/Implemented:
 	17. Rename header and source files according to c++ style
 	19. Add info string into status bar
 	13. Find out supported video files for 'cvCaptureFromFile' method
+	21. Use OpenCV C++ API instead of old C API

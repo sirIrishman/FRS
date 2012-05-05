@@ -10,10 +10,16 @@ namespace FRS {
         ImageWebcam
     };
 
-    enum FileType {
-        Image, 
-        Video 
+    enum RecognizableObjectType {
+        Face
     };
+
+    namespace Native {
+        enum FileType {
+            Image, 
+            Video 
+        };
+    }
 }
 
 #endif //FRS_ENUMS_H

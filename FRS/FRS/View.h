@@ -3,7 +3,7 @@
 
 #include <QtGui/QMainWindow>
 #include <qstring.h>
-#include "ui_view.h"
+#include "ui_View.h"
 #include "controller.h"
 
 using namespace Patterns;

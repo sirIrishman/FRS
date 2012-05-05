@@ -2,12 +2,13 @@
 #define FRS_MODEL_H
 
 #include <qstring.h>
-#include <highgui\highgui.hpp>
+#include <core\core.hpp>
 #include "observer.h"
 #include "enums.h"
 #include "gettingFrameStrategyCachingFactory.h"
 
 using namespace Patterns;
+using namespace FRS::Native;
 
 namespace FRS {
     class Model : public ObservableSubject, private Observer {
@@ -17,7 +18,7 @@ namespace FRS {
 
         void setFrameSource(FrameSource frameSource, int webcamIndex);
         void setFrameSource(FrameSource frameSource, QString const& fileName);
-        IplImage* frame();
+        cv::Mat frame() const;
         int webcamCount() const;
 
     private:
