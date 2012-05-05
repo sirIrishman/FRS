@@ -5,7 +5,6 @@ Active:
 	13. Find out supported video files for 'cvCaptureFromFile' method
 	16. Add API for object recognition
 	18. Review getting frame strategy's hierarchy and its factory
-	19. Add info string into status bar
 
 Fixed/Implemented:
 	3. Surround header's code with #ifndef #define ... #endif
@@ -18,3 +17,4 @@ Fixed/Implemented:
 	6. Fix Guard's argumentInRange method
 	15. Add frame getting strategies
 	17. Rename header and source files according to c++ style
+	19. Add info string into status bar

@@ -46,6 +46,7 @@ void View::actn_LoadImage_Triggered() {
     if(imageFileName.isNull())
         return;
     _controller->loadImage(imageFileName);
+    _ui.stsBr_MainStatusBar->showMessage(imageFileName);
 }
 
 void View::actn_LoadVideo_Triggered() {
@@ -53,14 +54,17 @@ void View::actn_LoadVideo_Triggered() {
     if(videoFileName.isNull())
         return;
     _controller->loadVideo(videoFileName);
+    _ui.stsBr_MainStatusBar->showMessage(videoFileName);
 }
 
 void View::actn_CaptureVideo_Triggered() {
     _controller->captureVideo(0);
+    _ui.stsBr_MainStatusBar->clearMessage();
 }
 
 void View::actn_CaptureImage_Triggered() {
     _controller->captureImage(0);
+    _ui.stsBr_MainStatusBar->clearMessage();
 }
 
 QString View::fileName(FileType fileType) {
