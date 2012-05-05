@@ -2,9 +2,9 @@ Active:
 	7. Add capability to change FPS (note: cvSetCaptureProperty, CV_CAP_PROP_FPS)
 	9. Add new icons for actions
 	12. Does not update frame if video file have ended
-	13. Find out supported video files for 'cvCaptureFromFile' method
 	16. Add API for object recognition
 	18. Review getting frame strategy's hierarchy and its factory
+	20. Fix opening files with non-latin symbols in path
 
 Fixed/Implemented:
 	3. Surround header's code with #ifndef #define ... #endif
@@ -18,3 +18,4 @@ Fixed/Implemented:
 	15. Add frame getting strategies
 	17. Rename header and source files according to c++ style
 	19. Add info string into status bar
+	13. Find out supported video files for 'cvCaptureFromFile' method

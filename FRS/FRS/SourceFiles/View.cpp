@@ -68,9 +68,7 @@ void View::actn_CaptureImage_Triggered() {
 }
 
 QString View::fileName(FileType fileType) {
-    QString fileFilter = (fileType == Video) 
-        ? tr("All supported video files (*.avi);; AVI files (*.avi)") 
-        : tr("All supported image files (*.bmp *.dib *.jpeg *.jpg *.jpe *.png *.pbm *.pgm *.ppm *.sr *.ras *.tiff *.tif);;Windows bitmaps (*.bmp *.dib);;JPEG files (*.jpeg *.jpg *.jpe);;Portable Network Graphics (*.png);;Portable image format (*.pbm *.pgm *.ppm);;Sun rasters (*.sr *.ras);;TIFF files (*.tiff *.tif)");
+    QString fileFilter = (fileType == Video) ? videoFileFilter() : imageFileFilter();
     return QFileDialog::getOpenFileName( 
         this, 
         tr("Open file"), 
@@ -78,4 +76,29 @@ QString View::fileName(FileType fileType) {
         fileFilter,
         0,
         QFileDialog::ReadOnly);
+}
+
+QString View::videoFileFilter() const {
+    QString fileFilter;
+    fileFilter += tr("All supported video files (*.avi *.wmv *.mp4 *.mpg *.mpeg *.flv *.3gp *.mkv);;");
+    fileFilter += tr("AVI files (*.avi);;");
+    fileFilter += tr("Windows Media Video files (*.wmv);;");
+    fileFilter += tr("MPEG-4 files (*.mp4);;");
+    fileFilter += tr("MPEG files (*.mpg *.mpeg);;");
+    fileFilter += tr("Flash Video files (*.flv);;");
+    fileFilter += tr("3GPP files (*.3gp);;");
+    fileFilter += tr("Matroska Multimedia Container files (*.mkv)");
+    return fileFilter;
+}
+
+QString View::imageFileFilter() const {
+    QString fileFilter;
+    fileFilter += tr("All supported image files (*.bmp *.dib *.jpeg *.jpg *.jpe *.png *.pbm *.pgm *.ppm *.sr *.ras *.tiff *.tif);;");
+    fileFilter += tr("Windows Bitmap files (*.bmp *.dib);;");
+    fileFilter += tr("JPEG files (*.jpeg *.jpg *.jpe);;");
+    fileFilter += tr("Sun Raster files (*.sr *.ras);;");
+    fileFilter += tr("Netpbm files (*.pbm *.pgm *.ppm);;");
+    fileFilter += tr("PNG files (*.png);;");
+    fileFilter += tr("TIFF files (*.tiff *.tif)");
+    return fileFilter;
 }

@@ -61,7 +61,8 @@
       <AdditionalOptions>/ignore:4099 %(AdditionalOptions)</AdditionalOptions>
     </Link>
     <PostBuildEvent>
-      <Command>copy "$(ProjectDir)dll\$(Configuration)" "$(ProjectDir)bin\$(Configuration)"</Command>
+      <Command>copy "$(ProjectDir)dll\$(Configuration)" "$(ProjectDir)bin\$(Configuration)"
+copy "$(ProjectDir)dll\Common" "$(ProjectDir)bin\$(Configuration)"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -82,7 +83,8 @@
       <AdditionalDependencies>qtmain.lib;QtCore4.lib;QtGui4.lib;QtMultimedia4.lib;$(OpenCvLibDir)\opencv_calib3d231.lib;$(OpenCvLibDir)\opencv_contrib231.lib;$(OpenCvLibDir)\opencv_core231.lib;$(OpenCvLibDir)\opencv_features2d231.lib;$(OpenCvLibDir)\opencv_flann231.lib;$(OpenCvLibDir)\opencv_gpu231.lib;$(OpenCvLibDir)\opencv_haartraining_engine.lib;$(OpenCvLibDir)\opencv_highgui231.lib;$(OpenCvLibDir)\opencv_imgproc231.lib;$(OpenCvLibDir)\opencv_legacy231.lib;$(OpenCvLibDir)\opencv_ml231.lib;$(OpenCvLibDir)\opencv_objdetect231.lib;$(OpenCvLibDir)\opencv_ts231.lib;$(OpenCvLibDir)\opencv_video231.lib;QtUiTools.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
-      <Command>copy "$(ProjectDir)dll\$(Configuration)" "$(ProjectDir)bin\$(Configuration)"</Command>
+      <Command>copy "$(ProjectDir)dll\$(Configuration)" "$(ProjectDir)bin\$(Configuration)"
+copy "$(ProjectDir)dll\Common" "$(ProjectDir)bin\$(Configuration)"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>

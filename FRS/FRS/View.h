@@ -25,6 +25,8 @@ namespace FRS {
         Model* _model;
         Controller* _controller;
         QString fileName(FileType fileType);
+        QString videoFileFilter() const;
+        QString imageFileFilter() const;
 
     private slots:
         void actn_LoadImage_Triggered();
