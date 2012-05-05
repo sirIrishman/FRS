@@ -1,9 +1,9 @@
 #ifndef FRS_GETTINGFRAMESTRATEGYCACHINGFACTORY_H
 #define FRS_GETTINGFRAMESTRATEGYCACHINGFACTORY_H
 
-#include "Exceptions.h"
-#include "Enums.h"
-#include "GettingFrameStrategy.h"
+#include "exceptions.h"
+#include "enums.h"
+#include "gettingFrameStrategy.h"
 
 using namespace Framework;
 

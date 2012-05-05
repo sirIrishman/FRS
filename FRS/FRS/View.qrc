@@ -1,7 +1,8 @@
 <RCC>
-  <qresource prefix="MainWindow">
-    <file>film.png</file>
-    <file>image.png</file>
-    <file>webcam.png</file>
+  <qresource prefix="view">
+    <file>camera.png</file>
+    <file>video.png</file>
+    <file>pictures_folder.png</file>
+    <file>video_folder.png</file>
   </qresource>
 </RCC>

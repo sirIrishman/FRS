@@ -3,9 +3,9 @@
 
 #include <qstring.h>
 #include <highgui\highgui.hpp>
-#include "Observer.h"
-#include "Enums.h"
-#include "GettingFrameStrategyCachingFactory.h"
+#include "observer.h"
+#include "enums.h"
+#include "gettingFrameStrategyCachingFactory.h"
 
 using namespace Patterns;
 

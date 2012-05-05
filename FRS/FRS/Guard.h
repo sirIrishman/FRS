@@ -2,7 +2,7 @@
 #define FRS_GUARD_H
 
 #include <qstring.h>
-#include "Exceptions.h"
+#include "exceptions.h"
 
 using namespace Framework;
 

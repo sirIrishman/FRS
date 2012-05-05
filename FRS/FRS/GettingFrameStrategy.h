@@ -4,7 +4,7 @@
 #include <Windows.h>
 #include <qtimer.h>
 #include <highgui\highgui.hpp>
-#include "Observer.h"
+#include "observer.h"
 
 using namespace Patterns;
 

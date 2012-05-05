@@ -1,7 +1,7 @@
 #include <QtGui/QApplication>
 #include <qmessagebox.h>
-#include "View.h"
-#include "Exceptions.h"
+#include "view.h"
+#include "exceptions.h"
 
 using namespace FRS;
 using namespace Framework;

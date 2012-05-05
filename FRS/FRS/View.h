@@ -3,8 +3,8 @@
 
 #include <QtGui/QMainWindow>
 #include <qstring.h>
-#include "ui_View.h"
-#include "Controller.h"
+#include "ui_view.h"
+#include "controller.h"
 
 using namespace Patterns;
 
@@ -21,7 +21,7 @@ namespace FRS {
         void update();
 
     private:
-        Ui::MainWindowClass _ui;
+        Ui::mnWnd_View _ui;
         Model* _model;
         Controller* _controller;
         QString fileName(FileType fileType);

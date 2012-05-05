@@ -2,7 +2,7 @@
 #define FRS_CONTROLLER_H
 
 #include <qstring.h>
-#include "Model.h"
+#include "model.h"
 
 namespace FRS {
     class Controller {

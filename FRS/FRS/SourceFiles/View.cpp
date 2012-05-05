@@ -1,7 +1,7 @@
 #include <qfiledialog.h>
 #include <qstring.h>
-#include "View.h"
-#include "Guard.h"
+#include "view.h"
+#include "guard.h"
 
 using namespace FRS;
 
