@@ -112,7 +112,7 @@ namespace FRS {
             }
         };
 
-        class GettingFrameEmptyStrategy : public GettingFrameStrategyBase {
+        class GettingFrameEmptyStrategy sealed : public GettingFrameStrategyBase {
         public:
             GettingFrameEmptyStrategy(Observer* const& observer) : GettingFrameStrategyBase(observer) { }
 
