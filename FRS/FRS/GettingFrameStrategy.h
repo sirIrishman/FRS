@@ -13,6 +13,10 @@ namespace FRS {
     namespace Native {
         class GettingFrameStrategyBase : protected ObservableSubject, protected QObject {
         public:
+            GettingFrameStrategyBase(Observer* const& observer) {
+                _observer = observer;
+                attach(_observer);
+            }
             virtual ~GettingFrameStrategyBase() {
                 detach(_observer);
             }
@@ -20,12 +24,6 @@ namespace FRS {
             virtual void initialize() = 0;
             virtual cv::Mat frame() = 0;
             virtual void releaseResources() = 0;
-
-        protected: 
-            GettingFrameStrategyBase(Observer* const& observer) {
-                _observer = observer;
-                attach(_observer);
-            }
 
         private:
             Observer* _observer;
@@ -47,22 +45,33 @@ namespace FRS {
                 if(_capture.isOpened())
                     _capture.release();
             }
+            void setActiveWebcamIndex(int webcamIndex) {
+                _activeWebcamIndex = webcamIndex;
+            }
+            void setFileName(QString const& fileName) {
+                _fileName = fileName;
+            }
 
         protected:
             cv::VideoCapture _capture;
 
             GettingCapturedFrameStrategyBase(Observer* const& observer) 
                 : GettingFrameStrategyBase(observer) {
+                    _activeWebcamIndex = -1;
             }
 
-            void openCapture(int webcamIndex) {
+            void openWebcamCapture() {
                 if(_capture.isOpened() == false)
-                    _capture.open(webcamIndex);
+                    _capture.open(_activeWebcamIndex);
             }
-            void openCapture(std::string fileName) {
-                if(_capture.isOpened() == false)
-                    _capture.open(fileName);
+            void openVideoFileCapture() {
+                if(!_fileName.isNull() && !_fileName.isEmpty() && _capture.isOpened() == false)
+                    _capture.open(_fileName.toStdString());
             }
+
+        private:
+            int _activeWebcamIndex;
+            QString _fileName;
         };
 
         class GettingCapturedVideoFrameStrategyBase : public GettingCapturedFrameStrategyBase {
@@ -155,58 +164,38 @@ namespace FRS {
             }
 
             virtual void initialize() { 
-                if(_fileName.isNull() || _fileName.isEmpty())
-                    return;
-                openCapture(_fileName.toStdString());
+                openVideoFileCapture();
                 GettingCapturedVideoFrameStrategyBase::initialize();
             }
-            void setFileName(QString const& fileName) {
-                _fileName = fileName;
-            }
-
-        private:
-            QString _fileName;
         };
 
         class GettingWebcamVideoFrameStrategy : public GettingCapturedVideoFrameStrategyBase {
         public:
             GettingWebcamVideoFrameStrategy(Observer* const& observer) 
                 : GettingCapturedVideoFrameStrategyBase(observer) {
-                    _activeWebcamIndex = -1;
             }
 
             virtual void initialize() { 
-                openCapture(_activeWebcamIndex);
+                openWebcamCapture();
                 GettingCapturedVideoFrameStrategyBase::initialize();
             }
-            void setActiveWebcamIndex(int webcamIndex) {
-                _activeWebcamIndex = webcamIndex;
-            }
-
-        private:
-            int _activeWebcamIndex;
         };
 
         class GettingWebcamImageFrameStrategy : public GettingCapturedFrameStrategyBase {
         public:
             GettingWebcamImageFrameStrategy(Observer* const& observer) 
                 : GettingCapturedFrameStrategyBase(observer), __webcamInitTimeInMsec(300) {
-                    _activeWebcamIndex = -1;
             }
 
             virtual void initialize() { 
-                openCapture(_activeWebcamIndex);
+                openWebcamCapture();
                 Sleep(__webcamInitTimeInMsec); //waiting for a webcam initializing
                 notify();
                 releaseResources();
             }
-            void setActiveWebcamIndex(int webcamIndex) {
-                _activeWebcamIndex = webcamIndex;
-            }
 
         private:
             const int __webcamInitTimeInMsec;
-            int _activeWebcamIndex;
         };
     }
 }
