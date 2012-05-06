@@ -22,3 +22,4 @@ Fixed/Implemented:
 	21. Use OpenCV C++ API instead of old C API
 	16. Add API for object recognition
 	22. Update OpenCV from 2.3.1 to 2.4.0 version
+	24. Try to use OpenCV's GPU API
