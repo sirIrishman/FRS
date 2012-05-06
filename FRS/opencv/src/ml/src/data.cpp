@@ -161,8 +161,21 @@ int CvMLData::read_csv(const char* filename)
         fclose(file);
         return -1;
     }
-    for( ptr = buf; *ptr != '\0'; ptr++ )
-        cols_count += (*ptr == delimiter);
+
+    ptr = buf;
+    while( *ptr == ' ' )
+        ptr++;
+    for( ; *ptr != '\0'; )
+    {
+        if(*ptr == delimiter || *ptr == ' ')
+        {
+            cols_count++;
+            ptr++;
+            while( *ptr == ' ' ) ptr++;
+        }
+        else
+            ptr++;
+    }
 
     if ( cols_count == 0)
     {
@@ -186,10 +199,7 @@ int CvMLData::read_csv(const char* filename)
         int type;
         token = strtok(buf, str_delimiter);
         if (!token) 
-        {
-             fclose(file);
-             return -1;
-        }
+            break;
         for (int i = 0; i < cols_count-1; i++)
         {
             str_to_flt_elem( token, el_ptr[i], type);
@@ -204,7 +214,7 @@ int CvMLData::read_csv(const char* filename)
         str_to_flt_elem( token, el_ptr[cols_count-1], type);
         var_types_ptr[cols_count-1] |= type;
         cvSeqPush( seq, el_ptr );
-        if( !fgets_chomp( buf, M, file ) || !strchr( buf, delimiter ) )
+        if( !fgets_chomp( buf, M, file ) )
             break;
     }
     fclose(file);
@@ -606,7 +616,7 @@ void CvMLData::set_train_test_split( const CvTrainTestSplit * spl)
             CV_ERROR( CV_StsBadArg, "train samples count is not correct" );
         train_sample_portion = train_sample_portion <= FLT_EPSILON || 
             1 - train_sample_portion <= FLT_EPSILON ? 1 : train_sample_portion;
-        train_sample_count = cvFloor( train_sample_portion * sample_count );
+        train_sample_count = std::max(1, cvFloor( train_sample_portion * sample_count ));
     }
 
     if ( train_sample_count == sample_count )
@@ -625,8 +635,10 @@ void CvMLData::set_train_test_split( const CvTrainTestSplit * spl)
         for (int i = 0; i < sample_count; i++ )
             sample_idx[i] = i;
         train_sample_idx = cvCreateMatHeader( 1, train_sample_count, CV_32SC1 );
-        test_sample_idx = cvCreateMatHeader( 1, test_sample_count, CV_32SC1 );
         *train_sample_idx = cvMat( 1, train_sample_count, CV_32SC1, &sample_idx[0] );
+
+        CV_Assert(test_sample_count > 0);
+        test_sample_idx = cvCreateMatHeader( 1, test_sample_count, CV_32SC1 );
         *test_sample_idx = cvMat( 1, test_sample_count, CV_32SC1, &sample_idx[train_sample_count] );
     }
     
@@ -728,7 +740,12 @@ const CvMat* CvMLData::get_var_idx()
 
 void CvMLData::chahge_var_idx( int vi, bool state )
 {
-     CV_FUNCNAME( "CvMLData::get_responses_ptr" );
+    change_var_idx( vi, state );
+}
+
+void CvMLData::change_var_idx( int vi, bool state )
+{
+     CV_FUNCNAME( "CvMLData::change_var_idx" );
     __BEGIN__;
 
     int var_count = 0;

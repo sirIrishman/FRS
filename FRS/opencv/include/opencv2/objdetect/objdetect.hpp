@@ -44,9 +44,11 @@
 #define __OPENCV_OBJDETECT_HPP__
 
 #include "opencv2/core/core.hpp"
-#include "opencv2/features2d/features2d.hpp"
 
 #ifdef __cplusplus
+#include <map>
+#include <deque>
+
 extern "C" {
 #endif
 
@@ -286,6 +288,45 @@ namespace cv
 	
 ///////////////////////////// Object Detection ////////////////////////////
 
+/*
+ * This is a class wrapping up the structure CvLatentSvmDetector and functions working with it.
+ * The class goals are:
+ * 1) provide c++ interface;
+ * 2) make it possible to load and detect more than one class (model) unlike CvLatentSvmDetector.
+ */
+class CV_EXPORTS LatentSvmDetector
+{
+public:
+    struct CV_EXPORTS ObjectDetection
+    {
+        ObjectDetection();
+        ObjectDetection( const Rect& rect, float score, int classID=-1 );
+        Rect rect;
+        float score;
+        int classID;
+    };
+
+    LatentSvmDetector();
+    LatentSvmDetector( const vector<string>& filenames, const vector<string>& classNames=vector<string>() );
+    virtual ~LatentSvmDetector();
+
+    virtual void clear();
+    virtual bool empty() const;
+    bool load( const vector<string>& filenames, const vector<string>& classNames=vector<string>() );
+
+    virtual void detect( const Mat& image,
+                         vector<ObjectDetection>& objectDetections,
+                         float overlapThreshold=0.5f,
+                         int numThreads=-1 );
+
+    const vector<string>& getClassNames() const;
+    size_t getClassCount() const;
+
+private:
+    vector<CvLatentSvmDetector*> detectors;
+    vector<string> classNames;
+};
+
 CV_EXPORTS void groupRectangles(CV_OUT CV_IN_OUT vector<Rect>& rectList, int groupThreshold, double eps=0.2);
 CV_EXPORTS_W void groupRectangles(CV_OUT CV_IN_OUT vector<Rect>& rectList, CV_OUT vector<int>& weights, int groupThreshold, double eps=0.2);
 CV_EXPORTS void groupRectangles( vector<Rect>& rectList, int groupThreshold, double eps, vector<int>* weights, vector<double>* levelWeights );
@@ -298,7 +339,7 @@ CV_EXPORTS void groupRectangles_meanshift(vector<Rect>& rectList, vector<double>
 class CV_EXPORTS FeatureEvaluator
 {
 public:    
-    enum { HAAR = 0, LBP = 1 };
+    enum { HAAR = 0, LBP = 1, HOG = 2 };
     virtual ~FeatureEvaluator();
 
     virtual bool read(const FileNode& node);
@@ -429,6 +470,22 @@ protected:
     Data data;
     Ptr<FeatureEvaluator> featureEvaluator;
     Ptr<CvHaarClassifierCascade> oldCascade;
+
+public:
+    class CV_EXPORTS MaskGenerator
+    {
+    public:
+        virtual ~MaskGenerator() {}    
+        virtual cv::Mat generateMask(const cv::Mat& src)=0;
+        virtual void initializeMask(const cv::Mat& /*src*/) {};
+    };
+    void setMaskGenerator(Ptr<MaskGenerator> maskGenerator);
+    Ptr<MaskGenerator> getMaskGenerator();
+
+    void setFaceDetectionMaskGenerator();
+
+protected:
+    Ptr<MaskGenerator> maskGenerator;
 };
 
     
@@ -488,22 +545,22 @@ public:
                          const vector<Point>& locations=vector<Point>()) const;
 	//with found weights output
     CV_WRAP virtual void detect(const Mat& img, CV_OUT vector<Point>& foundLocations, 
-						vector<double>& weights,
+						CV_OUT vector<double>& weights,
                         double hitThreshold=0, Size winStride=Size(), 
 						Size padding=Size(),
                         const vector<Point>& searchLocations=vector<Point>()) const;
 	//without found weights output
-    CV_WRAP virtual void detect(const Mat& img, CV_OUT vector<Point>& foundLocations,
+    virtual void detect(const Mat& img, CV_OUT vector<Point>& foundLocations,
                         double hitThreshold=0, Size winStride=Size(),
                         Size padding=Size(),
                         const vector<Point>& searchLocations=vector<Point>()) const;
 	//with result weights output
     CV_WRAP virtual void detectMultiScale(const Mat& img, CV_OUT vector<Rect>& foundLocations, 
-								  vector<double>& foundWeights, double hitThreshold=0, 
+								  CV_OUT vector<double>& foundWeights, double hitThreshold=0, 
 								  Size winStride=Size(), Size padding=Size(), double scale=1.05, 
 								  double finalThreshold=2.0,bool useMeanshiftGrouping = false) const;
 	//without found weights output
-	CV_WRAP virtual void detectMultiScale(const Mat& img, CV_OUT vector<Rect>& foundLocations, 
+	virtual void detectMultiScale(const Mat& img, CV_OUT vector<Rect>& foundLocations, 
 								  double hitThreshold=0, Size winStride=Size(),
                                   Size padding=Size(), double scale=1.05, 
 								  double finalThreshold=2.0, bool useMeanshiftGrouping = false) const;
@@ -528,66 +585,14 @@ public:
     CV_PROP int nlevels;
 };
 
-/****************************************************************************************\
-*                                Planar Object Detection                                 *
-\****************************************************************************************/
 
-class CV_EXPORTS PlanarObjectDetector
-{
-public:
-    PlanarObjectDetector();
-    PlanarObjectDetector(const FileNode& node);
-    PlanarObjectDetector(const vector<Mat>& pyr, int _npoints=300,
-                         int _patchSize=FernClassifier::PATCH_SIZE,
-                         int _nstructs=FernClassifier::DEFAULT_STRUCTS,
-                         int _structSize=FernClassifier::DEFAULT_STRUCT_SIZE,
-                         int _nviews=FernClassifier::DEFAULT_VIEWS,
-                         const LDetector& detector=LDetector(),
-                         const PatchGenerator& patchGenerator=PatchGenerator());
-    virtual ~PlanarObjectDetector();
-    virtual void train(const vector<Mat>& pyr, int _npoints=300,
-                       int _patchSize=FernClassifier::PATCH_SIZE,
-                       int _nstructs=FernClassifier::DEFAULT_STRUCTS,
-                       int _structSize=FernClassifier::DEFAULT_STRUCT_SIZE,
-                       int _nviews=FernClassifier::DEFAULT_VIEWS,
-                       const LDetector& detector=LDetector(),
-                       const PatchGenerator& patchGenerator=PatchGenerator());
-    virtual void train(const vector<Mat>& pyr, const vector<KeyPoint>& keypoints,
-                       int _patchSize=FernClassifier::PATCH_SIZE,
-                       int _nstructs=FernClassifier::DEFAULT_STRUCTS,
-                       int _structSize=FernClassifier::DEFAULT_STRUCT_SIZE,
-                       int _nviews=FernClassifier::DEFAULT_VIEWS,
-                       const LDetector& detector=LDetector(),
-                       const PatchGenerator& patchGenerator=PatchGenerator());
-    Rect getModelROI() const;
-    vector<KeyPoint> getModelPoints() const;
-    const LDetector& getDetector() const;
-    const FernClassifier& getClassifier() const;
-    void setVerbose(bool verbose);
-
-    void read(const FileNode& node);
-    void write(FileStorage& fs, const String& name=String()) const;
-    bool operator()(const Mat& image, CV_OUT Mat& H, CV_OUT vector<Point2f>& corners) const;
-    bool operator()(const vector<Mat>& pyr, const vector<KeyPoint>& keypoints,
-                                       CV_OUT Mat& H, CV_OUT vector<Point2f>& corners,
-                                       CV_OUT vector<int>* pairs=0) const;
-
-protected:
-    bool verbose;
-    Rect modelROI;
-    vector<KeyPoint> modelPoints;
-    LDetector ldetector;
-    FernClassifier fernClassifier;
-};
-
-struct CV_EXPORTS DataMatrixCode {
-  char msg[4]; //TODO std::string
-  Mat original;
-  Point corners[4]; //TODO vector
-};
-
-CV_EXPORTS void findDataMatrix(const Mat& image, std::vector<DataMatrixCode>& codes);
-CV_EXPORTS  void drawDataMatrixCodes(const std::vector<DataMatrixCode>& codes, Mat& drawImage);
+CV_EXPORTS_W void findDataMatrix(InputArray image,
+                                 CV_OUT vector<string>& codes,
+                                 OutputArray corners=noArray(),
+                                 OutputArrayOfArrays dmtx=noArray());
+CV_EXPORTS_W void drawDataMatrixCodes(InputOutputArray image,
+                                      const vector<string>& codes,
+                                      InputArray corners);
 }
 
 /****************************************************************************************\
@@ -600,8 +605,420 @@ struct CV_EXPORTS CvDataMatrixCode {
   CvMat *corners;
 };
 
-#include <deque>
 CV_EXPORTS std::deque<CvDataMatrixCode> cvFindDataMatrix(CvMat *im);
+
+/****************************************************************************************\
+*                                 LINE-MOD                                               *
+\****************************************************************************************/
+
+namespace cv {
+namespace linemod {
+
+using cv::FileNode;
+using cv::FileStorage;
+using cv::Mat;
+using cv::noArray;
+using cv::OutputArrayOfArrays;
+using cv::Point;
+using cv::Ptr;
+using cv::Rect;
+using cv::Size;
+
+/// @todo Convert doxy comments to rst
+
+/**
+ * \brief Discriminant feature described by its location and label.
+ */
+struct CV_EXPORTS Feature
+{
+  int x; ///< x offset
+  int y; ///< y offset
+  int label; ///< Quantization
+
+  Feature() : x(0), y(0), label(0) {}
+  Feature(int x, int y, int label) : x(x), y(y), label(label) {}
+
+  void read(const FileNode& fn);
+  void write(FileStorage& fs) const;
+};
+
+struct CV_EXPORTS Template
+{
+  int width;
+  int height;
+  int pyramid_level;
+  std::vector<Feature> features;
+
+  void read(const FileNode& fn);
+  void write(FileStorage& fs) const;
+};
+
+/**
+ * \brief Represents a modality operating over an image pyramid.
+ */
+class QuantizedPyramid
+{
+public:
+  // Virtual destructor
+  virtual ~QuantizedPyramid() {}
+
+  /**
+   * \brief Compute quantized image at current pyramid level for online detection.
+   *
+   * \param[out] dst The destination 8-bit image. For each pixel at most one bit is set,
+   *                 representing its classification.
+   */
+  virtual void quantize(Mat& dst) const =0;
+
+  /**
+   * \brief Extract most discriminant features at current pyramid level to form a new template.
+   *
+   * \param[out] templ The new template.
+   */
+  virtual bool extractTemplate(Template& templ) const =0;
+
+  /**
+   * \brief Go to the next pyramid level.
+   *
+   * \todo Allow pyramid scale factor other than 2
+   */
+  virtual void pyrDown() =0;
+
+protected:
+  /// Candidate feature with a score
+  struct Candidate
+  {
+    Candidate(int x, int y, int label, float score)
+      : f(x, y, label), score(score)
+    {
+    }
+
+    /// Sort candidates with high score to the front
+    bool operator<(const Candidate& rhs) const
+    {
+      return score > rhs.score;
+    }
+
+    Feature f;
+    float score;
+  };
+
+  /**
+   * \brief Choose candidate features so that they are not bunched together.
+   *
+   * \param[in]  candidates   Candidate features sorted by score.
+   * \param[out] features     Destination vector of selected features.
+   * \param[in]  num_features Number of candidates to select.
+   * \param[in]  distance     Hint for desired distance between features.
+   */
+  static void selectScatteredFeatures(const std::vector<Candidate>& candidates,
+                                      std::vector<Feature>& features,
+                                      size_t num_features, float distance);
+};
+
+/**
+ * \brief Interface for modalities that plug into the LINE template matching representation.
+ *
+ * \todo Max response, to allow optimization of summing (255/MAX) features as uint8
+ */
+class CV_EXPORTS Modality
+{
+public:
+  // Virtual destructor
+  virtual ~Modality() {}
+
+  /**
+   * \brief Form a quantized image pyramid from a source image.
+   *
+   * \param[in] src  The source image. Type depends on the modality.
+   * \param[in] mask Optional mask. If not empty, unmasked pixels are set to zero
+   *                 in quantized image and cannot be extracted as features.
+   */
+  Ptr<QuantizedPyramid> process(const Mat& src,
+				    const Mat& mask = Mat()) const
+  {
+    return processImpl(src, mask);
+  }
+
+  virtual std::string name() const =0;
+
+  virtual void read(const FileNode& fn) =0;
+  virtual void write(FileStorage& fs) const =0;
+
+  /**
+   * \brief Create modality by name.
+   *
+   * The following modality types are supported:
+   * - "ColorGradient"
+   * - "DepthNormal"
+   */
+  static Ptr<Modality> create(const std::string& modality_type);
+
+  /**
+   * \brief Load a modality from file.
+   */
+  static Ptr<Modality> create(const FileNode& fn);
+
+protected:
+  // Indirection is because process() has a default parameter.
+  virtual Ptr<QuantizedPyramid> processImpl(const Mat& src,
+						const Mat& mask) const =0;
+};
+
+/**
+ * \brief Modality that computes quantized gradient orientations from a color image.
+ */
+class CV_EXPORTS ColorGradient : public Modality
+{
+public:
+  /**
+   * \brief Default constructor. Uses reasonable default parameter values.
+   */
+  ColorGradient();
+
+  /**
+   * \brief Constructor.
+   *
+   * \param weak_threshold   When quantizing, discard gradients with magnitude less than this.
+   * \param num_features     How many features a template must contain.
+   * \param strong_threshold Consider as candidate features only gradients whose norms are
+   *                         larger than this.
+   */
+  ColorGradient(float weak_threshold, size_t num_features, float strong_threshold);
+
+  virtual std::string name() const;
+
+  virtual void read(const FileNode& fn);
+  virtual void write(FileStorage& fs) const;
+
+  float weak_threshold;
+  size_t num_features;
+  float strong_threshold;
+
+protected:
+  virtual Ptr<QuantizedPyramid> processImpl(const Mat& src,
+						const Mat& mask) const;
+};
+
+/**
+ * \brief Modality that computes quantized surface normals from a dense depth map.
+ */
+class CV_EXPORTS DepthNormal : public Modality
+{
+public:
+  /**
+   * \brief Default constructor. Uses reasonable default parameter values.
+   */
+  DepthNormal();
+
+  /**
+   * \brief Constructor.
+   *
+   * \param distance_threshold   Ignore pixels beyond this distance.
+   * \param difference_threshold When computing normals, ignore contributions of pixels whose
+   *                             depth difference with the central pixel is above this threshold.
+   * \param num_features         How many features a template must contain.
+   * \param extract_threshold    Consider as candidate feature only if there are no differing
+   *                             orientations within a distance of extract_threshold.
+   */
+  DepthNormal(int distance_threshold, int difference_threshold, size_t num_features,
+              int extract_threshold);
+
+  virtual std::string name() const;
+
+  virtual void read(const FileNode& fn);
+  virtual void write(FileStorage& fs) const;
+
+  int distance_threshold;
+  int difference_threshold;
+  size_t num_features;
+  int extract_threshold;
+
+protected:
+  virtual Ptr<QuantizedPyramid> processImpl(const Mat& src,
+						const Mat& mask) const;
+};
+
+/**
+ * \brief Debug function to colormap a quantized image for viewing.
+ */
+void colormap(const Mat& quantized, Mat& dst);
+
+/**
+ * \brief Represents a successful template match.
+ */
+struct CV_EXPORTS Match
+{
+  Match()
+  {
+  }
+
+  Match(int x, int y, float similarity, const std::string& class_id, int template_id)
+    : x(x), y(y), similarity(similarity), class_id(class_id), template_id(template_id)
+  {
+  }
+
+  /// Sort matches with high similarity to the front
+  bool operator<(const Match& rhs) const
+  {
+    // Secondarily sort on template_id for the sake of duplicate removal
+    if (similarity != rhs.similarity)
+      return similarity > rhs.similarity;
+    else
+      return template_id < rhs.template_id;
+  }
+
+  bool operator==(const Match& rhs) const
+  {
+    return x == rhs.x && y == rhs.y && similarity == rhs.similarity && class_id == rhs.class_id;
+  }
+
+  int x;
+  int y;
+  float similarity;
+  std::string class_id;
+  int template_id;
+};
+
+/**
+ * \brief Object detector using the LINE template matching algorithm with any set of
+ * modalities.
+ */
+class CV_EXPORTS Detector
+{
+public:
+  /**
+   * \brief Empty constructor, initialize with read().
+   */
+  Detector();
+
+  /**
+   * \brief Constructor.
+   *
+   * \param modalities       Modalities to use (color gradients, depth normals, ...).
+   * \param T_pyramid        Value of the sampling step T at each pyramid level. The
+   *                         number of pyramid levels is T_pyramid.size().
+   */
+  Detector(const std::vector< Ptr<Modality> >& modalities, const std::vector<int>& T_pyramid);
+
+  /**
+   * \brief Detect objects by template matching.
+   *
+   * Matches globally at the lowest pyramid level, then refines locally stepping up the pyramid.
+   *
+   * \param      sources   Source images, one for each modality.
+   * \param      threshold Similarity threshold, a percentage between 0 and 100.
+   * \param[out] matches   Template matches, sorted by similarity score.
+   * \param      class_ids If non-empty, only search for the desired object classes.
+   * \param[out] quantized_images Optionally return vector<Mat> of quantized images.
+   * \param      masks     The masks for consideration during matching. The masks should be CV_8UC1
+   *                       where 255 represents a valid pixel.  If non-empty, the vector must be
+   *                       the same size as sources.  Each element must be
+   *                       empty or the same size as its corresponding source.
+   */
+  void match(const std::vector<Mat>& sources, float threshold, std::vector<Match>& matches,
+             const std::vector<std::string>& class_ids = std::vector<std::string>(),
+             OutputArrayOfArrays quantized_images = noArray(),
+             const std::vector<Mat>& masks = std::vector<Mat>()) const;
+
+  /**
+   * \brief Add new object template.
+   *
+   * \param      sources      Source images, one for each modality.
+   * \param      class_id     Object class ID.
+   * \param      object_mask  Mask separating object from background.
+   * \param[out] bounding_box Optionally return bounding box of the extracted features.
+   *
+   * \return Template ID, or -1 if failed to extract a valid template.
+   */
+  int addTemplate(const std::vector<Mat>& sources, const std::string& class_id,
+		  const Mat& object_mask, Rect* bounding_box = NULL);
+
+  /**
+   * \brief Add a new object template computed by external means.
+   */
+  int addSyntheticTemplate(const std::vector<Template>& templates, const std::string& class_id);
+
+  /**
+   * \brief Get the modalities used by this detector.
+   *
+   * You are not permitted to add/remove modalities, but you may dynamic_cast them to
+   * tweak parameters.
+   */
+  const std::vector< Ptr<Modality> >& getModalities() const { return modalities; }
+
+  /**
+   * \brief Get sampling step T at pyramid_level.
+   */
+  int getT(int pyramid_level) const { return T_at_level[pyramid_level]; }
+
+  /**
+   * \brief Get number of pyramid levels used by this detector.
+   */
+  int pyramidLevels() const { return pyramid_levels; }
+
+  /**
+   * \brief Get the template pyramid identified by template_id.
+   *
+   * For example, with 2 modalities (Gradient, Normal) and two pyramid levels
+   * (L0, L1), the order is (GradientL0, NormalL0, GradientL1, NormalL1).
+   */
+  const std::vector<Template>& getTemplates(const std::string& class_id, int template_id) const;
+
+  int numTemplates() const;
+  int numTemplates(const std::string& class_id) const;
+  int numClasses() const { return static_cast<int>(class_templates.size()); }
+
+  std::vector<std::string> classIds() const;
+
+  void read(const FileNode& fn);
+  void write(FileStorage& fs) const;
+
+  std::string readClass(const FileNode& fn, const std::string &class_id_override = "");
+  void writeClass(const std::string& class_id, FileStorage& fs) const;
+
+  void readClasses(const std::vector<std::string>& class_ids,
+                   const std::string& format = "templates_%s.yml.gz");
+  void writeClasses(const std::string& format = "templates_%s.yml.gz") const;
+
+protected:
+  std::vector< Ptr<Modality> > modalities;
+  int pyramid_levels;
+  std::vector<int> T_at_level;
+
+  typedef std::vector<Template> TemplatePyramid;
+  typedef std::map<std::string, std::vector<TemplatePyramid> > TemplatesMap;
+  TemplatesMap class_templates;
+
+  typedef std::vector<Mat> LinearMemories;
+  // Indexed as [pyramid level][modality][quantized label]
+  typedef std::vector< std::vector<LinearMemories> > LinearMemoryPyramid;
+
+  void matchClass(const LinearMemoryPyramid& lm_pyramid,
+                  const std::vector<Size>& sizes,
+                  float threshold, std::vector<Match>& matches,
+                  const std::string& class_id,
+                  const std::vector<TemplatePyramid>& template_pyramids) const;
+};
+
+/**
+ * \brief Factory function for detector using LINE algorithm with color gradients.
+ *
+ * Default parameter settings suitable for VGA images.
+ */
+CV_EXPORTS Ptr<Detector> getDefaultLINE();
+
+/**
+ * \brief Factory function for detector using LINE-MOD algorithm with color gradients
+ * and depth normals.
+ *
+ * Default parameter settings suitable for VGA images.
+ */
+CV_EXPORTS Ptr<Detector> getDefaultLINEMOD();
+
+} // namespace linemod
+} // namespace cv
+
 #endif
 
 #endif

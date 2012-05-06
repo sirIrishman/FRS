@@ -134,12 +134,12 @@ cv::string cv::FileStorage::getDefaultObjectName(const string& _filename)
 
 namespace cv
 {
-#ifndef ANDROID //unsuported wcstombs on android
+#if !defined(ANDROID) || defined(_GLIBCXX_USE_WCHAR_T)
 string fromUtf16(const WString& str)
 {
     cv::AutoBuffer<char> _buf(str.size()*4 + 1);
     char* buf = _buf;
-        
+
     size_t sz = wcstombs(buf, str.c_str(), str.size());
     if( sz == (size_t)-1 )
         return string();
@@ -151,7 +151,7 @@ WString toUtf16(const string& str)
 {
     cv::AutoBuffer<wchar_t> _buf(str.size() + 1);
     wchar_t* buf = _buf;
-        
+
     size_t sz = mbstowcs(buf, str.c_str(), str.size());
     if( sz == (size_t)-1 )
         return WString();
@@ -753,7 +753,7 @@ cvGetFileNodeFromSeq( CvFileStorage* fs,
 
     value = (CvFileNode*)cvGetSeqElem( seq, index, 0 );
 
-    
+
 
     return value;
 }*/
@@ -852,12 +852,15 @@ icvProcessSpecialDouble( CvFileStorage* fs, char* buf, double* value, char** end
     if( c != '.' )
         CV_PARSE_ERROR( "Bad format of floating-point constant" );
 
+    union{double d; uint64 i;} v;
+    v.d = 0.;
     if( toupper(buf[1]) == 'I' && toupper(buf[2]) == 'N' && toupper(buf[3]) == 'F' )
-        *(uint64*)value = ((uint64)inf_hi << 32);
+        v.i = (uint64)inf_hi << 32;
     else if( toupper(buf[1]) == 'N' && toupper(buf[2]) == 'A' && toupper(buf[3]) == 'N' )
-        *(uint64*)value = (uint64)-1;
+        v.i = (uint64)-1;
     else
         CV_PARSE_ERROR( "Bad format of floating-point constant" );
+    *value = v.d;
 
     *endptr = buf + 4;
 }
@@ -2018,7 +2021,7 @@ icvXMLParseTag( CvFileStorage* fs, char* ptr, CvStringHashNode** _tag,
 
     if( *ptr == '\0' )
         CV_PARSE_ERROR( "Preliminary end of the stream" );
-    
+
     if( *ptr != '<' )
         CV_PARSE_ERROR( "Tag should start with \'<\'" );
 
@@ -2160,6 +2163,7 @@ icvXMLParse( CvFileStorage* fs )
     ptr = icvXMLSkipSpaces( fs, ptr, CV_XML_INSIDE_TAG );
 
     if( memcmp( ptr, "<?xml", 5 ) != 0 )
+
         CV_PARSE_ERROR( "Valid XML should start with \'<?xml ...?>\'" );
 
     ptr = icvXMLParseTag( fs, ptr, &key, &list, &tag_type );
@@ -2614,7 +2618,7 @@ cvOpenFileStorage( const char* filename, CvMemStorage* dststorage, int flags, co
 
     fs->filename = (char*)cvMemStorageAlloc( fs->memstorage, fnamelen+1 );
     strcpy( fs->filename, filename );
-    
+
     char* dot_pos = strrchr(fs->filename, '.');
     char compression = '\0';
 
@@ -2683,7 +2687,7 @@ cvOpenFileStorage( const char* filename, CvMemStorage* dststorage, int flags, co
                         strcmp( encoding, "utf-16" ) == 0 ||
                         strcmp( encoding, "Utf-16" ) == 0 )
                         CV_Error( CV_StsBadArg, "UTF-16 XML encoding is not supported! Use 8-bit encoding\n");
-                
+
                     CV_Assert( strlen(encoding) < 1000 );
                     char buf[1100];
                     sprintf(buf, "<?xml version=\"1.0\" encoding=\"%s\"?>\n", encoding);
@@ -2983,9 +2987,6 @@ cvWriteRawData( CvFileStorage* fs, const void* _data, int len, const char* dt )
 
     CV_CHECK_OUTPUT_FILE_STORAGE( fs );
 
-    if( !data0 )
-        CV_Error( CV_StsNullPtr, "Null data pointer" );
-
     if( len < 0 )
         CV_Error( CV_StsOutOfRange, "Negative number of elements" );
 
@@ -2993,6 +2994,9 @@ cvWriteRawData( CvFileStorage* fs, const void* _data, int len, const char* dt )
 
     if( !len )
         return;
+    
+    if( !data0 )
+        CV_Error( CV_StsNullPtr, "Null data pointer" );
 
     if( fmt_pair_count == 1 )
     {
@@ -3406,7 +3410,7 @@ icvWriteMat( CvFileStorage* fs, const char* name,
         }
 
         for( y = 0; y < size.height; y++ )
-            cvWriteRawData( fs, mat->data.ptr + y*mat->step, size.width, dt );
+            cvWriteRawData( fs, mat->data.ptr + (size_t)y*mat->step, size.width, dt );
     }
     cvEndWriteStruct( fs );
     cvEndWriteStruct( fs );
@@ -3442,17 +3446,19 @@ icvReadMat( CvFileStorage* fs, CvFileNode* node )
     data = cvGetFileNodeByName( fs, node, "data" );
     if( !data )
         CV_Error( CV_StsError, "The matrix data is not found in file storage" );
-    
+
     int nelems = icvFileNodeSeqLen( data );
     if( nelems > 0 && nelems != rows*cols*CV_MAT_CN(elem_type) )
         CV_Error( CV_StsUnmatchedSizes,
                  "The matrix size does not match to the number of stored elements" );
-    
+
     if( nelems > 0 )
     {
         mat = cvCreateMat( rows, cols, elem_type );
         cvReadRawData( fs, data, mat->data.ptr, dt );
     }
+    else if( rows == 0 && cols == 0 )
+        mat = cvCreateMatHeader( 0, 1, elem_type );
     else
         mat = cvCreateMatHeader( rows, cols, elem_type );
 
@@ -3532,18 +3538,18 @@ icvReadMatND( CvFileStorage* fs, CvFileNode* node )
     data = cvGetFileNodeByName( fs, node, "data" );
     if( !data )
         CV_Error( CV_StsError, "The matrix data is not found in file storage" );
-    
-    
-    
+
+
+
     for( total_size = CV_MAT_CN(elem_type), i = 0; i < dims; i++ )
         total_size *= sizes[i];
-    
+
     int nelems = icvFileNodeSeqLen( data );
-    
+
     if( nelems > 0 && nelems != total_size )
         CV_Error( CV_StsUnmatchedSizes,
                  "The matrix size does not match to the number of stored elements" );
-    
+
     if( nelems > 0 )
     {
         mat = cvCreateMatND( dims, sizes, elem_type );
@@ -4005,8 +4011,8 @@ icvWriteSeq( CvFileStorage* fs, const char* name,
         cvWriteInt( fs, "level", level );
 
     dt = icvGetFormat( seq, "dt", &attr, 0, dt_buf );
-    
-    strcpy(buf, "");    
+
+    strcpy(buf, "");
     if( CV_IS_SEQ_CLOSED(seq) )
         strcat(buf, " closed");
     if( CV_IS_SEQ_HOLE(seq) )
@@ -4015,11 +4021,11 @@ icvWriteSeq( CvFileStorage* fs, const char* name,
         strcat(buf, " curve");
     if( CV_SEQ_ELTYPE(seq) == 0 && seq->elem_size != 1 )
         strcat(buf, " untyped");
-    
+
     cvWriteString( fs, "flags", buf + (buf[0] ? 1 : 0), 1 );
-    
+
     cvWriteInt( fs, "count", seq->total );
-    
+
     cvWriteString( fs, "dt", dt, 0 );
 
     icvWriteHeaderData( fs, seq, &attr, sizeof(CvSeq) );
@@ -4101,7 +4107,7 @@ icvReadSeq( CvFileStorage* fs, CvFileNode* node )
         CV_Error( CV_StsError, "Some of essential sequence attributes are absent" );
 
     flags = CV_SEQ_MAGIC_VAL;
-    
+
     if( cv_isdigit(flags_str[0]) )
     {
         const int OLD_SEQ_ELTYPE_BITS = 9;
@@ -4112,7 +4118,7 @@ icvReadSeq( CvFileStorage* fs, CvFileNode* node )
         const int OLD_SEQ_FLAG_SHIFT = OLD_SEQ_KIND_BITS + OLD_SEQ_ELTYPE_BITS;
         const int OLD_SEQ_FLAG_CLOSED = 1 << OLD_SEQ_FLAG_SHIFT;
         const int OLD_SEQ_FLAG_HOLE = 8 << OLD_SEQ_FLAG_SHIFT;
-        
+
         int flags0 = (int)strtol( flags_str, &endptr, 16 );
         if( endptr == flags_str || (flags0 & CV_MAGIC_MASK) != CV_SEQ_MAGIC_VAL )
             CV_Error( CV_StsError, "The sequence flags are invalid" );
@@ -4470,14 +4476,14 @@ icvReadGraph( CvFileStorage* fs, CvFileNode* node )
         CV_Error( CV_StsError, "Some of essential graph attributes are absent" );
 
     flags = CV_SET_MAGIC_VAL + CV_GRAPH;
-    
+
     if( isxdigit(flags_str[0]) )
     {
         const int OLD_SEQ_ELTYPE_BITS = 9;
         const int OLD_SEQ_KIND_BITS = 3;
         const int OLD_SEQ_FLAG_SHIFT = OLD_SEQ_KIND_BITS + OLD_SEQ_ELTYPE_BITS;
         const int OLD_GRAPH_FLAG_ORIENTED = 1 << OLD_SEQ_FLAG_SHIFT;
-        
+
         int flags0 = (int)strtol( flags_str, &endptr, 16 );
         if( endptr == flags_str || (flags0 & CV_MAGIC_MASK) != CV_SET_MAGIC_VAL )
             CV_Error( CV_StsError, "The sequence flags are invalid" );
@@ -4779,8 +4785,8 @@ cvFindType( const char* type_name )
     if (type_name)
       for( info = CvType::first; info != 0; info = info->next )
         if( strcmp( info->type_name, type_name ) == 0 )
-	  break;
-    
+      break;
+
     return info;
 }
 
@@ -4977,13 +4983,13 @@ stop_search:
 
     if( _real_name)
     {
-	if (real_name)
-	{
-	    *_real_name = (const char*)cvAlloc(strlen(real_name));
-    	    memcpy((void*)*_real_name, real_name, strlen(real_name));
-	} else {
-	    *_real_name = 0;
-	}
+    if (real_name)
+    {
+        *_real_name = (const char*)cvAlloc(strlen(real_name));
+            memcpy((void*)*_real_name, real_name, strlen(real_name));
+    } else {
+        *_real_name = 0;
+    }
     }
 
     return ptr;
@@ -5149,7 +5155,7 @@ FileNode FileStorage::operator[](const string& nodename) const
 FileNode FileStorage::operator[](const char* nodename) const
 {
     return FileNode(fs, cvGetFileNodeByName(fs, 0, nodename));
-}    
+}
 
 FileNode FileNode::operator[](const string& nodename) const
 {
@@ -5166,13 +5172,13 @@ FileNode FileNode::operator[](int i) const
     return isSeq() ? FileNode(fs, (CvFileNode*)cvGetSeqElem(node->data.seq, i)) :
         i == 0 ? *this : FileNode();
 }
-    
+
 string FileNode::name() const
 {
     const char* str;
     return !node || (str = cvGetFileNodeName(node)) == 0 ? string() : string(str);
-}    
-    
+}
+
 void* FileNode::readObj() const
 {
     if( !fs || !node )
@@ -5191,7 +5197,7 @@ FileNodeIterator::FileNodeIterator()
 FileNodeIterator::FileNodeIterator(const CvFileStorage* _fs,
                                    const CvFileNode* _node, size_t _ofs)
 {
-    if( _fs && _node )
+    if( _fs && _node && CV_NODE_TYPE(_node->tag) != CV_NODE_NONE )
     {
         int node_type = _node->tag & FileNode::TYPE_MASK;
         fs = _fs;
@@ -5293,7 +5299,7 @@ FileNodeIterator& FileNodeIterator::readRaw( const string& fmt, uchar* vec, size
         getElemSize( fmt, elem_size, cn );
         CV_Assert( elem_size > 0 );
         size_t count = std::min(remaining, maxCount);
-        
+
         if( reader.seq )
         {
             cvReadRawDataSlice( fs, &reader, (int)count, vec, fmt.c_str() );
@@ -5308,7 +5314,7 @@ FileNodeIterator& FileNodeIterator::readRaw( const string& fmt, uchar* vec, size
     return *this;
 }
 
-    
+
 void write( FileStorage& fs, const string& name, int value )
 { cvWriteInt( *fs, name.size() ? name.c_str() : 0, value ); }
 
@@ -5331,9 +5337,9 @@ void writeScalar(FileStorage& fs, double value )
 { cvWriteReal( *fs, 0, value ); }
 
 void writeScalar(FileStorage& fs, const string& value )
-{ cvWriteString( *fs, 0, value.c_str() ); }    
+{ cvWriteString( *fs, 0, value.c_str() ); }
 
-    
+
 void write( FileStorage& fs, const string& name, const Mat& value )
 {
     if( value.dims <= 2 )
@@ -5347,25 +5353,25 @@ void write( FileStorage& fs, const string& name, const Mat& value )
         cvWrite( *fs, name.size() ? name.c_str() : 0, &mat );
     }
 }
-    
-// TODO: the 4 functions below need to be implemented more efficiently 
+
+// TODO: the 4 functions below need to be implemented more efficiently
 void write( FileStorage& fs, const string& name, const SparseMat& value )
 {
     Ptr<CvSparseMat> mat = (CvSparseMat*)value;
     cvWrite( *fs, name.size() ? name.c_str() : 0, mat );
 }
     
-    
+
 WriteStructContext::WriteStructContext(FileStorage& _fs, const string& name,
                    int flags, const string& typeName) : fs(&_fs)
 {
     cvStartWriteStruct(**fs, !name.empty() ? name.c_str() : 0, flags,
                        !typeName.empty() ? typeName.c_str() : 0);
 }
-    
-WriteStructContext::~WriteStructContext() { cvEndWriteStruct(**fs); }    
 
-    
+WriteStructContext::~WriteStructContext() { cvEndWriteStruct(**fs); }
+
+
 void read( const FileNode& node, Mat& mat, const Mat& default_mat )
 {
     if( node.empty() )
@@ -5390,7 +5396,7 @@ void read( const FileNode& node, Mat& mat, const Mat& default_mat )
         CV_Error(CV_StsBadArg, "Unknown array type");
     }
 }
-    
+
 void read( const FileNode& node, SparseMat& mat, const SparseMat& default_mat )
 {
     if( node.empty() )
@@ -5402,7 +5408,7 @@ void read( const FileNode& node, SparseMat& mat, const SparseMat& default_mat )
     CV_Assert(CV_IS_SPARSE_MAT(m));
     SparseMat(m).copyTo(mat);
 }
-    
+
 }
 
 /* End of file. */

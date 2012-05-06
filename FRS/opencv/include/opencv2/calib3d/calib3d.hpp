@@ -86,6 +86,13 @@ CVAPI(void) cvConvertPointsHomogeneous( const CvMat* src, CvMat* dst );
 #define CV_FM_RANSAC_ONLY CV_RANSAC
 #define CV_FM_LMEDS CV_LMEDS
 #define CV_FM_RANSAC CV_RANSAC
+
+enum
+{
+    CV_ITERATIVE = 0,
+    CV_EPNP = 1, // F.Moreno-Noguer, V.Lepetit and P.Fua "EPnP: Efficient Perspective-n-Point Camera Pose Estimation"
+	CV_P3P = 2 // X.S. Gao, X.-R. Hou, J. Tang, H.-F. Chang; "Complete Solution Classification for the Perspective-Three-Point Problem"
+};
     
 CVAPI(int) cvFindFundamentalMat( const CvMat* points1, const CvMat* points2,
                                  CvMat* fundamental_matrix,
@@ -239,7 +246,9 @@ CVAPI(double) cvCalibrateCamera2( const CvMat* object_points,
                                 CvMat* distortion_coeffs,
                                 CvMat* rotation_vectors CV_DEFAULT(NULL),
                                 CvMat* translation_vectors CV_DEFAULT(NULL),
-                                int flags CV_DEFAULT(0) );
+                                int flags CV_DEFAULT(0),
+                                CvTermCriteria term_crit CV_DEFAULT(cvTermCriteria(
+                                    CV_TERMCRIT_ITER+CV_TERMCRIT_EPS,30,DBL_EPSILON)) );
 
 /* Computes various useful characteristics of the camera from the data computed by
    cvCalibrateCamera2 */
@@ -352,37 +361,6 @@ CVAPI(void) cvValidateDisparity( CvArr* disparity, const CvArr* cost,
                                  int minDisparity, int numberOfDisparities,
                                  int disp12MaxDiff CV_DEFAULT(1) );  
 
-/* Kolmogorov-Zabin stereo-correspondence algorithm (a.k.a. KZ1) */
-#define CV_STEREO_GC_OCCLUDED  SHRT_MAX
-
-typedef struct CvStereoGCState
-{
-    int Ithreshold;
-    int interactionRadius;
-    float K, lambda, lambda1, lambda2;
-    int occlusionCost;
-    int minDisparity;
-    int numberOfDisparities;
-    int maxIters;
-
-    CvMat* left;
-    CvMat* right;
-    CvMat* dispLeft;
-    CvMat* dispRight;
-    CvMat* ptrLeft;
-    CvMat* ptrRight;
-    CvMat* vtxBuf;
-    CvMat* edgeBuf;
-} CvStereoGCState;
-
-CVAPI(CvStereoGCState*) cvCreateStereoGCState( int numberOfDisparities, int maxIters );
-CVAPI(void) cvReleaseStereoGCState( CvStereoGCState** state );
-
-CVAPI(void) cvFindStereoCorrespondenceGC( const CvArr* left, const CvArr* right,
-                                          CvArr* disparityLeft, CvArr* disparityRight,
-                                          CvStereoGCState* state,
-                                          int useDisparityGuess CV_DEFAULT(0) );
-
 /* Reprojects the computed disparity image to the 3D space using the specified 4x4 matrix */
 CVAPI(void)  cvReprojectImageTo3D( const CvArr* disparityImage,
                                    CvArr* _3dImage, const CvMat* Q,
@@ -393,7 +371,6 @@ CVAPI(void)  cvReprojectImageTo3D( const CvArr* disparityImage,
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////
-
 class CV_EXPORTS CvLevMarq
 {
 public:
@@ -432,7 +409,6 @@ public:
 
 namespace cv
 {
-
 //! converts rotation vector to rotation matrix or vice versa using Rodrigues transformation
 CV_EXPORTS_W void Rodrigues(InputArray src, OutputArray dst, OutputArray jacobian=noArray());
 
@@ -489,10 +465,16 @@ CV_EXPORTS_W void projectPoints( InputArray objectPoints,
                                  double aspectRatio=0 );
 
 //! computes the camera pose from a few 3D points and the corresponding projections. The outliers are not handled.
-CV_EXPORTS_W void solvePnP( InputArray objectPoints, InputArray imagePoints,
+enum
+{
+    ITERATIVE=CV_ITERATIVE, 
+    EPNP=CV_EPNP,
+	P3P=CV_P3P
+};
+CV_EXPORTS_W bool solvePnP( InputArray objectPoints, InputArray imagePoints,
                             InputArray cameraMatrix, InputArray distCoeffs,
                             OutputArray rvec, OutputArray tvec,
-                            bool useExtrinsicGuess=false );
+                            bool useExtrinsicGuess=false, int flags=0);
 
 //! computes the camera pose from a few 3D points and the corresponding projections. The outliers are possible.
 CV_EXPORTS_W void solvePnPRansac( InputArray objectPoints,
@@ -501,11 +483,12 @@ CV_EXPORTS_W void solvePnPRansac( InputArray objectPoints,
                                   InputArray distCoeffs,
                                   OutputArray rvec,
                                   OutputArray tvec,
-                                  bool useExtrinsicGuess = false,
+                                  bool useExtrinsicGuess = false,								  
                                   int iterationsCount = 100,
                                   float reprojectionError = 8.0,
                                   int minInliersCount = 100,
-                                  OutputArray inliers = noArray() );
+                                  OutputArray inliers = noArray(),
+								  int flags = 0);
 
 //! initializes camera matrix from a few 3D points and the corresponding projections.
 CV_EXPORTS_W Mat initCameraMatrix2D( InputArrayOfArrays objectPoints,
@@ -532,13 +515,13 @@ enum { CALIB_CB_SYMMETRIC_GRID = 1, CALIB_CB_ASYMMETRIC_GRID = 2,
        CALIB_CB_CLUSTERING = 4 };
 
 //! finds circles' grid pattern of the specified size in the image
-CV_EXPORTS bool findCirclesGrid( InputArray image, Size patternSize,
+CV_EXPORTS_W bool findCirclesGrid( InputArray image, Size patternSize,
                                  OutputArray centers, int flags=CALIB_CB_SYMMETRIC_GRID,
                                  const Ptr<FeatureDetector> &blobDetector = new SimpleBlobDetector());
 
+//! the deprecated function. Use findCirclesGrid() instead of it.
 CV_EXPORTS_W bool findCirclesGridDefault( InputArray image, Size patternSize,
                                           OutputArray centers, int flags=CALIB_CB_SYMMETRIC_GRID );
-
 enum
 {
     CALIB_USE_INTRINSIC_GUESS = CV_CALIB_USE_INTRINSIC_GUESS,
@@ -567,7 +550,8 @@ CV_EXPORTS_W double calibrateCamera( InputArrayOfArrays objectPoints,
                                      CV_OUT InputOutputArray cameraMatrix,
                                      CV_OUT InputOutputArray distCoeffs,
                                      OutputArrayOfArrays rvecs, OutputArrayOfArrays tvecs,
-                                     int flags=0 );
+                                     int flags=0, TermCriteria criteria = TermCriteria(
+                                         TermCriteria::COUNT+TermCriteria::EPS, 30, DBL_EPSILON) );
 
 //! computes several useful camera characteristics from the camera matrix, camera frame resolution and the physical sensor size.
 CV_EXPORTS_W void calibrationMatrixValues( InputArray cameraMatrix,
@@ -596,7 +580,7 @@ CV_EXPORTS_W double stereoCalibrate( InputArrayOfArrays objectPoints,
 
     
 //! computes the rectification transformation for a stereo camera from its intrinsic and extrinsic parameters
-CV_EXPORTS void stereoRectify( InputArray cameraMatrix1, InputArray distCoeffs1,
+CV_EXPORTS_W void stereoRectify( InputArray cameraMatrix1, InputArray distCoeffs1,
                                InputArray cameraMatrix2, InputArray distCoeffs2,
                                Size imageSize, InputArray R, InputArray T,
                                OutputArray R1, OutputArray R2,
@@ -661,6 +645,13 @@ CV_EXPORTS Mat findFundamentalMat( InputArray points1, InputArray points2,
 CV_EXPORTS void computeCorrespondEpilines( InputArray points1,
                                            int whichImage, InputArray F,
                                            OutputArray lines );
+
+CV_EXPORTS_W void triangulatePoints( InputArray projMatr1, InputArray projMatr2,
+                                     InputArray projPoints1, InputArray projPoints2,
+                                     OutputArray points4D );
+
+CV_EXPORTS_W void correctMatches( InputArray F, InputArray points1, InputArray points2,
+                                  OutputArray newPoints1, OutputArray newPoints2 );
 
 template<> CV_EXPORTS void Ptr<CvStereoBMState>::delete_obj();
 

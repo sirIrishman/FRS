@@ -25,7 +25,7 @@ void View::initialize(Model* model, Controller* controller) {
     _controller = controller;
     _model = model;
     _model->attach(this);
-    _model->setRecognitionAlgorithm(HaarCascade);
+    _model->setRecognitionAlgorithm(LbpCascade);
 }
 
 void View::subscribeToEvents() {

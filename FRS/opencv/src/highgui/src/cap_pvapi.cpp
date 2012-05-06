@@ -109,6 +109,7 @@ protected:
 CvCaptureCAM_PvAPI::CvCaptureCAM_PvAPI()
 {
 	monocrome=false;
+    memset(&this->Camera, 0, sizeof(this->Camera));
 }
 void CvCaptureCAM_PvAPI::Sleep(unsigned int time)
 {
@@ -125,7 +126,8 @@ void CvCaptureCAM_PvAPI::close()
 	// Stop the acquisition & free the camera
 	PvCommandRun(Camera.Handle, "AcquisitionStop");
 	PvCaptureEnd(Camera.Handle);
-	PvCameraClose(Camera.Handle);	
+    PvCameraClose(Camera.Handle);
+    PvUnInitialize();
 }
 
 // Initialize camera input
