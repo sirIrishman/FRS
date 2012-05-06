@@ -27,6 +27,7 @@ namespace FRS {
         QString fileName(FileType fileType);
         QString videoFileFilter() const;
         QString imageFileFilter() const;
+        void drawRects(QImage* const& image, std::vector<cv::Rect> rectCollection) const;
 
     private slots:
         void actn_LoadImage_Triggered();

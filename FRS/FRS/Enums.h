@@ -10,6 +10,11 @@ namespace FRS {
         ImageWebcam
     };
 
+    enum RecognitionAlgorithm {
+        HaarCascade,
+        LbpCascade
+    };
+
     enum RecognizableObjectType {
         Face
     };

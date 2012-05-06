@@ -120,6 +120,12 @@
     <ClInclude Include="gettingFrameStrategyCachingFactory.h">
       <Filter>Header Files\Native</Filter>
     </ClInclude>
+    <ClInclude Include="recognitionStrategy.h">
+      <Filter>Header Files\Native</Filter>
+    </ClInclude>
+    <ClInclude Include="recognitionStrategyCachingFactory.h">
+      <Filter>Header Files\Native</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="frs.rc" />

@@ -44,7 +44,7 @@
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
-      <PreprocessorDefinitions>UNICODE;WIN32;QT_LARGEFILE_SUPPORT;QT_CORE_LIB;QT_GUI_LIB;QT_MULTIMEDIA_LIB;OpenCvDataDir=$(OpenCvDataDir);%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>UNICODE;WIN32;QT_LARGEFILE_SUPPORT;QT_CORE_LIB;QT_GUI_LIB;QT_MULTIMEDIA_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>.\GeneratedFiles;$(QTDIR)\include;.\GeneratedFiles\$(ConfigurationName);.\;$(QTDIR)\include\QtCore;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtMultimedia;$(QTDIR)\include\QtUiTools;$(OpenCvHeaderDir);$(OpenCvHeaderDir)\opencv2;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Disabled</Optimization>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
@@ -62,7 +62,8 @@
     </Link>
     <PostBuildEvent>
       <Command>copy "$(ProjectDir)dll\$(Configuration)" "$(ProjectDir)bin\$(Configuration)"
-copy "$(ProjectDir)dll\Common" "$(ProjectDir)bin\$(Configuration)"</Command>
+copy "$(ProjectDir)dll\Common" "$(ProjectDir)bin\$(Configuration)"
+xcopy "$(OpenCvDataDir)" "$(ProjectDir)bin\$(Configuration)\data" /E /I /R /Y</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -84,7 +85,8 @@ copy "$(ProjectDir)dll\Common" "$(ProjectDir)bin\$(Configuration)"</Command>
     </Link>
     <PostBuildEvent>
       <Command>copy "$(ProjectDir)dll\$(Configuration)" "$(ProjectDir)bin\$(Configuration)"
-copy "$(ProjectDir)dll\Common" "$(ProjectDir)bin\$(Configuration)"</Command>
+copy "$(ProjectDir)dll\Common" "$(ProjectDir)bin\$(Configuration)"
+xcopy "$(OpenCvDataDir)" "$(ProjectDir)bin\$(Configuration)\data" /E /I /R /Y</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -116,7 +118,7 @@ copy "$(ProjectDir)dll\Common" "$(ProjectDir)bin\$(Configuration)"</Command>
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath);$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>
       <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Moc%27ing view.h...</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp</Outputs>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(QTDIR)\bin\moc.exe"   -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_CORE_LIB -DQT_GUI_LIB -DQT_MULTIMEDIA_LIB "-DOpenCvDataDir=$(OpenCvDataDir)\."  "-I." "-I.\GeneratedFiles" "-I$(QTDIR)\include" "-I.\GeneratedFiles\$(ConfigurationName)\." "-I." "-I$(QTDIR)\include\QtCore" "-I$(QTDIR)\include\QtGui" "-I$(QTDIR)\include\QtMultimedia" "-I$(QTDIR)\include\QtUiTools" "-I$(OpenCvHeaderDir)\." "-I$(OpenCvHeaderDir)\opencv2" "-I." "-I." "-I." "-I." "%(FullPath)" -o ".\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp"</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(QTDIR)\bin\moc.exe"   -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_CORE_LIB -DQT_GUI_LIB -DQT_MULTIMEDIA_LIB  "-I." "-I.\GeneratedFiles" "-I$(QTDIR)\include" "-I.\GeneratedFiles\$(ConfigurationName)\." "-I." "-I$(QTDIR)\include\QtCore" "-I$(QTDIR)\include\QtGui" "-I$(QTDIR)\include\QtMultimedia" "-I$(QTDIR)\include\QtUiTools" "-I$(OpenCvHeaderDir)\." "-I$(OpenCvHeaderDir)\opencv2" "-I." "-I." "-I." "-I." "%(FullPath)" -o ".\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp"</Command>
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath);$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>
       <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Moc%27ing view.h...</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">.\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp</Outputs>
@@ -140,6 +142,8 @@ copy "$(ProjectDir)dll\Common" "$(ProjectDir)bin\$(Configuration)"</Command>
     <ClInclude Include="controller.h" />
     <ClInclude Include="enums.h" />
     <ClInclude Include="exceptions.h" />
+    <ClInclude Include="recognitionStrategy.h" />
+    <ClInclude Include="recognitionStrategyCachingFactory.h" />
     <ClInclude Include="GeneratedFiles\ui_View.h" />
     <CustomBuild Include="gettingFrameStrategy.h">
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath);%(AdditionalInputs)</AdditionalInputs>
@@ -189,7 +193,9 @@ copy "$(ProjectDir)dll\Common" "$(ProjectDir)bin\$(Configuration)"</Command>
   </ItemGroup>
   <ItemGroup>
     <None Include="opencv.props" />
-    <None Include="To-Do.txt" />
+    <None Include="To-Do.txt">
+      <FileType>Text</FileType>
+    </None>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

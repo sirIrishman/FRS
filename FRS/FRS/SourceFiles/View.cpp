@@ -1,5 +1,6 @@
 #include <qfiledialog.h>
 #include <qstring.h>
+#include <qpainter.h>
 #include <core\core.hpp>
 #include "view.h"
 #include "guard.h"
@@ -24,6 +25,7 @@ void View::initialize(Model* model, Controller* controller) {
     _controller = controller;
     _model = model;
     _model->attach(this);
+    _model->setRecognitionAlgorithm(HaarCascade);
 }
 
 void View::subscribeToEvents() {
@@ -38,9 +40,23 @@ void View::update() {
     if(frame.empty())
         return;
     QImage* image = new QImage(frame.data, frame.cols, frame.rows, frame.step[0], QImage::Format_RGB888);
+    drawRects(image, _model->recognizeObjects(frame, Face));
     _ui.lbl_Frame->setPixmap(QPixmap::fromImage(image->rgbSwapped()));
     frame.release();
     delete image;
+}
+
+void View::drawRects(QImage* const& image, std::vector<cv::Rect> rectCollection) const {
+    QPainter* painter = new QPainter();
+    painter->begin(image);
+    QPen pen;
+    pen.setWidth(1);
+    pen.setColor(Qt::green);
+    painter->setPen(pen);
+    for(int i = 0; i < rectCollection.size(); i++)
+        painter->drawRect(rectCollection[i].x, rectCollection[i].y, rectCollection[i].width, rectCollection[i].height);
+    painter->end();
+    delete painter;
 }
 
 void View::actn_LoadImage_Triggered() {

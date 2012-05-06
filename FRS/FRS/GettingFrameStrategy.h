@@ -84,7 +84,7 @@ namespace FRS {
 
         protected:
             GettingCapturedVideoFrameStrategyBase(Observer* const& observer) 
-                : GettingCapturedFrameStrategyBase(observer), __fps(30), __msecInSec(1000) {
+                : GettingCapturedFrameStrategyBase(observer), __fps(24), __msecInSec(1000) {
                     _timer = new QTimer();
                     connect(_timer, SIGNAL(timeout()), this, SLOT(tick()));
             }
