@@ -1,5 +1,6 @@
 <RCC>
   <qresource prefix="view">
+    <file>user_silhouette.png</file>
     <file>camera.png</file>
     <file>video.png</file>
     <file>pictures_folder.png</file>

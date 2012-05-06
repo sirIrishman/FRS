@@ -40,7 +40,8 @@ void View::update() {
     if(frame.empty())
         return;
     QImage* image = new QImage(frame.data, frame.cols, frame.rows, frame.step[0], QImage::Format_RGB888);
-    drawRects(image, _model->recognizeObjects(frame, Face));
+    if(_ui.actn_RecognizeObjects->isChecked())
+        drawRects(image, _model->recognizeObjects(frame, Face));
     _ui.lbl_Frame->setPixmap(QPixmap::fromImage(image->rgbSwapped()));
     frame.release();
     delete image;

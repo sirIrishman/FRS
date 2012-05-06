@@ -72,6 +72,7 @@
    <addaction name="actn_LoadVideo"/>
    <addaction name="actn_CaptureVideo"/>
    <addaction name="actn_CaptureImage"/>
+   <addaction name="actn_RecognizeObjects"/>
   </widget>
   <widget class="QStatusBar" name="stsBr_MainStatusBar"/>
   <action name="actn_LoadImage">
@@ -117,6 +118,21 @@
    </property>
    <property name="toolTip">
     <string>Получить изображение с вебкамеры</string>
+   </property>
+  </action>
+  <action name="actn_RecognizeObjects">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="View.qrc">
+     <normaloff>:/view/user_silhouette.png</normaloff>:/view/user_silhouette.png</iconset>
+   </property>
+   <property name="text">
+    <string>Режим распознавания объектов</string>
+   </property>
+   <property name="toolTip">
+    <string>Режим распознавания объектов</string>
    </property>
   </action>
  </widget>
