@@ -2,6 +2,7 @@
 #define FRS_VIEW_H
 
 #include <QtGui/QMainWindow>
+#include <qpainter.h>
 #include <qstring.h>
 #include "ui_View.h"
 #include "controller.h"
@@ -24,6 +25,8 @@ namespace FRS {
         Ui::mnWnd_View _ui;
         Model* _model;
         Controller* _controller;
+        QPainter* _painter;
+
         QString fileName(FileType fileType);
         QString videoFileFilter() const;
         QString imageFileFilter() const;

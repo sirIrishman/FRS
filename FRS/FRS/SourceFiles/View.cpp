@@ -1,6 +1,4 @@
 #include <qfiledialog.h>
-#include <qstring.h>
-#include <qpainter.h>
 #include <core\core.hpp>
 #include "view.h"
 #include "guard.h"
@@ -16,6 +14,7 @@ View::View(Model* model, Controller* controller, QWidget *parent, Qt::WFlags fla
 }
 
 View::~View() {
+    delete _painter;
     _model->detach(this);
     delete _controller;
     delete _model;
@@ -23,9 +22,12 @@ View::~View() {
 
 void View::initialize(Model* model, Controller* controller) {
     _controller = controller;
+
     _model = model;
     _model->attach(this);
     _model->setRecognitionAlgorithm(LbpCascade);
+
+    _painter = new QPainter();
 }
 
 void View::subscribeToEvents() {
@@ -48,16 +50,11 @@ void View::update() {
 }
 
 void View::drawRects(QImage* const& image, std::vector<cv::Rect> rectCollection) const {
-    QPainter* painter = new QPainter();
-    painter->begin(image);
-    QPen pen;
-    pen.setWidth(1);
-    pen.setColor(Qt::green);
-    painter->setPen(pen);
+    _painter->begin(image);
+    _painter->setPen(Qt::green);
     for(int i = 0; i < rectCollection.size(); i++)
-        painter->drawRect(rectCollection[i].x, rectCollection[i].y, rectCollection[i].width, rectCollection[i].height);
-    painter->end();
-    delete painter;
+        _painter->drawRect(rectCollection[i].x, rectCollection[i].y, rectCollection[i].width, rectCollection[i].height);
+    _painter->end();
 }
 
 void View::actn_LoadImage_Triggered() {
