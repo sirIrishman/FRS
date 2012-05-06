@@ -2,7 +2,6 @@ Active:
 	7. Add capability to change FPS (note: cvSetCaptureProperty, CV_CAP_PROP_FPS)
 	9. Add new icons for actions
 	12. Does not update frame if video file have ended
-	16. Add API for object recognition
 	18. Review getting frame strategy's hierarchy and its factory
 	20. Fix opening files with non-latin symbols in path
 	22. Update OpenCV from 2.3.1 to 2.4.0 version
@@ -22,3 +21,4 @@ Fixed/Implemented:
 	19. Add info string into status bar
 	13. Find out supported video files for 'cvCaptureFromFile' method
 	21. Use OpenCV C++ API instead of old C API
+	16. Add API for object recognition
