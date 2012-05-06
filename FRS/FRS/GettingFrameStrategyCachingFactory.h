@@ -9,85 +9,85 @@ using namespace Framework;
 
 namespace FRS {
     namespace Native {
-        class GettingFrameStrategyCachingFactory {
+        class GettingFrameStrategyCachingFactory sealed {
         public:
             GettingFrameStrategyCachingFactory(Observer* const& observer) {
                 _observer = observer;
-                _frameEmptyStrategy = NULL;
-                _imageFileFrameStrategy = NULL;
-                _videoFileFrameStrategy = NULL;
-                _webcamImageFrameStrategy = NULL;
-                _webcamVideoFrameStrategy = NULL;
+                _emptyStrategy = NULL;
+                _imageFileStrategy = NULL;
+                _videoFileStrategy = NULL;
+                _webcamImageStrategy = NULL;
+                _webcamVideoStrategy = NULL;
             }
             ~GettingFrameStrategyCachingFactory() {
-                if(_frameEmptyStrategy != NULL)
-                    delete _frameEmptyStrategy;
-                if(_imageFileFrameStrategy != NULL)
-                    delete _imageFileFrameStrategy;
-                if(_videoFileFrameStrategy != NULL)
-                    delete _videoFileFrameStrategy;
-                if(_webcamImageFrameStrategy != NULL)
-                    delete _webcamImageFrameStrategy;
-                if(_webcamVideoFrameStrategy != NULL)
-                    delete _webcamVideoFrameStrategy;
+                if(_emptyStrategy != NULL)
+                    delete _emptyStrategy;
+                if(_imageFileStrategy != NULL)
+                    delete _imageFileStrategy;
+                if(_videoFileStrategy != NULL)
+                    delete _videoFileStrategy;
+                if(_webcamImageStrategy != NULL)
+                    delete _webcamImageStrategy;
+                if(_webcamVideoStrategy != NULL)
+                    delete _webcamVideoStrategy;
             }
 
             GettingFrameStrategyBase* CreateStrategy(FrameSource frameSource, QString const& fileName, int webcamIndex) {
                 switch(frameSource) {
                 case ImageFile: 
-                    return imageFileFrameStrategy(fileName);
+                    return imageFileStrategy(fileName);
                 case VideoFile: 
-                    return videoFileFrameStrategy(fileName);
+                    return videoFileStrategy(fileName);
                 case ImageWebcam:
-                    return webcamImageFrameStrategy(webcamIndex);
+                    return webcamImageStrategy(webcamIndex);
                 case VideoWebcam:
-                    return webcamVideoFrameStrategy(webcamIndex);
+                    return webcamVideoStrategy(webcamIndex);
                 default:
-                    return frameEmptyStrategy();
+                    return emptyStrategy();
                 }
             }
             GettingFrameEmptyStrategy* CreateEmptyStrategy() {
-                return frameEmptyStrategy();
+                return emptyStrategy();
             }
 
         private:
             Observer* _observer;
-            GettingFrameEmptyStrategy* _frameEmptyStrategy;
-            GettingImageFileFrameStrategy* _imageFileFrameStrategy;
-            GettingVideoFileFrameStrategy* _videoFileFrameStrategy;
-            GettingWebcamVideoFrameStrategy* _webcamVideoFrameStrategy;
-            GettingWebcamImageFrameStrategy* _webcamImageFrameStrategy;
+            GettingFrameEmptyStrategy* _emptyStrategy;
+            GettingImageFileFrameStrategy* _imageFileStrategy;
+            GettingVideoFileFrameStrategy* _videoFileStrategy;
+            GettingWebcamVideoFrameStrategy* _webcamVideoStrategy;
+            GettingWebcamImageFrameStrategy* _webcamImageStrategy;
 
-            GettingFrameEmptyStrategy* frameEmptyStrategy() {
-                return (_frameEmptyStrategy != NULL) 
-                    ? _frameEmptyStrategy
-                    : (_frameEmptyStrategy = new GettingFrameEmptyStrategy(_observer));
+            GettingFrameEmptyStrategy* emptyStrategy() {
+                return (_emptyStrategy != NULL) 
+                    ? _emptyStrategy
+                    : (_emptyStrategy = new GettingFrameEmptyStrategy(_observer));
             }
-            GettingImageFileFrameStrategy* imageFileFrameStrategy(QString const& fileName) {
-                GettingImageFileFrameStrategy* frameStrategy = (_imageFileFrameStrategy != NULL) 
-                    ? _imageFileFrameStrategy 
-                    : (_imageFileFrameStrategy = new GettingImageFileFrameStrategy(_observer));
+            GettingImageFileFrameStrategy* imageFileStrategy(QString const& fileName) {
+                GettingImageFileFrameStrategy* frameStrategy = (_imageFileStrategy != NULL) 
+                    ? _imageFileStrategy 
+                    : (_imageFileStrategy = new GettingImageFileFrameStrategy(_observer));
                 frameStrategy->setFileName(fileName);
                 return frameStrategy;
             }
-            GettingVideoFileFrameStrategy* videoFileFrameStrategy(QString const& fileName) {
-                GettingVideoFileFrameStrategy* frameStrategy = (_videoFileFrameStrategy != NULL) 
-                    ? _videoFileFrameStrategy 
-                    : (_videoFileFrameStrategy = new GettingVideoFileFrameStrategy(_observer));
+            GettingVideoFileFrameStrategy* videoFileStrategy(QString const& fileName) {
+                GettingVideoFileFrameStrategy* frameStrategy = (_videoFileStrategy != NULL) 
+                    ? _videoFileStrategy 
+                    : (_videoFileStrategy = new GettingVideoFileFrameStrategy(_observer));
                 frameStrategy->setFileName(fileName);
                 return frameStrategy;
             }
-            GettingWebcamVideoFrameStrategy* webcamVideoFrameStrategy(int webcamIndex) {
-                GettingWebcamVideoFrameStrategy* frameStrategy = (_webcamVideoFrameStrategy != NULL) 
-                    ? _webcamVideoFrameStrategy 
-                    : (_webcamVideoFrameStrategy = new GettingWebcamVideoFrameStrategy(_observer));
+            GettingWebcamVideoFrameStrategy* webcamVideoStrategy(int webcamIndex) {
+                GettingWebcamVideoFrameStrategy* frameStrategy = (_webcamVideoStrategy != NULL) 
+                    ? _webcamVideoStrategy 
+                    : (_webcamVideoStrategy = new GettingWebcamVideoFrameStrategy(_observer));
                 frameStrategy->setActiveWebcamIndex(webcamIndex);
                 return frameStrategy;
             }
-            GettingWebcamImageFrameStrategy* webcamImageFrameStrategy(int webcamIndex) {
-                GettingWebcamImageFrameStrategy* frameStrategy = (_webcamImageFrameStrategy != NULL) 
-                    ? _webcamImageFrameStrategy 
-                    : (_webcamImageFrameStrategy = new GettingWebcamImageFrameStrategy(_observer));
+            GettingWebcamImageFrameStrategy* webcamImageStrategy(int webcamIndex) {
+                GettingWebcamImageFrameStrategy* frameStrategy = (_webcamImageStrategy != NULL) 
+                    ? _webcamImageStrategy 
+                    : (_webcamImageStrategy = new GettingWebcamImageFrameStrategy(_observer));
                 frameStrategy->setActiveWebcamIndex(webcamIndex);
                 return frameStrategy;
             }

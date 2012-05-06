@@ -7,7 +7,7 @@
 using namespace Framework;
 
 namespace Utils {
-    class Guard {
+    class Guard sealed {
     public:
         template<typename T>
         static void argumentNotNull(typename T* const& argumentValue, QString const& argumentName) {
