@@ -18,7 +18,7 @@ namespace Utils {
         template<typename T>
         static void argumentInRange(typename T const& argumentValue, QString const& argumentName, typename T minValue, typename T maxValue) {
             if(argumentValue < minValue || argumentValue > maxValue)
-                throwException(QString("Argument '%1' is out of range [%2, %3]").arg(argumentName, minValue, maxValue));
+                throwException(QString("Argument '%1' is out of range [%2, %3]").arg(argumentName, QString::number(minValue), QString::number(maxValue)));
         }
 
         static void argumentNotNullOrEmpty(QString const& argumentValue, QString const& argumentName) {
@@ -30,8 +30,7 @@ namespace Utils {
         Guard() {}
 
         static void throwException(QString const& message) {
-            ArgumentException* exception = new ArgumentException(message);
-            exception->raise();
+            ArgumentException(message).raise();
         }
     };
 }

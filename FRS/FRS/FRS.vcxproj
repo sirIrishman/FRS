@@ -141,8 +141,10 @@ xcopy "$(OpenCvDataDir)" "$(ProjectDir)bin\$(Configuration)\data" /E /I /R /Y</C
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="controller.h" />
+    <ClInclude Include="dialogService.h" />
     <ClInclude Include="enums.h" />
     <ClInclude Include="exceptions.h" />
+    <ClInclude Include="frsApplication.h" />
     <ClInclude Include="recognitionStrategy.h" />
     <ClInclude Include="recognitionStrategyCachingFactory.h" />
     <ClInclude Include="GeneratedFiles\ui_View.h" />

@@ -1,26 +1,29 @@
-#include <qfiledialog.h>
 #include <core\core.hpp>
 #include "view.h"
 #include "guard.h"
+#include "dialogService.h"
 
 using namespace FRS;
+using namespace Services;
 
 View::View(Model* model, Controller* controller, QWidget *parent, Qt::WFlags flags) : QMainWindow(parent, flags) {
     Utils::Guard::argumentNotNull(model, "model");
     Utils::Guard::argumentNotNull(controller, "controller");
     initialize(model, controller);
-    _ui.setupUi(this);
-    subscribeToEvents();
 }
 
 View::~View() {
     delete _painter;
-    _model->detach(this);
+
     delete _controller;
+
+    _model->detach(this);
     delete _model;
 }
 
 void View::initialize(Model* model, Controller* controller) {
+    DialogService::associateWith(this);
+
     _controller = controller;
 
     _model = model;
@@ -28,6 +31,10 @@ void View::initialize(Model* model, Controller* controller) {
     _model->setRecognitionAlgorithm(LbpCascade);
 
     _painter = new QPainter();
+
+    _ui.setupUi(this);
+
+    subscribeToEvents();
 }
 
 void View::subscribeToEvents() {
@@ -85,13 +92,7 @@ void View::actn_CaptureImage_Triggered() {
 
 QString View::fileName(FileType fileType) {
     QString fileFilter = (fileType == Video) ? videoFileFilter() : imageFileFilter();
-    return QFileDialog::getOpenFileName( 
-        this, 
-        tr("Open file"), 
-        QDir::currentPath(), 
-        fileFilter,
-        0,
-        QFileDialog::ReadOnly);
+    return DialogService::showOpenFileDialog(fileFilter);
 }
 
 QString View::videoFileFilter() const {

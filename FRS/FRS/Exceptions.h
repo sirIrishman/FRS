@@ -1,48 +1,48 @@
 #ifndef FRS_EXCEPTIONS_H
 #define FRS_EXCEPTIONS_H
 
-#include <QtCore>
+#include <qtconcurrentexception.h>
+#include <qstring.h>
 
 namespace Framework {
     class BaseException : public QtConcurrent::Exception {
     public:
-        virtual ~BaseException() {
-            if(_message != NULL) {
-                delete _message;
-                _message = NULL;
-            }
-        }
-
         void raise() const {
-            throw this;
+            throw *this;
         }
-        virtual Exception *clone() const {
-            return new BaseException(*_message);
+        virtual Exception* clone() const {
+            return new BaseException(*this);
         }
         virtual QString message() const {
-            return *_message;
+            return _message;
         }
 
     protected:
         BaseException() {
-            initialize("");
+            initialize(QString());
         }
         BaseException(QString const& message) {
             initialize(message);
         }
 
     private:
-        QString* _message;
+        QString _message;
 
         void initialize(QString const& message) {
-            _message = new QString(message);
+            _message = QString(message);
         }
     };
 
     class ArgumentException : public BaseException {
     public:
-        ArgumentException() : BaseException() {}
+        ArgumentException() : BaseException("Provided argument is not valid") {}
         ArgumentException(QString const& message) : BaseException(message) {}
+    };
+
+    class InvalidOperationException : public BaseException {
+    public:
+        InvalidOperationException() : BaseException("Method call is invalid for the object's current state") {}
+        InvalidOperationException(QString const& message) : BaseException(message) {}
     };
 }
 

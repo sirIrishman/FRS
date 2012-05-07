@@ -6,8 +6,10 @@
 #include <core\core.hpp>
 #include <highgui\highgui.hpp>
 #include "observer.h"
+#include "exceptions.h"
 
 using namespace Patterns;
+using namespace Framework;
 
 namespace FRS {
     namespace Native {
@@ -36,7 +38,7 @@ namespace FRS {
             }
 
             virtual cv::Mat frame() {
-                cv::Mat frame = cv::Mat();
+                cv::Mat frame;
                 if(_capture.isOpened())
                     _capture.read(frame);
                 return frame;
@@ -63,10 +65,16 @@ namespace FRS {
             void openWebcamCapture() {
                 if(_capture.isOpened() == false)
                     _capture.open(_activeWebcamIndex);
+                if(_capture.isOpened() == false)
+                    ArgumentException(QString("Active webcam device with %1 index was not found").arg(QString::number(_activeWebcamIndex))).raise();
             }
             void openVideoFileCapture() {
-                if(!_fileName.isNull() && !_fileName.isEmpty() && _capture.isOpened() == false)
+                if(_fileName.isNull() || _fileName.isEmpty())
+                    return;
+                if(_capture.isOpened() == false)
                     _capture.open(_fileName.toStdString());
+                if(_capture.isOpened() == false)
+                    ArgumentException(QString("Can not open '%1' video file").arg(_fileName)).raise();
             }
 
         private:
@@ -145,7 +153,10 @@ namespace FRS {
             virtual cv::Mat frame() {
                 if(_fileName.isNull() || _fileName.isEmpty())
                     return cv::Mat();
-                return cv::imread(_fileName.toStdString());
+                cv::Mat frame = cv::imread(_fileName.toStdString());
+                if(frame.empty())
+                    ArgumentException(QString("Can not open '%1' image file").arg(_fileName)).raise();
+                return frame;
             }
             virtual void releaseResources() {
             }

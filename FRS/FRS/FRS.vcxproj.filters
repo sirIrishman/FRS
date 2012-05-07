@@ -51,6 +51,12 @@
     <Filter Include="Header Files\Native">
       <UniqueIdentifier>{024c2e9a-484f-4e3b-829f-47033f6f9920}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Services">
+      <UniqueIdentifier>{561e6d59-cc0e-4e60-8e95-b9576579991f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Application">
+      <UniqueIdentifier>{a2b1e441-b0fd-4e28-bb79-d635017ced61}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GeneratedFiles\Debug\moc_view.cpp">
@@ -125,6 +131,12 @@
     </ClInclude>
     <ClInclude Include="recognitionStrategyCachingFactory.h">
       <Filter>Header Files\Native</Filter>
+    </ClInclude>
+    <ClInclude Include="dialogService.h">
+      <Filter>Header Files\Services</Filter>
+    </ClInclude>
+    <ClInclude Include="frsApplication.h">
+      <Filter>Header Files\Application</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
