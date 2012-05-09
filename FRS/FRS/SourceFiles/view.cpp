@@ -1,4 +1,5 @@
 #include <core\core.hpp>
+#include <qmenu.h>
 #include "view.h"
 #include "guard.h"
 #include "dialogService.h"
@@ -6,10 +7,11 @@
 using namespace FRS;
 using namespace Services;
 
-View::View(Model* model, Controller* controller, QWidget *parent, Qt::WFlags flags) : QMainWindow(parent, flags) {
-    Utils::Guard::argumentNotNull(model, "model");
-    Utils::Guard::argumentNotNull(controller, "controller");
-    initialize(model, controller);
+View::View(Model* const& model, Controller* const& controller, QWidget* const& parent, Qt::WFlags flags) 
+    : QMainWindow(parent, flags) {
+        Utils::Guard::argumentNotNull(model, "model");
+        Utils::Guard::argumentNotNull(controller, "controller");
+        initialize(model, controller);
 }
 
 View::~View() {
@@ -21,27 +23,52 @@ View::~View() {
     delete _model;
 }
 
-void View::initialize(Model* model, Controller* controller) {
+void View::initialize(Model* const& model, Controller* const& controller) {
+    initializeInnerState(model, controller);
+    initializeUI();
+    subscribeToEvents();
+}
+
+void View::initializeInnerState(Model* const& model, Controller* const& controller) {
     DialogService::associateWith(this);
 
     _controller = controller;
 
     _model = model;
     _model->attach(this);
-    _model->setRecognitionAlgorithm(LbpCascade);
 
     _painter = new QPainter();
+}
 
+void View::initializeUI() {
     _ui.setupUi(this);
 
-    subscribeToEvents();
+    _ui.tlBr_MainToolbar->addWidget(_ui.tlBttn_OpenImageFile);
+    _ui.tlBr_MainToolbar->addWidget(_ui.tlBttn_OpenVideoFile);
+    _ui.tlBr_MainToolbar->addSeparator();
+    _ui.tlBr_MainToolbar->addWidget(_ui.tlBttn_CaptureWebcamImage);
+    _ui.tlBr_MainToolbar->addWidget(_ui.tlBttn_CaptureWebcamVideo);
+    _ui.tlBr_MainToolbar->addSeparator();
+    _ui.tlBr_MainToolbar->addWidget(_ui.tlBttn_ObjectDetection);
+
+    QActionGroup *actionGroup = new QActionGroup(this);
+    actionGroup->addAction(_ui.actn_SetHaarCascadeObjectDetectionAlgorithm);
+    actionGroup->addAction(_ui.actn_SetLbpCascadeObjectDetectionAlgorithm);
+
+    QMenu *menu = new QMenu();
+    menu->addAction(_ui.actn_SetHaarCascadeObjectDetectionAlgorithm);
+    menu->addAction(_ui.actn_SetLbpCascadeObjectDetectionAlgorithm);
+
+    _ui.tlBttn_ObjectDetection->setMenu(menu);
 }
 
 void View::subscribeToEvents() {
-    connect(_ui.actn_LoadImage, SIGNAL(triggered()), this, SLOT(actn_LoadImage_Triggered()));
-    connect(_ui.actn_LoadVideo, SIGNAL(triggered()), this, SLOT(actn_LoadVideo_Triggered()));
-    connect(_ui.actn_CaptureVideo, SIGNAL(triggered()), this, SLOT(actn_CaptureVideo_Triggered()));
-    connect(_ui.actn_CaptureImage, SIGNAL(triggered()), this, SLOT(actn_CaptureImage_Triggered()));
+    connect(_ui.tlBttn_OpenImageFile, SIGNAL(clicked()), this, SLOT(tlBttn_OpenImageFile_Clicked()));
+    connect(_ui.tlBttn_OpenVideoFile, SIGNAL(clicked()), this, SLOT(tlBttn_OpenVideoFile_Clicked()));
+    connect(_ui.tlBttn_CaptureWebcamImage, SIGNAL(clicked()), this, SLOT(tlBttn_CaptureWebcamImage_Clicked()));
+    connect(_ui.tlBttn_CaptureWebcamVideo, SIGNAL(clicked()), this, SLOT(tlBttn_CaptureWebcamVideo_Clicked()));
+    connect(_ui.actn_SetHaarCascadeObjectDetectionAlgorithm, SIGNAL(toggled(bool)), this, SLOT(actn_SetHaarCascadeObjectDetectionAlgorithm_Toggled(bool)));
+    connect(_ui.actn_SetLbpCascadeObjectDetectionAlgorithm, SIGNAL(toggled(bool)), this, SLOT(actn_SetLbpCascadeObjectDetectionAlgorithm_Toggled(bool)));
 }
 
 void View::update() {
@@ -49,8 +76,8 @@ void View::update() {
     if(frame.empty())
         return;
     QImage* image = new QImage(frame.data, frame.cols, frame.rows, frame.step[0], QImage::Format_RGB888);
-    if(_ui.actn_RecognizeObjects->isChecked())
-        drawRects(image, _model->recognizeObjects(frame, Face));
+    if(_ui.tlBttn_ObjectDetection->isChecked())
+        drawRects(image, _model->detectObjects(frame, Face));
     _ui.lbl_Frame->setPixmap(QPixmap::fromImage(image->rgbSwapped()));
     frame.release();
     delete image;
@@ -64,7 +91,7 @@ void View::drawRects(QImage* const& image, std::vector<cv::Rect> rectCollection)
     _painter->end();
 }
 
-void View::actn_LoadImage_Triggered() {
+void View::tlBttn_OpenImageFile_Clicked() {
     QString imageFileName = fileName(Image);
     if(imageFileName.isNull())
         return;
@@ -72,7 +99,7 @@ void View::actn_LoadImage_Triggered() {
     _ui.stsBr_MainStatusBar->showMessage(imageFileName);
 }
 
-void View::actn_LoadVideo_Triggered() {
+void View::tlBttn_OpenVideoFile_Clicked() {
     QString videoFileName = fileName(Video);
     if(videoFileName.isNull())
         return;
@@ -80,17 +107,27 @@ void View::actn_LoadVideo_Triggered() {
     _ui.stsBr_MainStatusBar->showMessage(videoFileName);
 }
 
-void View::actn_CaptureVideo_Triggered() {
-    _controller->captureVideo(0);
-    _ui.stsBr_MainStatusBar->clearMessage();
-}
-
-void View::actn_CaptureImage_Triggered() {
+void View::tlBttn_CaptureWebcamImage_Clicked() {
     _controller->captureImage(0);
     _ui.stsBr_MainStatusBar->clearMessage();
 }
 
-QString View::fileName(FileType fileType) {
+void View::tlBttn_CaptureWebcamVideo_Clicked() {
+    _controller->captureVideo(0);
+    _ui.stsBr_MainStatusBar->clearMessage();
+}
+
+void View::actn_SetHaarCascadeObjectDetectionAlgorithm_Toggled(bool checked) {
+    if(checked)
+        _model->setObjectDetectionAlgorithm(HaarCascade);
+}
+
+void View::actn_SetLbpCascadeObjectDetectionAlgorithm_Toggled(bool checked) {
+    if(checked)
+        _model->setObjectDetectionAlgorithm(LbpCascade);
+}
+
+QString View::fileName(FileType fileType) const {
     QString fileFilter = (fileType == Video) ? videoFileFilter() : imageFileFilter();
     return DialogService::showOpenFileDialog(fileFilter);
 }

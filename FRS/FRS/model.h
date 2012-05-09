@@ -4,7 +4,7 @@
 #include <qstring.h>
 #include "observer.h"
 #include "enums.h"
-#include "recognitionStrategyCachingFactory.h"
+#include "objectDetectionStrategyCachingFactory.h"
 #include "gettingFrameStrategyCachingFactory.h"
 
 using namespace Patterns;
@@ -18,16 +18,16 @@ namespace FRS {
 
         void setFrameSource(FrameSource frameSource, int webcamIndex);
         void setFrameSource(FrameSource frameSource, QString const& fileName);
-        void setRecognitionAlgorithm(RecognitionAlgorithm algorithm);
+        void setObjectDetectionAlgorithm(ObjectDetectionAlgorithm algorithm);
         cv::Mat frame() const;
         int webcamCount() const;
-        std::vector<cv::Rect> recognizeObjects(cv::Mat const& frame, RecognizableObjectType objectType) const;
+        std::vector<cv::Rect> detectObjects(cv::Mat const& frame, DetectableObjectType objectType) const;
 
     private:
         GettingFrameStrategyCachingFactory* _gettingFrameStrategyFactory;
         GettingFrameStrategyBase* _gettingFrameStrategy;
-        RecognitionStrategyCachingFactory* _reconitionStrategyFactory;
-        RecognitionStrategyBase* _recognitionStrategy;
+        ObjectDetectionStrategyCachingFactory* _objectDetectionStrategyFactory;
+        ObjectDetectionStrategyBase* _objectDetectionStrategy;
 
         void setFrameSource(FrameSource frameSource, QString const& fileName, int webcamIndex);
         void update();

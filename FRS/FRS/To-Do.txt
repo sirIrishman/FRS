@@ -4,8 +4,8 @@ Active:
 	12. Does not update frame if video file have ended
 	18. Review getting frame strategy's hierarchy and its factory
 	20. Fix opening files with non-latin symbols in path
-	23. Use new face recognition algorithms from OpenCV 2.4.0 ("face recognition algorithms have been contributed by Philipp Wagner. Please, check opencv/contrib/contrib.hpp, FaceRecognizer class, and opencv/samples/cpp/facerec_demo.cpp")
 	27. Add status service class
+	16. Add face recognition (Use new face recognition algorithms from OpenCV 2.4.0: "face recognition algorithms have been contributed by Philipp Wagner. Please, check opencv/contrib/contrib.hpp, FaceRecognizer class, and opencv/samples/cpp/facerec_demo.cpp")
 
 Fixed/Implemented:
 	3. Surround header's code with #ifndef #define ... #endif
@@ -21,8 +21,10 @@ Fixed/Implemented:
 	19. Add info string into status bar
 	13. Find out supported video files for 'cvCaptureFromFile' method
 	21. Use OpenCV C++ API instead of old C API
-	16. Add API for object recognition
 	22. Update OpenCV from 2.3.1 to 2.4.0 version
 	24. Try to use OpenCV's GPU API
 	25. Refactor rect drawing code
 	26. Add dialog service class
+	30. Add object detection
+	28. Rename recognition to detection
+	29. Add drop-down menu for object detection mode button

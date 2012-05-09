@@ -1,5 +1,5 @@
-#ifndef FRS_RECOGNITIONSTRATEGY_H
-#define FRS_RECOGNITIONSTRATEGY_H
+#ifndef FRS_OBJECTDETECTIONSTRATEGY_H
+#define FRS_OBJECTDETECTIONSTRATEGY_H
 
 #include <qcoreapplication.h>
 #include <core\core.hpp>
@@ -9,22 +9,22 @@
 
 namespace FRS {
     namespace Native {
-        class RecognitionStrategyBase {
+        class ObjectDetectionStrategyBase {
         public:
             virtual void initialize() = 0;
             virtual void releaseResources() = 0;
-            virtual bool canRecognize(RecognizableObjectType objectType) const = 0;
-            std::vector<cv::Rect> recognize(cv::Mat const& frame, RecognizableObjectType objectType) const {
-                if(!canRecognize(objectType))
+            virtual bool canDetect(DetectableObjectType objectType) const = 0;
+            std::vector<cv::Rect> detect(cv::Mat const& frame, DetectableObjectType objectType) const {
+                if(!canDetect(objectType))
                     return std::vector<cv::Rect>();
                 cv::Mat frameCopy = preprocessFrame(frame);
-                std::vector<cv::Rect> objectRectCollection = recognizeObjects(frameCopy, objectType);
+                std::vector<cv::Rect> objectRectCollection = detectObjects(frameCopy, objectType);
                 frameCopy.release();
                 return objectRectCollection;
             }
 
         protected:
-            virtual std::vector<cv::Rect> recognizeObjects(cv::Mat const& frame, RecognizableObjectType objectType) const = 0;
+            virtual std::vector<cv::Rect> detectObjects(cv::Mat const& frame, DetectableObjectType objectType) const = 0;
 
         private:
             cv::Mat preprocessFrame(cv::Mat const& frame) const {
@@ -35,9 +35,9 @@ namespace FRS {
             }
         };
 
-        class CascadeRecognitionStrategyBase : public RecognitionStrategyBase {
+        class CascadeObjectDetectionStrategyBase : public ObjectDetectionStrategyBase {
         public:
-            virtual ~CascadeRecognitionStrategyBase() {
+            virtual ~CascadeObjectDetectionStrategyBase() {
                 releaseResources();
             }
 
@@ -47,27 +47,27 @@ namespace FRS {
             virtual void releaseResources() {
                 delete _cascade;
             }
-            virtual bool canRecognize(RecognizableObjectType objectType) const {
+            virtual bool canDetect(DetectableObjectType objectType) const {
                 return (objectType == Face) ? true : false;
             }
 
         protected:
-            virtual std::vector<cv::Rect> recognizeObjects(cv::Mat const& frame, RecognizableObjectType objectType) const {
-                return recognizeFaces(frame);
+            virtual std::vector<cv::Rect> detectObjects(cv::Mat const& frame, DetectableObjectType objectType) const {
+                return detectFaces(frame);
             }
             virtual std::string cascadeFileName() const = 0;
 
         private:
             cv::CascadeClassifier* _cascade;
 
-            std::vector<cv::Rect> recognizeFaces(cv::Mat const& frame) const {
+            std::vector<cv::Rect> detectFaces(cv::Mat const& frame) const {
                 std::vector<cv::Rect> faceRectCollection;
                 _cascade->detectMultiScale(frame, faceRectCollection, 1.1, 2, 0 | CV_HAAR_SCALE_IMAGE, cv::Size(30, 30));
                 return faceRectCollection;
             }
         };
 
-        class HaarCascadeRecognitionStrategy sealed : public CascadeRecognitionStrategyBase {
+        class HaarCascadeObjectDetectionStrategy sealed : public CascadeObjectDetectionStrategyBase {
         protected:
             virtual std::string cascadeFileName() const {
                 QString cascadeFileName;
@@ -77,7 +77,7 @@ namespace FRS {
             }
         };
 
-        class LbpCascadeRecognitionStrategy sealed : public CascadeRecognitionStrategyBase {
+        class LbpCascadeObjectDetectionStrategy sealed : public CascadeObjectDetectionStrategyBase {
         protected:
             virtual std::string cascadeFileName() const {
                 QString cascadeFileName;
@@ -87,18 +87,18 @@ namespace FRS {
             }
         };
 
-        class EmptyRecognitionStrategy sealed : public RecognitionStrategyBase {
+        class EmptyObjectDetectionStrategy sealed : public ObjectDetectionStrategyBase {
         public:
             virtual void initialize() { }
             virtual void releaseResources() { }
-            virtual bool canRecognize(RecognizableObjectType objectType) const { return false; }
+            virtual bool canDetect(DetectableObjectType objectType) const { return false; }
 
         protected:
-            virtual std::vector<cv::Rect> recognizeObjects(cv::Mat const& frame, RecognizableObjectType objectType) const { 
+            virtual std::vector<cv::Rect> detectObjects(cv::Mat const& frame, DetectableObjectType objectType) const { 
                 return std::vector<cv::Rect>(); 
             }
         };
     }
 }
 
-#endif //FRS_RECOGNITIONSTRATEGY_H
+#endif //FRS_OBJECTDETECTIONSTRATEGY_H

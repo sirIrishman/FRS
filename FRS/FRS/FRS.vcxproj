@@ -145,8 +145,8 @@ xcopy "$(OpenCvDataDir)" "$(ProjectDir)bin\$(Configuration)\data" /E /I /R /Y</C
     <ClInclude Include="enums.h" />
     <ClInclude Include="exceptions.h" />
     <ClInclude Include="frsApplication.h" />
-    <ClInclude Include="recognitionStrategy.h" />
-    <ClInclude Include="recognitionStrategyCachingFactory.h" />
+    <ClInclude Include="objectDetectionStrategy.h" />
+    <ClInclude Include="objectDetectionStrategyCachingFactory.h" />
     <ClInclude Include="GeneratedFiles\ui_View.h" />
     <CustomBuild Include="gettingFrameStrategy.h">
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath);%(AdditionalInputs)</AdditionalInputs>

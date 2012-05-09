@@ -6,8 +6,8 @@ using namespace FRS::Native;
 Model::Model() {
     _gettingFrameStrategyFactory = new GettingFrameStrategyCachingFactory(this);
     _gettingFrameStrategy = _gettingFrameStrategyFactory->CreateEmptyStrategy();
-    _reconitionStrategyFactory = new RecognitionStrategyCachingFactory();
-    _recognitionStrategy = _reconitionStrategyFactory->createEmptytStrategy();
+    _objectDetectionStrategyFactory = new ObjectDetectionStrategyCachingFactory();
+    _objectDetectionStrategy = _objectDetectionStrategyFactory->createEmptytStrategy();
 }
 
 Model::~Model() {
@@ -40,12 +40,12 @@ void Model::update() {
     notify();
 }
 
-void Model::setRecognitionAlgorithm(RecognitionAlgorithm algorithm) {
-    _recognitionStrategy->releaseResources();
-    _recognitionStrategy = _reconitionStrategyFactory->createStrategy(algorithm);
-    _recognitionStrategy->initialize();
+void Model::setObjectDetectionAlgorithm(ObjectDetectionAlgorithm algorithm) {
+    _objectDetectionStrategy->releaseResources();
+    _objectDetectionStrategy = _objectDetectionStrategyFactory->createStrategy(algorithm);
+    _objectDetectionStrategy->initialize();
 }
 
-std::vector<cv::Rect> Model::recognizeObjects(cv::Mat const& frame, RecognizableObjectType objectType) const {
-    return _recognitionStrategy->recognize(frame, objectType);
+std::vector<cv::Rect> Model::detectObjects(cv::Mat const& frame, DetectableObjectType objectType) const {
+    return _objectDetectionStrategy->detect(frame, objectType);
 }

@@ -13,11 +13,12 @@ namespace FRS {
     class View : public QMainWindow, public Observer {
         Q_OBJECT
     public:
-        View(Model* model, Controller* controller, QWidget *parent = 0, Qt::WFlags flags = 0);
+        View(Model* const& model, Controller* const& controller, QWidget* const& parent = 0, Qt::WFlags flags = 0);
         ~View();
 
     protected:
-        virtual void initialize(Model* model, Controller* controller);
+        virtual void initializeInnerState(Model* const& model, Controller* const& controller);
+        virtual void initializeUI();
         virtual void subscribeToEvents();
         void update();
 
@@ -27,16 +28,19 @@ namespace FRS {
         Controller* _controller;
         QPainter* _painter;
 
-        QString fileName(FileType fileType);
+        void initialize(Model* const& model, Controller* const& controller);
+        QString fileName(FileType fileType) const;
         QString videoFileFilter() const;
         QString imageFileFilter() const;
         void drawRects(QImage* const& image, std::vector<cv::Rect> rectCollection) const;
 
     private slots:
-        void actn_LoadImage_Triggered();
-        void actn_LoadVideo_Triggered();
-        void actn_CaptureVideo_Triggered();
-        void actn_CaptureImage_Triggered();
+        void tlBttn_OpenImageFile_Clicked();
+        void tlBttn_OpenVideoFile_Clicked();
+        void tlBttn_CaptureWebcamImage_Clicked();
+        void tlBttn_CaptureWebcamVideo_Clicked();
+        void actn_SetHaarCascadeObjectDetectionAlgorithm_Toggled(bool checked);
+        void actn_SetLbpCascadeObjectDetectionAlgorithm_Toggled(bool checked);
     };
 }
 

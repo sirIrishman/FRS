@@ -126,17 +126,17 @@
     <ClInclude Include="gettingFrameStrategyCachingFactory.h">
       <Filter>Header Files\Native</Filter>
     </ClInclude>
-    <ClInclude Include="recognitionStrategy.h">
-      <Filter>Header Files\Native</Filter>
-    </ClInclude>
-    <ClInclude Include="recognitionStrategyCachingFactory.h">
-      <Filter>Header Files\Native</Filter>
-    </ClInclude>
     <ClInclude Include="dialogService.h">
       <Filter>Header Files\Services</Filter>
     </ClInclude>
     <ClInclude Include="frsApplication.h">
       <Filter>Header Files\Application</Filter>
+    </ClInclude>
+    <ClInclude Include="objectDetectionStrategy.h">
+      <Filter>Header Files\Native</Filter>
+    </ClInclude>
+    <ClInclude Include="objectDetectionStrategyCachingFactory.h">
+      <Filter>Header Files\Native</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
