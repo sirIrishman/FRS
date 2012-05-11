@@ -39,8 +39,11 @@ namespace FRS {
 
             virtual cv::Mat frame() {
                 cv::Mat frame;
-                if(_capture.isOpened())
+                if(_capture.isOpened()) {
                     _capture.read(frame);
+                    if(frame.empty())
+                        onEmptyFrameRead();
+                }
                 return frame;
             }
             virtual void releaseResources() {
@@ -62,6 +65,7 @@ namespace FRS {
                     _activeWebcamIndex = -1;
             }
 
+            virtual void onEmptyFrameRead() const = 0;
             void openWebcamCapture() {
                 if(_capture.isOpened() == false)
                     _capture.open(_activeWebcamIndex);
@@ -104,6 +108,10 @@ namespace FRS {
                 : GettingCapturedFrameStrategyBase(observer), __fps(24), __msecInSec(1000) {
                     _timer = new QTimer();
                     connect(_timer, SIGNAL(timeout()), this, SLOT(tick()));
+            }
+
+            void onEmptyFrameRead() const {
+                stopTimer();
             }
 
         private:
@@ -195,18 +203,22 @@ namespace FRS {
         class GettingWebcamImageFrameStrategy : public GettingCapturedFrameStrategyBase {
         public:
             GettingWebcamImageFrameStrategy(Observer* const& observer) 
-                : GettingCapturedFrameStrategyBase(observer), __webcamInitTimeInMsec(300) {
+                : GettingCapturedFrameStrategyBase(observer), __webcamInitializingTimeInMsec(300) {
             }
 
             virtual void initialize() { 
                 openWebcamCapture();
-                Sleep(__webcamInitTimeInMsec); //waiting for a webcam initializing
+                Sleep(__webcamInitializingTimeInMsec); //waiting for a webcam initializing
                 notify();
                 releaseResources();
             }
 
+        protected:
+            void onEmptyFrameRead() const {
+            }
+
         private:
-            const int __webcamInitTimeInMsec;
+            const int __webcamInitializingTimeInMsec;
         };
     }
 }
