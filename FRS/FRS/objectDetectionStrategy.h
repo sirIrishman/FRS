@@ -62,7 +62,7 @@ namespace FRS {
 
             std::vector<cv::Rect> detectFaces(cv::Mat const& frame) const {
                 std::vector<cv::Rect> faceRectCollection;
-                _cascade->detectMultiScale(frame, faceRectCollection, 1.1, 2, 0 | CV_HAAR_SCALE_IMAGE, cv::Size(30, 30));
+                _cascade->detectMultiScale(frame, faceRectCollection, 1.1, 2, CV_HAAR_SCALE_IMAGE, cv::Size(40, 40));
                 return faceRectCollection;
             }
         };

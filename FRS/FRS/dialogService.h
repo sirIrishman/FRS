@@ -66,10 +66,10 @@ namespace Services {
     class QtDialogServiceImplementation sealed : public DialogServiceImplementation {
     public:
         QString showOpenFileDialog(QObject* const& parent, QString const& fileFilter) const {
-            return QFileDialog::getOpenFileName((QWidget*)parent, QObject::tr("Open file"), QDir::currentPath(), fileFilter, 0, QFileDialog::ReadOnly);
+            return QFileDialog::getOpenFileName((QWidget*)parent, QObject::trUtf8("Open file"), QDir::homePath(), fileFilter, 0, QFileDialog::ReadOnly);
         }
         void showErrorMessage(QObject* const& parent, QString const& errorMessage) const {
-            QMessageBox::critical((QWidget*)parent, QObject::tr("Error"), errorMessage);
+            QMessageBox::critical((QWidget*)parent, QObject::trUtf8("Error"), errorMessage);
         }
     };
 }

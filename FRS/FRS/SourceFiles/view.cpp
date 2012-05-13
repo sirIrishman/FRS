@@ -27,6 +27,8 @@ void View::initialize(Model* const& model, Controller* const& controller) {
     initializeInnerState(model, controller);
     initializeUI();
     subscribeToEvents();
+    _ui.actn_SetHaarCascadeObjectDetectionAlgorithm->trigger();
+    _ui.actn_SetEigenfacesFaceRecognitionMethod->trigger();
 }
 
 void View::initializeInnerState(Model* const& model, Controller* const& controller) {
@@ -43,6 +45,7 @@ void View::initializeInnerState(Model* const& model, Controller* const& controll
 void View::initializeUI() {
     _ui.setupUi(this);
 
+    //fill toolbar
     _ui.tlBr_MainToolbar->addWidget(_ui.tlBttn_OpenImageFile);
     _ui.tlBr_MainToolbar->addWidget(_ui.tlBttn_OpenVideoFile);
     _ui.tlBr_MainToolbar->addSeparator();
@@ -50,16 +53,39 @@ void View::initializeUI() {
     _ui.tlBr_MainToolbar->addWidget(_ui.tlBttn_CaptureWebcamVideo);
     _ui.tlBr_MainToolbar->addSeparator();
     _ui.tlBr_MainToolbar->addWidget(_ui.tlBttn_ObjectDetection);
+    _ui.tlBr_MainToolbar->addSeparator();
+    _ui.tlBr_MainToolbar->addWidget(_ui.tlBttn_FaceRecognition);
 
-    QActionGroup *actionGroup = new QActionGroup(this);
-    actionGroup->addAction(_ui.actn_SetHaarCascadeObjectDetectionAlgorithm);
-    actionGroup->addAction(_ui.actn_SetLbpCascadeObjectDetectionAlgorithm);
+    //object detection button
+    QActionGroup *objectDetectionAlgorithmGroup = new QActionGroup(this);
+    objectDetectionAlgorithmGroup->addAction(_ui.actn_SetHaarCascadeObjectDetectionAlgorithm);
+    objectDetectionAlgorithmGroup->addAction(_ui.actn_SetLbpCascadeObjectDetectionAlgorithm);
 
-    QMenu *menu = new QMenu();
-    menu->addAction(_ui.actn_SetHaarCascadeObjectDetectionAlgorithm);
-    menu->addAction(_ui.actn_SetLbpCascadeObjectDetectionAlgorithm);
+    QMenu *objectDetectionAlgorithmMenu = new QMenu();
+    objectDetectionAlgorithmMenu->addAction(_ui.actn_SetHaarCascadeObjectDetectionAlgorithm);
+    objectDetectionAlgorithmMenu->addAction(_ui.actn_SetLbpCascadeObjectDetectionAlgorithm);
 
-    _ui.tlBttn_ObjectDetection->setMenu(menu);
+    _ui.tlBttn_ObjectDetection->setMenu(objectDetectionAlgorithmMenu);
+
+    //face recognition button
+    QActionGroup *faceRecognitionMethodGroup = new QActionGroup(this);
+    faceRecognitionMethodGroup->addAction(_ui.actn_SetEigenfacesFaceRecognitionMethod);
+    faceRecognitionMethodGroup->addAction(_ui.actn_SetFisherfacesFaceRecognitionMethod);
+    faceRecognitionMethodGroup->addAction(_ui.actn_SetLbphFaceRecognitionMethod);
+
+    QActionGroup *faceRecognitionActionGroup = new QActionGroup(this);
+    faceRecognitionActionGroup->addAction(_ui.actn_TrainFaceRecognizer);
+    faceRecognitionActionGroup->addAction(_ui.actn_RecognizeFace);
+
+    QMenu *faceRecognitionMenu = new QMenu();
+    faceRecognitionMenu->addAction(_ui.actn_SetEigenfacesFaceRecognitionMethod);
+    faceRecognitionMenu->addAction(_ui.actn_SetFisherfacesFaceRecognitionMethod);
+    faceRecognitionMenu->addAction(_ui.actn_SetLbphFaceRecognitionMethod);
+    faceRecognitionMenu->addSeparator();
+    faceRecognitionMenu->addAction(_ui.actn_TrainFaceRecognizer);
+    faceRecognitionMenu->addAction(_ui.actn_RecognizeFace);
+
+    _ui.tlBttn_FaceRecognition->setMenu(faceRecognitionMenu);
 }
 
 void View::subscribeToEvents() {
@@ -69,6 +95,11 @@ void View::subscribeToEvents() {
     connect(_ui.tlBttn_CaptureWebcamVideo, SIGNAL(clicked()), this, SLOT(tlBttn_CaptureWebcamVideo_Clicked()));
     connect(_ui.actn_SetHaarCascadeObjectDetectionAlgorithm, SIGNAL(toggled(bool)), this, SLOT(actn_SetHaarCascadeObjectDetectionAlgorithm_Toggled(bool)));
     connect(_ui.actn_SetLbpCascadeObjectDetectionAlgorithm, SIGNAL(toggled(bool)), this, SLOT(actn_SetLbpCascadeObjectDetectionAlgorithm_Toggled(bool)));
+    connect(_ui.actn_SetEigenfacesFaceRecognitionMethod, SIGNAL(toggled(bool)), this, SLOT(actn_SetEigenfacesFaceRecognitionMethod_Toggled(bool)));
+    connect(_ui.actn_SetFisherfacesFaceRecognitionMethod, SIGNAL(toggled(bool)), this, SLOT(actn_SetFisherfacesFaceRecognitionMethod_Toggled(bool)));
+    connect(_ui.actn_SetLbphFaceRecognitionMethod, SIGNAL(toggled(bool)), this, SLOT(actn_SetLbphFaceRecognitionMethod_Toggled(bool)));
+    connect(_ui.actn_TrainFaceRecognizer, SIGNAL(toggled(bool)), this, SLOT(actn_TrainFaceRecognizer_Toggled(bool)));
+    connect(_ui.actn_RecognizeFace, SIGNAL(toggled(bool)), this, SLOT(actn_RecognizeFace_Toggled(bool)));
 }
 
 void View::update() {
@@ -93,7 +124,7 @@ void View::drawRects(QImage* const& image, std::vector<cv::Rect> rectCollection)
 
 void View::tlBttn_OpenImageFile_Clicked() {
     QString imageFileName = fileName(Image);
-    if(imageFileName.isNull())
+    if(imageFileName.isNull() || imageFileName.isEmpty())
         return;
     _controller->loadImage(imageFileName);
     _ui.stsBr_MainStatusBar->showMessage(imageFileName);
@@ -101,7 +132,7 @@ void View::tlBttn_OpenImageFile_Clicked() {
 
 void View::tlBttn_OpenVideoFile_Clicked() {
     QString videoFileName = fileName(Video);
-    if(videoFileName.isNull())
+    if(videoFileName.isNull() || videoFileName.isEmpty())
         return;
     _controller->loadVideo(videoFileName);
     _ui.stsBr_MainStatusBar->showMessage(videoFileName);
@@ -125,6 +156,21 @@ void View::actn_SetHaarCascadeObjectDetectionAlgorithm_Toggled(bool checked) {
 void View::actn_SetLbpCascadeObjectDetectionAlgorithm_Toggled(bool checked) {
     if(checked)
         _model->setObjectDetectionAlgorithm(LbpCascade);
+}
+
+void View::actn_SetEigenfacesFaceRecognitionMethod_Toggled(bool checked) {
+}
+
+void View::actn_SetFisherfacesFaceRecognitionMethod_Toggled(bool checked) {
+}
+
+void View::actn_SetLbphFaceRecognitionMethod_Toggled(bool checked) {
+}
+
+void View::actn_TrainFaceRecognizer_Toggled(bool checked) {
+}
+
+void View::actn_RecognizeFace_Toggled(bool checked) {
 }
 
 QString View::fileName(FileType fileType) const {

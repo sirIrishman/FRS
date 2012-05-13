@@ -41,6 +41,11 @@ namespace FRS {
         void tlBttn_CaptureWebcamVideo_Clicked();
         void actn_SetHaarCascadeObjectDetectionAlgorithm_Toggled(bool checked);
         void actn_SetLbpCascadeObjectDetectionAlgorithm_Toggled(bool checked);
+        void actn_SetEigenfacesFaceRecognitionMethod_Toggled(bool checked);
+        void actn_SetFisherfacesFaceRecognitionMethod_Toggled(bool checked);
+        void actn_SetLbphFaceRecognitionMethod_Toggled(bool checked);
+        void actn_TrainFaceRecognizer_Toggled(bool checked);
+        void actn_RecognizeFace_Toggled(bool checked);
     };
 }
 
