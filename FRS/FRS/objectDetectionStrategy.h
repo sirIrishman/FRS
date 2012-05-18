@@ -37,6 +37,9 @@ namespace FRS {
 
         class CascadeObjectDetectionStrategyBase : public ObjectDetectionStrategyBase {
         public:
+            CascadeObjectDetectionStrategyBase() {
+                _cascade = NULL;
+            }
             virtual ~CascadeObjectDetectionStrategyBase() {
                 releaseResources();
             }
@@ -45,7 +48,10 @@ namespace FRS {
                 _cascade = new cv::CascadeClassifier(cascadeFileName());
             }
             virtual void releaseResources() {
-                delete _cascade;
+                if(_cascade != NULL) {
+                    delete _cascade;
+                    _cascade = NULL;
+                }
             }
             virtual bool canDetect(DetectableObjectType objectType) const {
                 return (objectType == Face) ? true : false;
