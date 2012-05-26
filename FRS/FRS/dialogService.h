@@ -5,14 +5,12 @@
 #include <qmessagebox.h>
 #include "guard.h"
 #include "exceptions.h"
-#include "nameDialog.h"
 
 namespace Services {
     class DialogServiceImplementation {
     public:
         virtual QString showOpenFileDialog(QObject* const& parent, QString const& fileFilter) const = 0;
         virtual void showErrorMessage(QObject* const& parent, QString const& errorMessage) const = 0;
-        virtual QString showNameDialog(QObject* const& parent) const = 0;
     };
 
     class DialogService sealed {
@@ -45,11 +43,6 @@ namespace Services {
                 Framework::InvalidOperationException("Dialog service was not initialized").raise();
             instance()._implementation->showErrorMessage(instance()._parent, errorMessage);
         }
-        static QString showSetNameDialog(QObject* const& parent) {
-            if(!instance().initialized()) 
-                Framework::InvalidOperationException("Dialog service was not initialized").raise();
-            return instance()._implementation->showNameDialog(instance()._parent);
-        }
 
     private:
         DialogServiceImplementation* _implementation;
@@ -77,9 +70,6 @@ namespace Services {
         }
         void showErrorMessage(QObject* const& parent, QString const& errorMessage) const {
             QMessageBox::critical((QWidget*)parent, QObject::trUtf8("Error"), errorMessage);
-        }
-        QString showNameDialog(QObject* const& parent) const {
-            return FRS::Native::NameDialog::getName((QWidget*)parent);
         }
     };
 }
