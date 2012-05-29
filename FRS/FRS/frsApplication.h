@@ -5,9 +5,9 @@
 #include "dialogService.h"
 #include "exceptions.h"
 
-using namespace Services;
+using namespace services;
 
-namespace FRS {
+namespace frs {
     class FrsApplication : public QApplication {
     public: 
         FrsApplication(int &argc, char **argv) 
@@ -17,7 +17,7 @@ namespace FRS {
         bool notify(QObject* receiver, QEvent* e) {
             try {
                 return QApplication::notify(receiver, e);
-            } catch(Framework::BaseException& e) {
+            } catch(framework::BaseException& e) {
                 DialogService::showErrorMessage(e.message());
             }
             return false;

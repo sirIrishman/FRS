@@ -3,8 +3,8 @@
 
 #include "objectDetectionStrategy.h"
 
-namespace FRS {
-    namespace Native {
+namespace frs {
+    namespace native {
         class ObjectDetectionStrategyCachingFactory sealed {
         public:
             ObjectDetectionStrategyCachingFactory() {

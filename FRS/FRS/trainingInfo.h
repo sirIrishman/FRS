@@ -4,13 +4,13 @@
 #include <qstring.h>
 #include "guard.h"
 
-namespace FRS {
-    namespace Native {
-        struct TrainingInfo {
+namespace frs {
+    namespace native {
+        struct TrainingInfo sealed {
         public:
             TrainingInfo(QString const& name, QString const& classImageMapFileName) {
-                Utils::Guard::argumentNotNullOrEmpty(name, "name");
-                Utils::Guard::argumentNotNullOrEmpty(classImageMapFileName, "classImageMapFileName");
+                utils::Guard::argumentNotNullOrEmpty(name, "name");
+                utils::Guard::argumentNotNullOrEmpty(classImageMapFileName, "classImageMapFileName");
                 _name = name;
                 _classImageMapFileName = classImageMapFileName;
             }
@@ -20,11 +20,11 @@ namespace FRS {
             }
 
             friend bool operator == (TrainingInfo const& first, TrainingInfo const& second) {
-                return first.name() == second.name() 
+                return first.name() == second.name()
                     && first.classImageMapFileName() == second.classImageMapFileName();
             }
             friend bool operator != (TrainingInfo const& first, TrainingInfo const& second) {
-                return first.name() != second.name() 
+                return first.name() != second.name()
                     || first.classImageMapFileName() != second.classImageMapFileName();
             }
 

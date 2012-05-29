@@ -5,8 +5,8 @@
 #include "ui_faceRecognitionTrainingDialog.h"
 #include "trainingInfo.h"
 
-namespace FRS {
-    namespace Native {
+namespace frs {
+    namespace native {
         class FaceRecognitionTrainingDialog : public QDialog {
             Q_OBJECT
         public:

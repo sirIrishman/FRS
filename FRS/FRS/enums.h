@@ -1,7 +1,7 @@
 #ifndef FRS_ENUMS_H
 #define FRS_ENUMS_H
 
-namespace FRS {
+namespace frs {
     enum FrameSource { 
         None = 0,
         ImageFile, 
@@ -19,7 +19,13 @@ namespace FRS {
         Face
     };
 
-    namespace Native {
+    enum FaceRecognitionAlgorithm {
+        Eigenfaces,
+        Fisherfaces,
+        Lbph
+    };
+
+    namespace native {
         enum FileType {
             Image, 
             Video 

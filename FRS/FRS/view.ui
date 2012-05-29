@@ -39,7 +39,7 @@
         <item row="2" column="0">
          <widget class="QLabel" name="lbl_Frame">
           <property name="text">
-           <string>Frame</string>
+           <string> Frame</string>
           </property>
           <property name="alignment">
            <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
@@ -260,20 +260,9 @@
     <string>Local Binary Patterns Histograms (LBPH)</string>
    </property>
   </action>
-  <action name="actn_TrainFaceRecognizer">
-   <property name="checkable">
-    <bool>true</bool>
-   </property>
+  <action name="actn_TrainFaceRecognition">
    <property name="text">
     <string>Training...</string>
-   </property>
-  </action>
-  <action name="actn_RecognizeFace">
-   <property name="checkable">
-    <bool>true</bool>
-   </property>
-   <property name="text">
-    <string>Recognition</string>
    </property>
   </action>
  </widget>

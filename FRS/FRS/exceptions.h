@@ -4,7 +4,7 @@
 #include <qtconcurrentexception.h>
 #include <qstring.h>
 
-namespace Framework {
+namespace framework {
     class BaseException : public QtConcurrent::Exception {
     public:
         void raise() const {
@@ -43,6 +43,12 @@ namespace Framework {
     public:
         InvalidOperationException() : BaseException("Method call is invalid for the object's current state") {}
         InvalidOperationException(QString const& message) : BaseException(message) {}
+    };
+
+    class FileOperationException : public BaseException {
+    public:
+        FileOperationException() : BaseException("File operation fails to proceed") {}
+        FileOperationException(QString const& message) : BaseException(message) {}
     };
 }
 

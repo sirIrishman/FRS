@@ -7,11 +7,10 @@
 #include <objdetect\objdetect.hpp>
 #include "enums.h"
 
-namespace FRS {
-    namespace Native {
+namespace frs {
+    namespace native {
         class ObjectDetectionStrategyBase {
         public:
-            virtual void initialize() = 0;
             virtual void releaseResources() = 0;
             virtual bool canDetect(DetectableObjectType objectType) const = 0;
             std::vector<cv::Rect> detect(cv::Mat const& frame, DetectableObjectType objectType) const {
@@ -37,16 +36,13 @@ namespace FRS {
 
         class CascadeObjectDetectionStrategyBase : public ObjectDetectionStrategyBase {
         public:
-            CascadeObjectDetectionStrategyBase() {
-                _cascade = NULL;
+            CascadeObjectDetectionStrategyBase(QString cascadeFileName) {
+                _cascade = new cv::CascadeClassifier(cascadeFileName.toStdString());
             }
             virtual ~CascadeObjectDetectionStrategyBase() {
                 releaseResources();
             }
 
-            virtual void initialize() {
-                _cascade = new cv::CascadeClassifier(cascadeFileName());
-            }
             virtual void releaseResources() {
                 if(_cascade != NULL) {
                     delete _cascade;
@@ -61,41 +57,43 @@ namespace FRS {
             virtual std::vector<cv::Rect> detectObjects(cv::Mat const& frame, DetectableObjectType objectType) const {
                 return detectFaces(frame);
             }
-            virtual std::string cascadeFileName() const = 0;
 
         private:
             cv::CascadeClassifier* _cascade;
 
             std::vector<cv::Rect> detectFaces(cv::Mat const& frame) const {
                 std::vector<cv::Rect> faceRectCollection;
-                _cascade->detectMultiScale(frame, faceRectCollection, 1.1, 2, CV_HAAR_SCALE_IMAGE, cv::Size(40, 40));
+                _cascade->detectMultiScale(frame, faceRectCollection, 1.15, 3, CV_HAAR_SCALE_IMAGE, cv::Size(40, 40));
                 return faceRectCollection;
             }
         };
 
         class HaarCascadeObjectDetectionStrategy sealed : public CascadeObjectDetectionStrategyBase {
-        protected:
-            virtual std::string cascadeFileName() const {
-                QString cascadeFileName;
-                cascadeFileName += QCoreApplication::applicationDirPath();
-                cascadeFileName += "/data/haarcascade_frontalface_alt.xml";
-                return cascadeFileName.toStdString();
+        public:
+            HaarCascadeObjectDetectionStrategy() 
+                : CascadeObjectDetectionStrategyBase(cascadeFileName()){
+            }
+
+        private:
+            QString cascadeFileName() const {
+                return QString("%1/data/haarcascade_frontalface_alt.xml").arg(QCoreApplication::applicationDirPath());
             }
         };
 
         class LbpCascadeObjectDetectionStrategy sealed : public CascadeObjectDetectionStrategyBase {
-        protected:
-            virtual std::string cascadeFileName() const {
-                QString cascadeFileName;
-                cascadeFileName += QCoreApplication::applicationDirPath();
-                cascadeFileName += "/data/lbpcascade_frontalface.xml";
-                return cascadeFileName.toStdString();
+        public:
+            LbpCascadeObjectDetectionStrategy() 
+                : CascadeObjectDetectionStrategyBase(cascadeFileName()){
+            }
+
+        private:
+            QString cascadeFileName() const {
+                return QString("%1/data/lbpcascade_frontalface.xml").arg(QCoreApplication::applicationDirPath());
             }
         };
 
         class EmptyObjectDetectionStrategy sealed : public ObjectDetectionStrategyBase {
         public:
-            virtual void initialize() { }
             virtual void releaseResources() { }
             virtual bool canDetect(DetectableObjectType objectType) const { return false; }
 

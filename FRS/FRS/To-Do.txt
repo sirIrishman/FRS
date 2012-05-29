@@ -3,8 +3,10 @@ Active:
     9. Add new icons for actions
     20. Fix opening files with non-latin symbols in path
     27. Add status service class
-    16. Add face recognition (use new face recognition algorithms from OpenCV 2.4.0: "face recognition algorithms have been contributed by Philipp Wagner. Please, check opencv/contrib/contrib.hpp, FaceRecognizer class, and opencv/samples/cpp/facerec_demo.cpp")
     31. Add submenu for choosing detectable object type
+    34. Add About dialog (note: cv::getBuildInformation())
+    35. Add submenu for choosing face recognition state file to load
+    37. Add simple help system
 
 Fixed/Implemented:
     3. Surround header's code with #ifndef #define ... #endif
@@ -28,3 +30,6 @@ Fixed/Implemented:
     28. Rename recognition to detection
     29. Add drop-down menu for object detection mode button
     12. Does not update frame if video file have ended
+    16. Add face recognition (use new face recognition algorithms from OpenCV 2.4.0: "face recognition algorithms have been contributed by Philipp Wagner. Please, check opencv/contrib/contrib.hpp, FaceRecognizer class, and opencv/samples/cpp/facerec_demo.cpp")
+    32. Rename namespaces from upper-camel-case to lower-camel-case
+    36. Add capability to load training images with relative path

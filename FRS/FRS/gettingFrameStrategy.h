@@ -8,11 +8,11 @@
 #include "observer.h"
 #include "exceptions.h"
 
-using namespace Patterns;
-using namespace Framework;
+using namespace patterns;
+using namespace framework;
 
-namespace FRS {
-    namespace Native {
+namespace frs {
+    namespace native {
         class GettingFrameStrategyBase : protected ObservableSubject, protected QObject {
         public:
             GettingFrameStrategyBase(Observer* const& observer) {
@@ -161,7 +161,7 @@ namespace FRS {
             virtual cv::Mat frame() {
                 if(_fileName.isNull() || _fileName.isEmpty())
                     return cv::Mat();
-                cv::Mat frame = cv::imread(_fileName.toStdString());
+                cv::Mat frame = cv::imread(_fileName.toStdString(), CV_LOAD_IMAGE_COLOR);
                 if(frame.empty())
                     ArgumentException(QString("Can not open '%1' image file").arg(_fileName)).raise();
                 return frame;

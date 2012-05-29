@@ -57,6 +57,12 @@
     <Filter Include="Header Files\Application">
       <UniqueIdentifier>{a2b1e441-b0fd-4e28-bb79-d635017ced61}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Dialogs">
+      <UniqueIdentifier>{5d2121bf-6e85-495b-9020-40a5e80f657b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Dialogs">
+      <UniqueIdentifier>{283cd74b-27d2-4600-b1cb-64f54048b2b7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GeneratedFiles\Debug\moc_view.cpp">
@@ -86,6 +92,15 @@
     <ClCompile Include="GeneratedFiles\Release\moc_gettingFrameStrategy.cpp">
       <Filter>Generated Files\Release</Filter>
     </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_faceRecognitionTrainingDialog.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_faceRecognitionTrainingDialog.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="faceRecognitionTrainingDialog.cpp">
+      <Filter>Source Files\Dialogs</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="view.ui">
@@ -102,6 +117,12 @@
     </CustomBuild>
     <CustomBuild Include="gettingFrameStrategy.h">
       <Filter>Header Files\Native</Filter>
+    </CustomBuild>
+    <CustomBuild Include="faceRecognitionTrainingDialog.ui">
+      <Filter>Form Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="faceRecognitionTrainingDialog.h">
+      <Filter>Header Files\Dialogs</Filter>
     </CustomBuild>
   </ItemGroup>
   <ItemGroup>
@@ -136,6 +157,21 @@
       <Filter>Header Files\Native</Filter>
     </ClInclude>
     <ClInclude Include="objectDetectionStrategyCachingFactory.h">
+      <Filter>Header Files\Native</Filter>
+    </ClInclude>
+    <ClInclude Include="faceRecognitionStrategy.h">
+      <Filter>Header Files\Native</Filter>
+    </ClInclude>
+    <ClInclude Include="faceRecognitionStrategyCachingFactory.h">
+      <Filter>Header Files\Native</Filter>
+    </ClInclude>
+    <ClInclude Include="GeneratedFiles\ui_faceRecognitionTrainingDialog.h">
+      <Filter>Generated Files</Filter>
+    </ClInclude>
+    <ClInclude Include="trainingInfo.h">
+      <Filter>Header Files\Native</Filter>
+    </ClInclude>
+    <ClInclude Include="trainingData.h">
       <Filter>Header Files\Native</Filter>
     </ClInclude>
   </ItemGroup>

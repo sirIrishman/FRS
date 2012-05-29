@@ -6,7 +6,7 @@
 #include "guard.h"
 #include "exceptions.h"
 
-namespace Services {
+namespace services {
     class DialogServiceImplementation {
     public:
         virtual QString showOpenFileDialog(QObject* const& parent, QString const& fileFilter) const = 0;
@@ -20,7 +20,7 @@ namespace Services {
         }
 
         static void initialize(DialogServiceImplementation* const& implementation) {
-            Utils::Guard::argumentNotNull(implementation, "implementation");
+            utils::Guard::argumentNotNull(implementation, "implementation");
             instance()._implementation = implementation;
         }
         static void associateWith(QObject* const& parent) {
@@ -35,12 +35,12 @@ namespace Services {
         }
         static QString showOpenFileDialog(QString const& fileFilter) {
             if(!instance().initialized()) 
-                Framework::InvalidOperationException("Dialog service was not initialized").raise();
+                framework::InvalidOperationException("Dialog service was not initialized").raise();
             return instance()._implementation->showOpenFileDialog(instance()._parent, fileFilter);
         }
         static void showErrorMessage(QString const& errorMessage) {
             if(!instance().initialized()) 
-                Framework::InvalidOperationException("Dialog service was not initialized").raise();
+                framework::InvalidOperationException("Dialog service was not initialized").raise();
             instance()._implementation->showErrorMessage(instance()._parent, errorMessage);
         }
 

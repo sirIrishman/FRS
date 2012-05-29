@@ -3,8 +3,8 @@
 #include "exceptions.h"
 #include "dialogService.h"
 
-using namespace FRS;
-using namespace Services;
+using namespace frs;
+using namespace services;
 
 int main(int argc, char *argv[]) {
     try{
@@ -15,7 +15,7 @@ int main(int argc, char *argv[]) {
         View wnd(model, controller);
         wnd.show();
         return app.exec();
-    } catch(Framework::BaseException& e) {
+    } catch(framework::BaseException& e) {
         DialogService::showErrorMessage(e.message());
     }
 }

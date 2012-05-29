@@ -5,10 +5,10 @@
 #include "enums.h"
 #include "gettingFrameStrategy.h"
 
-using namespace Framework;
+using namespace framework;
 
-namespace FRS {
-    namespace Native {
+namespace frs {
+    namespace native {
         class GettingFrameStrategyCachingFactory sealed {
         public:
             GettingFrameStrategyCachingFactory(Observer* const& observer) {
@@ -34,9 +34,9 @@ namespace FRS {
 
             GettingFrameStrategyBase* CreateStrategy(FrameSource frameSource, QString const& fileName, int webcamIndex) {
                 switch(frameSource) {
-                case ImageFile: 
+                case ImageFile:
                     return imageFileStrategy(fileName);
-                case VideoFile: 
+                case VideoFile:
                     return videoFileStrategy(fileName);
                 case ImageWebcam:
                     return webcamImageStrategy(webcamIndex);
@@ -59,34 +59,34 @@ namespace FRS {
             GettingWebcamImageFrameStrategy* _webcamImageStrategy;
 
             GettingFrameEmptyStrategy* emptyStrategy() {
-                return (_emptyStrategy != NULL) 
+                return (_emptyStrategy != NULL)
                     ? _emptyStrategy
                     : (_emptyStrategy = new GettingFrameEmptyStrategy(_observer));
             }
             GettingImageFileFrameStrategy* imageFileStrategy(QString const& fileName) {
-                GettingImageFileFrameStrategy* frameStrategy = (_imageFileStrategy != NULL) 
-                    ? _imageFileStrategy 
+                GettingImageFileFrameStrategy* frameStrategy = (_imageFileStrategy != NULL)
+                    ? _imageFileStrategy
                     : (_imageFileStrategy = new GettingImageFileFrameStrategy(_observer));
                 frameStrategy->setFileName(fileName);
                 return frameStrategy;
             }
             GettingVideoFileFrameStrategy* videoFileStrategy(QString const& fileName) {
-                GettingVideoFileFrameStrategy* frameStrategy = (_videoFileStrategy != NULL) 
-                    ? _videoFileStrategy 
+                GettingVideoFileFrameStrategy* frameStrategy = (_videoFileStrategy != NULL)
+                    ? _videoFileStrategy
                     : (_videoFileStrategy = new GettingVideoFileFrameStrategy(_observer));
                 frameStrategy->setFileName(fileName);
                 return frameStrategy;
             }
             GettingWebcamVideoFrameStrategy* webcamVideoStrategy(int webcamIndex) {
-                GettingWebcamVideoFrameStrategy* frameStrategy = (_webcamVideoStrategy != NULL) 
-                    ? _webcamVideoStrategy 
+                GettingWebcamVideoFrameStrategy* frameStrategy = (_webcamVideoStrategy != NULL)
+                    ? _webcamVideoStrategy
                     : (_webcamVideoStrategy = new GettingWebcamVideoFrameStrategy(_observer));
                 frameStrategy->setActiveWebcamIndex(webcamIndex);
                 return frameStrategy;
             }
             GettingWebcamImageFrameStrategy* webcamImageStrategy(int webcamIndex) {
-                GettingWebcamImageFrameStrategy* frameStrategy = (_webcamImageStrategy != NULL) 
-                    ? _webcamImageStrategy 
+                GettingWebcamImageFrameStrategy* frameStrategy = (_webcamImageStrategy != NULL)
+                    ? _webcamImageStrategy
                     : (_webcamImageStrategy = new GettingWebcamImageFrameStrategy(_observer));
                 frameStrategy->setActiveWebcamIndex(webcamIndex);
                 return frameStrategy;

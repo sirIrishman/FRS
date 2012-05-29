@@ -3,7 +3,7 @@
 #include <qfile.h>
 #include "dialogService.h"
 
-using namespace FRS::Native;
+using namespace frs::native;
 
 FaceRecognitionTrainingDialog::FaceRecognitionTrainingDialog(QWidget* const& parent, Qt::WindowFlags f) 
     : QDialog(parent, f) {
@@ -23,7 +23,7 @@ QString FaceRecognitionTrainingDialog::classImageMapFileName() const {
 }
 
 void FaceRecognitionTrainingDialog::pshBttn_OpenClassImageMapFileDialog_Pressed() {
-    QString fileName = Services::DialogService::showOpenFileDialog("CSV files (*.csv)");
+    QString fileName = services::DialogService::showOpenFileDialog("CSV files (*.csv)");
     if(fileName.isNull() || fileName.isEmpty())
         return;
     _ui.lnEdt_ClassImageMapFileName->setText(fileName);

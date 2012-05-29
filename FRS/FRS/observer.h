@@ -3,7 +3,7 @@
 
 #include <qlist.h>
 
-namespace Patterns {
+namespace patterns {
     class Observer {
     public:
         virtual ~Observer() {}

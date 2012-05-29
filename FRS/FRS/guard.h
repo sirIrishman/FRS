@@ -4,9 +4,9 @@
 #include <qstring.h>
 #include "exceptions.h"
 
-using namespace Framework;
+using namespace framework;
 
-namespace Utils {
+namespace utils {
     class Guard sealed {
     public:
         template<typename T>
