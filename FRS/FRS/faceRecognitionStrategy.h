@@ -13,13 +13,33 @@ namespace frs {
     namespace native {
         class FaceRecognitionStrategyBase {
         public:
-            FaceRecognitionStrategyBase(Ptr<FaceRecognizer> faceRecognizer) {
+            virtual void releaseResources() = 0;
+            virtual void train(TrainingData const& trainingData) = 0;
+            virtual int recognize(Mat const& image) = 0;
+            virtual bool trained() const = 0;
+            virtual void save() const = 0;
+            virtual void load(QString const& faceRecognitionTrainingName) = 0;
+            virtual FaceRecognitionAlgorithm algorithm() const = 0;
+            QString name() const {
+                return _name;
+            }
+            void setName(QString const& name) {
+                _name = name;
+            }
+
+        protected:
+            QString _name;
+        };
+
+        class OpenCVFaceRecognizerStrategyBase : public FaceRecognitionStrategyBase {
+        public:
+            OpenCVFaceRecognizerStrategyBase(Ptr<FaceRecognizer> faceRecognizer) {
                 _faceRecognizer = faceRecognizer;
                 _trained = false;
                 _width = 170;
                 _height = 170;
             }
-            virtual ~FaceRecognitionStrategyBase() {
+            virtual ~OpenCVFaceRecognizerStrategyBase() {
                 releaseResources();
             }
 
@@ -47,24 +67,16 @@ namespace frs {
             bool trained() const {
                 return _trained;
             }
-            QString name() const {
-                return _name;
-            }
-            void setName(QString const& name) {
-                _name = name;
-            }
-            QString save() const {
+            void save() const {
                 QDir().mkpath(saveDirectoryPath());
                 QString fileName = QString("%1%2.yaml").arg(saveDirectoryPath(), _name);
                 _faceRecognizer->save(fileName.toStdString());
-                return fileName;
             }
             void load(QString const& faceRecognitionTrainingName) {
                 setName(faceRecognitionTrainingName);
                 QString fileName = QString("%1%2.yaml").arg(saveDirectoryPath(), faceRecognitionTrainingName);
                 _faceRecognizer->load(fileName.toStdString());
             }
-            virtual FaceRecognitionAlgorithm algorithm() const = 0;
 
         protected:
             int _width;
@@ -81,7 +93,6 @@ namespace frs {
 
         private:
             Ptr<FaceRecognizer> _faceRecognizer;
-            QString _name;
             bool _trained;
 
             cv::Mat makeGreyImage(cv::Mat const& image) const {
@@ -92,10 +103,10 @@ namespace frs {
             }
         };
 
-        class EigenFaceRecognitionStrategy sealed : public FaceRecognitionStrategyBase {
+        class EigenFaceRecognitionStrategy sealed : public OpenCVFaceRecognizerStrategyBase {
         public:
             EigenFaceRecognitionStrategy()
-                : FaceRecognitionStrategyBase(createEigenFaceRecognizer()) {
+                : OpenCVFaceRecognizerStrategyBase(createEigenFaceRecognizer()) {
             }
 
         protected:
@@ -106,16 +117,16 @@ namespace frs {
                 return Eigenfaces;
             }
             cv::Mat preprocessImage(cv::Mat const& image) const {
-                cv::Mat preprocessedImage = FaceRecognitionStrategyBase::preprocessImage(image);
+                cv::Mat preprocessedImage = OpenCVFaceRecognizerStrategyBase::preprocessImage(image);
                 cv::resize(preprocessedImage, preprocessedImage, cv::Size(_width, _height));
                 return preprocessedImage;
             }
         };
 
-        class FisherFaceRecognitionStrategy sealed : public FaceRecognitionStrategyBase {
+        class FisherFaceRecognitionStrategy sealed : public OpenCVFaceRecognizerStrategyBase {
         public:
             FisherFaceRecognitionStrategy()
-                : FaceRecognitionStrategyBase(createFisherFaceRecognizer()) {
+                : OpenCVFaceRecognizerStrategyBase(createFisherFaceRecognizer()) {
             }
 
         protected:
@@ -126,16 +137,16 @@ namespace frs {
                 return Fisherfaces;
             }
             cv::Mat preprocessImage(cv::Mat const& image) const {
-                cv::Mat preprocessedImage = FaceRecognitionStrategyBase::preprocessImage(image);
+                cv::Mat preprocessedImage = OpenCVFaceRecognizerStrategyBase::preprocessImage(image);
                 cv::resize(preprocessedImage, preprocessedImage, cv::Size(_width, _height));
                 return preprocessedImage;
             }
         };
 
-        class LbphFaceRecognitionStrategy sealed : public FaceRecognitionStrategyBase {
+        class LbphFaceRecognitionStrategy sealed : public OpenCVFaceRecognizerStrategyBase {
         public:
             LbphFaceRecognitionStrategy()
-                : FaceRecognitionStrategyBase(createLBPHFaceRecognizer()) {
+                : OpenCVFaceRecognizerStrategyBase(createLBPHFaceRecognizer()) {
             }
 
         protected:
@@ -149,16 +160,13 @@ namespace frs {
 
         class EmptyFaceRecognitionStrategy sealed : public FaceRecognitionStrategyBase {
         public:
-            EmptyFaceRecognitionStrategy()
-                : FaceRecognitionStrategyBase(Ptr<FaceRecognizer>()) {
-            }
-        protected:
-            QString directoryName() const {
-                return "empty";
-            }
-            FaceRecognitionAlgorithm algorithm() const {
-                return (FaceRecognitionAlgorithm)-1;
-            }
+            void releaseResources() { }
+            void train(TrainingData const& trainingData) { }
+            int recognize(Mat const& image) { return -1; }
+            bool trained() const { return true; }
+            void save() const { }
+            void load(QString const& faceRecognitionTrainingName) { }
+            FaceRecognitionAlgorithm algorithm() const { return (FaceRecognitionAlgorithm)-1; }
         };
     }
 }
