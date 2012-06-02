@@ -40,7 +40,7 @@
     <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">bin\$(Configuration)\</OutDir>
     <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(Configuration)\</IntDir>
     <LibraryPath Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(OpenCvLibDir);$(LibraryPath)</LibraryPath>
-    <SourcePath Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(OpenCvSrcDir)\calib3d\src;$(OpenCvSrcDir)\contrib\src;$(OpenCvSrcDir)\core\src;$(OpenCvSrcDir)\features2d\src;$(OpenCvSrcDir)\flann\src;$(OpenCvSrcDir)\gpu\src;$(OpenCvSrcDir)\highgui\src;$(OpenCvSrcDir)\imgproc\src;$(OpenCvSrcDir)\legacy\src;$(OpenCvSrcDir)\ml\src;$(OpenCvSrcDir)\objdetect\src;$(SourcePath)</SourcePath>
+    <SourcePath Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SourcePath)</SourcePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>

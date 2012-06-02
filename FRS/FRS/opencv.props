@@ -5,7 +5,6 @@
   <PropertyGroup Label="UserMacros">
     <OpenCvHeaderDir>$(SolutionDir)opencv\include</OpenCvHeaderDir>
     <OpenCvLibDir>$(SolutionDir)opencv\lib</OpenCvLibDir>
-    <OpenCvSrcDir>$(SolutionDir)opencv\src</OpenCvSrcDir>
     <OpenCvDataDir>$(SolutionDir)opencv\data</OpenCvDataDir>
   </PropertyGroup>
 
@@ -18,10 +17,6 @@
 
     <BuildMacro Include="OpenCvLibDir">
       <Value>$(OpenCvLibDir)</Value>
-    </BuildMacro>
-
-    <BuildMacro Include="OpenCvSrcDir">
-      <Value>$(OpenCvSrcDir)</Value>
     </BuildMacro>
 
     <BuildMacro Include="OpenCvDataDir">
