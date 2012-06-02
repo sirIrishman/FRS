@@ -2,9 +2,9 @@
 #define FRS_OBJECTDETECTIONSTRATEGY_H
 
 #include <qcoreapplication.h>
-#include <core\core.hpp>
-#include <imgproc\imgproc.hpp>
-#include <objdetect\objdetect.hpp>
+#include <opencv2\core\core.hpp>
+#include <opencv2\imgproc\imgproc.hpp>
+#include <opencv2\objdetect\objdetect.hpp>
 #include "enums.h"
 
 namespace frs {

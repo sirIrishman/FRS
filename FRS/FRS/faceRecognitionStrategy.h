@@ -2,9 +2,9 @@
 #define FRS_FACERECOGNITIONSTRATEGY_H
 
 #include <qdir.h>
-#include <core\core.hpp>
-#include <imgproc\imgproc.hpp>
-#include <contrib\contrib.hpp>
+#include <opencv2\core\core.hpp>
+#include <opencv2\imgproc\imgproc.hpp>
+#include <opencv2\contrib\contrib.hpp>
 #include "trainingData.h"
 
 using namespace cv;

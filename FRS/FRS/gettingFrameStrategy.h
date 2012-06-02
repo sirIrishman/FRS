@@ -3,8 +3,8 @@
 
 #include <Windows.h>
 #include <qtimer.h>
-#include <core\core.hpp>
-#include <highgui\highgui.hpp>
+#include <opencv2\core\core.hpp>
+#include <opencv2\highgui\highgui.hpp>
 #include "observer.h"
 #include "exceptions.h"
 

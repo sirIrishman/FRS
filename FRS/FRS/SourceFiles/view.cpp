@@ -1,4 +1,4 @@
-#include <core\core.hpp>
+#include <opencv2\core\core.hpp>
 #include <qmenu.h>
 #include <qfile.h>
 #include <qdir.h>
