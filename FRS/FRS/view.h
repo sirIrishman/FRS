@@ -57,6 +57,7 @@ namespace frs {
         void tlBttn_CaptureWebcamVideo_Clicked();
         void tlBttn_ObjectDetection_Clicked();
         void tlBttn_FaceRecognition_Toggled(bool checked);
+        void tlBttn_About_Clicked();
         void actn_SetHaarCascadeObjectDetectionAlgorithm_Toggled(bool checked);
         void actn_SetLbpCascadeObjectDetectionAlgorithm_Toggled(bool checked);
         void actn_SetEigenfacesFaceRecognitionMethod_Toggled(bool checked);

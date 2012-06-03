@@ -8,6 +8,7 @@
 #include "guard.h"
 #include "dialogService.h"
 #include "faceRecognitionTrainingDialog.h"
+#include "aboutDialog.h"
 
 using namespace frs;
 using namespace services;
@@ -60,6 +61,8 @@ void View::initializeUI() {
     _ui.tlBr_MainToolbar->addWidget(_ui.tlBttn_ObjectDetection);
     _ui.tlBr_MainToolbar->addSeparator();
     _ui.tlBr_MainToolbar->addWidget(_ui.tlBttn_FaceRecognition);
+    _ui.tlBr_MainToolbar->addSeparator();
+    _ui.tlBr_MainToolbar->addWidget(_ui.tlBttn_About);
 
     //object detection button
     QActionGroup *objectDetectionAlgorithmGroup = new QActionGroup(this);
@@ -95,6 +98,7 @@ void View::subscribeToEvents() {
     connect(_ui.tlBttn_CaptureWebcamVideo, SIGNAL(clicked()), this, SLOT(tlBttn_CaptureWebcamVideo_Clicked()));
     connect(_ui.tlBttn_ObjectDetection, SIGNAL(clicked()), this, SLOT(tlBttn_ObjectDetection_Clicked()));
     connect(_ui.tlBttn_FaceRecognition, SIGNAL(toggled(bool)), this, SLOT(tlBttn_FaceRecognition_Toggled(bool)));
+    connect(_ui.tlBttn_About, SIGNAL(clicked()), this, SLOT(tlBttn_About_Clicked()));
     connect(_ui.actn_SetHaarCascadeObjectDetectionAlgorithm, SIGNAL(toggled(bool)), this, SLOT(actn_SetHaarCascadeObjectDetectionAlgorithm_Toggled(bool)));
     connect(_ui.actn_SetLbpCascadeObjectDetectionAlgorithm, SIGNAL(toggled(bool)), this, SLOT(actn_SetLbpCascadeObjectDetectionAlgorithm_Toggled(bool)));
     connect(_ui.actn_SetEigenfacesFaceRecognitionMethod, SIGNAL(toggled(bool)), this, SLOT(actn_SetEigenfacesFaceRecognitionMethod_Toggled(bool)));
@@ -157,14 +161,14 @@ void View::drawText(QPixmap* const& image, std::vector<cv::Rect> rectCollection,
 
 void View::drawText(QPixmap* const& image, cv::Point const& leftTop, QString const& text) const {
     _painter->begin(image);
-    _painter->setPen(Qt::yellow);
+    _painter->setPen(Qt::red);
     const int offset = 5;
     _painter->drawText(leftTop.x + offset, leftTop.y + _painter->fontMetrics().height(), text);
     _painter->end();
 }
 
 bool View::faceRecognitionEnabled() const {
-    return _ui.tlBttn_FaceRecognition->isChecked();
+    return _ui.tlBttn_FaceRecognition->isChecked() && _model->faceRecognitionTrained();
 }
 
 bool View::objectDetectionEnabled() const {
@@ -217,6 +221,12 @@ void View::tlBttn_FaceRecognition_Toggled(bool checked) {
     updateDisplayedFrame(_lastFrame);
 }
 
+void View::tlBttn_About_Clicked() {
+    AboutDialog* aboutDialog = new AboutDialog((QWidget*)this);
+    aboutDialog->exec();
+    delete aboutDialog;
+}
+
 void View::actn_SetHaarCascadeObjectDetectionAlgorithm_Toggled(bool checked) {
     if(checked) {
         _controller->setCurrentObjectDetectionAlgorithm(HaarCascade);
@@ -262,24 +272,32 @@ void View::actn_TrainFaceRecognition_Triggered(bool checked) {
 }
 
 void View::trainFaceRecognition() {
-    //TrainingInfo trainingInfo = FaceRecognitionTrainingDialog::getTrainingInfo((QWidget*)this);
-    TrainingInfo trainingInfo("name", "d:\\Test\\test.csv");
+    TrainingInfo trainingInfo = FaceRecognitionTrainingDialog::getTrainingInfo((QWidget*)this);
+    //TrainingInfo trainingInfo("name", "d:/Test/test.csv");
     if(trainingInfo == TrainingInfo::empty()) {
         _ui.tlBttn_FaceRecognition->setChecked(false);
         return;
     }
     showStatusMessage("Reading face recognition trainging file...");
     _controller->setFaceRecognitionTrainingName(trainingInfo.name());
-    TrainingData trainingData = readImageClassMapFile(trainingInfo.classImageMapFileName());
-    validateTrainingData(trainingData);
 
-    showStatusMessage("Training face recognition...");
-    _controller->trainFaceRecognition(trainingData);
-    trainingData.release();
+    TrainingData trainingData;
+    try {
+        trainingData = readImageClassMapFile(trainingInfo.classImageMapFileName());
+        validateTrainingData(trainingData);
 
-    showStatusMessage("Saving face recognition state...");
-    _controller->saveFaceRecognitionState();
-    clearStatusMessage();
+        showStatusMessage("Training face recognition...");
+        _controller->trainFaceRecognition(trainingData);
+        trainingData.release();
+
+        showStatusMessage("Saving face recognition state...");
+        _controller->saveFaceRecognitionState();
+        clearStatusMessage();
+    } catch(framework::BaseException& e) {
+        trainingData.release();
+        clearStatusMessage();
+        throw e;
+    }
 }
 
 TrainingData View::readImageClassMapFile(QString const& fileName, QChar separator) {
@@ -296,10 +314,8 @@ TrainingData View::readImageClassMapFile(QString const& fileName, QChar separato
         QStringList imagePathClassName = line.split(separator, QString::SkipEmptyParts);
         QString imageName = combinePathIfRelative(imagePathClassName.first(), fileName);
 
-        if(QFile::exists(imageName) == false) {
-            trainingData.release();
+        if(QFile::exists(imageName) == false)
             FileOperationException(QString("File '%1' is not found").arg(imageName)).raise();
-        }
         QString imageClass = imagePathClassName.last();
         int imageClassNumber;
         if(_classNumberClassNameMap.values().contains(imageClass)) {
@@ -315,12 +331,14 @@ TrainingData View::readImageClassMapFile(QString const& fileName, QChar separato
     return trainingData;
 }
 
-QString View::combinePathIfRelative(QString const& checkableFileName, QString const& absolutePathFileName) const {
-    if(QDir::isAbsolutePath(checkableFileName))
-        return checkableFileName;
-    QDir absolutePathFileDir(absolutePathFileName.left(absolutePathFileName.lastIndexOf('\\')));
-    QDir relativaPathFileDir(checkableFileName);
-    return absolutePathFileDir.absoluteFilePath(relativaPathFileDir.path());
+QString View::combinePathIfRelative(QString const& checkablePathFileName, QString const& absolutePathFileName) const {
+    if(QDir::isAbsolutePath(checkablePathFileName))
+        return checkablePathFileName;
+    int lastPathSeparatorIndex = absolutePathFileName.contains('/') 
+        ? absolutePathFileName.lastIndexOf('/') 
+        : absolutePathFileName.lastIndexOf('\\');
+    QDir absolutePathFileDir(absolutePathFileName.left(lastPathSeparatorIndex));
+    return absolutePathFileDir.absoluteFilePath(checkablePathFileName);
 }
 
 void View::validateTrainingData(TrainingData trainingData) const {
@@ -329,10 +347,8 @@ void View::validateTrainingData(TrainingData trainingData) const {
     const int width = trainingData.imageCollection()[0].cols;
     const int height = trainingData.imageCollection()[0].rows;
     for(int i = 0; i < trainingData.size(); i++) {
-        if(trainingData.imageCollection()[i].cols != width || trainingData.imageCollection()[i].rows != height) {
-            trainingData.release();
+        if(trainingData.imageCollection()[i].cols != width || trainingData.imageCollection()[i].rows != height)
             ArgumentException("All training images should have an equal size").raise();
-        }
     }
 }
 

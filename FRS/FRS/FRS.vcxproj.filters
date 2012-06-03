@@ -98,7 +98,16 @@
     <ClCompile Include="GeneratedFiles\Release\moc_faceRecognitionTrainingDialog.cpp">
       <Filter>Generated Files\Release</Filter>
     </ClCompile>
-    <ClCompile Include="faceRecognitionTrainingDialog.cpp">
+    <ClCompile Include="GeneratedFiles\Debug\moc_aboutDialog.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_aboutDialog.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="SourceFiles\aboutDialog.cpp">
+      <Filter>Source Files\Dialogs</Filter>
+    </ClCompile>
+    <ClCompile Include="SourceFiles\faceRecognitionTrainingDialog.cpp">
       <Filter>Source Files\Dialogs</Filter>
     </ClCompile>
   </ItemGroup>
@@ -122,6 +131,12 @@
       <Filter>Form Files</Filter>
     </CustomBuild>
     <CustomBuild Include="faceRecognitionTrainingDialog.h">
+      <Filter>Header Files\Dialogs</Filter>
+    </CustomBuild>
+    <CustomBuild Include="aboutDialog.ui">
+      <Filter>Form Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="aboutDialog.h">
       <Filter>Header Files\Dialogs</Filter>
     </CustomBuild>
   </ItemGroup>
@@ -173,6 +188,9 @@
     </ClInclude>
     <ClInclude Include="trainingData.h">
       <Filter>Header Files\Native</Filter>
+    </ClInclude>
+    <ClInclude Include="GeneratedFiles\ui_aboutDialog.h">
+      <Filter>Generated Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

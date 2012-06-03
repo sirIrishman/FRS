@@ -1,5 +1,6 @@
 <RCC>
   <qresource prefix="view">
+    <file>Images/information.png</file>
     <file>Images/face_recognition.png</file>
     <file>Images/object_detection.png</file>
     <file>Images/capture_webcam_image.png</file>

@@ -31,15 +31,15 @@ namespace frs {
             QString _name;
         };
 
-        class OpenCVFaceRecognizerStrategyBase : public FaceRecognitionStrategyBase {
+        class OpenCvFaceRecognizerStrategyBase : public FaceRecognitionStrategyBase {
         public:
-            OpenCVFaceRecognizerStrategyBase(Ptr<FaceRecognizer> faceRecognizer) {
+            OpenCvFaceRecognizerStrategyBase(Ptr<FaceRecognizer> faceRecognizer) {
                 _faceRecognizer = faceRecognizer;
                 _trained = false;
                 _width = 170;
                 _height = 170;
             }
-            virtual ~OpenCVFaceRecognizerStrategyBase() {
+            virtual ~OpenCvFaceRecognizerStrategyBase() {
                 releaseResources();
             }
 
@@ -103,10 +103,10 @@ namespace frs {
             }
         };
 
-        class EigenFaceRecognitionStrategy sealed : public OpenCVFaceRecognizerStrategyBase {
+        class EigenFaceRecognitionStrategy sealed : public OpenCvFaceRecognizerStrategyBase {
         public:
             EigenFaceRecognitionStrategy()
-                : OpenCVFaceRecognizerStrategyBase(createEigenFaceRecognizer()) {
+                : OpenCvFaceRecognizerStrategyBase(createEigenFaceRecognizer()) {
             }
 
         protected:
@@ -117,16 +117,16 @@ namespace frs {
                 return Eigenfaces;
             }
             cv::Mat preprocessImage(cv::Mat const& image) const {
-                cv::Mat preprocessedImage = OpenCVFaceRecognizerStrategyBase::preprocessImage(image);
+                cv::Mat preprocessedImage = OpenCvFaceRecognizerStrategyBase::preprocessImage(image);
                 cv::resize(preprocessedImage, preprocessedImage, cv::Size(_width, _height));
                 return preprocessedImage;
             }
         };
 
-        class FisherFaceRecognitionStrategy sealed : public OpenCVFaceRecognizerStrategyBase {
+        class FisherFaceRecognitionStrategy sealed : public OpenCvFaceRecognizerStrategyBase {
         public:
             FisherFaceRecognitionStrategy()
-                : OpenCVFaceRecognizerStrategyBase(createFisherFaceRecognizer()) {
+                : OpenCvFaceRecognizerStrategyBase(createFisherFaceRecognizer()) {
             }
 
         protected:
@@ -137,16 +137,16 @@ namespace frs {
                 return Fisherfaces;
             }
             cv::Mat preprocessImage(cv::Mat const& image) const {
-                cv::Mat preprocessedImage = OpenCVFaceRecognizerStrategyBase::preprocessImage(image);
+                cv::Mat preprocessedImage = OpenCvFaceRecognizerStrategyBase::preprocessImage(image);
                 cv::resize(preprocessedImage, preprocessedImage, cv::Size(_width, _height));
                 return preprocessedImage;
             }
         };
 
-        class LbphFaceRecognitionStrategy sealed : public OpenCVFaceRecognizerStrategyBase {
+        class LbphFaceRecognitionStrategy sealed : public OpenCvFaceRecognizerStrategyBase {
         public:
             LbphFaceRecognitionStrategy()
-                : OpenCVFaceRecognizerStrategyBase(createLBPHFaceRecognizer()) {
+                : OpenCvFaceRecognizerStrategyBase(createLBPHFaceRecognizer()) {
             }
 
         protected:

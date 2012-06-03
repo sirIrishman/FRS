@@ -10,7 +10,7 @@ namespace frs {
         class FaceRecognitionTrainingDialog : public QDialog {
             Q_OBJECT
         public:
-            FaceRecognitionTrainingDialog(QWidget* const& parent = 0, Qt::WindowFlags f = Qt::WindowTitleHint | Qt::WindowSystemMenuHint);
+            FaceRecognitionTrainingDialog(QWidget* const& parent = 0);
             virtual ~FaceRecognitionTrainingDialog() { };
 
             QString name() const;
