@@ -176,6 +176,7 @@ xcopy "$(OpenCvDataDir)" "$(ProjectDir)bin\$(Configuration)\data" /E /I /R /Y</C
     <ClInclude Include="objectDetectionStrategy.h" />
     <ClInclude Include="objectDetectionStrategyCachingFactory.h" />
     <ClInclude Include="GeneratedFiles\ui_View.h" />
+    <ClInclude Include="settingsService.h" />
     <ClInclude Include="trainingData.h" />
     <ClInclude Include="trainingInfo.h" />
     <CustomBuild Include="faceRecognitionTrainingDialog.h">

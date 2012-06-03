@@ -192,6 +192,9 @@
     <ClInclude Include="GeneratedFiles\ui_aboutDialog.h">
       <Filter>Generated Files</Filter>
     </ClInclude>
+    <ClInclude Include="settingsService.h">
+      <Filter>Header Files\Services</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="frs.rc" />

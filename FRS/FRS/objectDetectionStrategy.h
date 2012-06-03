@@ -6,6 +6,9 @@
 #include <opencv2\imgproc\imgproc.hpp>
 #include <opencv2\objdetect\objdetect.hpp>
 #include "enums.h"
+#include "settingsService.h"
+
+using namespace services;
 
 namespace frs {
     namespace native {
@@ -57,13 +60,17 @@ namespace frs {
             virtual std::vector<cv::Rect> detectObjects(cv::Mat const& frame, DetectableObjectType objectType) const {
                 return detectFaces(frame);
             }
+            virtual double scaleFactor() const = 0;
+            virtual int minNeighbors() const = 0;
+            virtual int flags() const = 0;
+            virtual cv::Size minSize() const = 0;
 
         private:
             cv::CascadeClassifier* _cascade;
 
             std::vector<cv::Rect> detectFaces(cv::Mat const& frame) const {
                 std::vector<cv::Rect> faceRectCollection;
-                _cascade->detectMultiScale(frame, faceRectCollection, 1.15, 3, CV_HAAR_SCALE_IMAGE, cv::Size(40, 40));
+                _cascade->detectMultiScale(frame, faceRectCollection, scaleFactor(),  minNeighbors(), flags(), minSize());
                 return faceRectCollection;
             }
         };
@@ -74,9 +81,26 @@ namespace frs {
                 : CascadeObjectDetectionStrategyBase(cascadeFileName()){
             }
 
+        protected:
+            double scaleFactor() const {
+                return SettingsService::getSetting("objectDetection", "haarCascade", "scaleFactor").toDouble();
+            }
+            int minNeighbors() const {
+                return SettingsService::getSetting("objectDetection", "haarCascade", "minNeighbors").toInt();
+            }
+            int flags() const {
+                return SettingsService::getSetting("objectDetection", "haarCascade", "flags").toInt();
+            }
+            cv::Size minSize() const {
+                int minSizeWidth = SettingsService::getSetting("objectDetection", "haarCascade", "minSizeWidth").toInt();
+                int minSizeHeight = SettingsService::getSetting("objectDetection", "haarCascade", "minSizeHeight").toInt();
+                return cv::Size(minSizeWidth, minSizeHeight);
+            }
+
         private:
             QString cascadeFileName() const {
-                return QString("%1/data/haarcascade_frontalface_alt.xml").arg(QCoreApplication::applicationDirPath());
+                QString fileName = SettingsService::getSetting("objectDetection", "haarCascade", "cascadeFileName").toString();
+                return QString("%1/data/%2").arg(QCoreApplication::applicationDirPath(), fileName);
             }
         };
 
@@ -86,9 +110,26 @@ namespace frs {
                 : CascadeObjectDetectionStrategyBase(cascadeFileName()){
             }
 
+        protected:
+            double scaleFactor() const {
+                return SettingsService::getSetting("objectDetection", "lbpCascade", "scaleFactor").toDouble();
+            }
+            int minNeighbors() const {
+                return SettingsService::getSetting("objectDetection", "lbpCascade", "minNeighbors").toInt();
+            }
+            int flags() const {
+                return SettingsService::getSetting("objectDetection", "lbpCascade", "flags").toInt();
+            }
+            cv::Size minSize() const {
+                int minSizeWidth = SettingsService::getSetting("objectDetection", "lbpCascade", "minSizeWidth").toInt();
+                int minSizeHeight = SettingsService::getSetting("objectDetection", "lbpCascade", "minSizeHeight").toInt();
+                return cv::Size(minSizeWidth, minSizeHeight);
+            }
+
         private:
             QString cascadeFileName() const {
-                return QString("%1/data/lbpcascade_frontalface.xml").arg(QCoreApplication::applicationDirPath());
+                QString fileName = SettingsService::getSetting("objectDetection", "lbpCascade", "cascadeFileName").toString();
+                return QString("%1/data/%2").arg(QCoreApplication::applicationDirPath(), fileName);
             }
         };
 

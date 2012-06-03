@@ -7,6 +7,7 @@
 #include "view.h"
 #include "guard.h"
 #include "dialogService.h"
+#include "settingsService.h"
 #include "faceRecognitionTrainingDialog.h"
 #include "aboutDialog.h"
 
@@ -39,6 +40,9 @@ void View::initialize(Model* const& model, Controller* const& controller) {
 
 void View::initializeInnerState(Model* const& model, Controller* const& controller) {
     DialogService::associateWith(this);
+    SettingsService::associateWith(this);
+    if(SettingsService::empty())
+        SettingsService::fill();
 
     _controller = controller;
 
