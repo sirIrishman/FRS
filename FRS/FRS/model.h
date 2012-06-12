@@ -3,6 +3,7 @@
 
 #include <vector>
 #include <qstring.h>
+#include <qstringlist.h>
 #include "observer.h"
 #include "enums.h"
 #include "gettingFrameStrategyCachingFactory.h"
@@ -34,7 +35,9 @@ namespace frs {
         int recognizeFace(cv::Mat const& image) const;
         void saveFaceRecognitionState() const;
         void loadFaceRecognitionState(QString const& faceRecognitionTrainingName) const;
+        QStringList getFaceRecognitionMethodStateFileNameList() const;
         FaceRecognitionAlgorithm currentFaceRecognitionAlgorithm() const;
+        QString commonFaceRecognitionDirectoryPath() const;
 
     private:
         GettingFrameStrategyCachingFactory* _gettingFrameStrategyFactory;
@@ -46,6 +49,9 @@ namespace frs {
 
         void setFrameSource(FrameSource frameSource, QString const& fileName, int webcamIndex);
         void update();
+        bool areStringListCollectionEquals(QList<QStringList> const& stringListCollection) const;
+        int maxSizeStringListIndex(QList<QStringList> const& stringListCollection) const;
+        bool allStringListContainsValue(QList<QStringList> const& stringListCollection, QString const& value) const;
     };
 }
 

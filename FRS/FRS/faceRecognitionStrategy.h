@@ -2,6 +2,8 @@
 #define FRS_FACERECOGNITIONSTRATEGY_H
 
 #include <qdir.h>
+#include <qstringlist.h>
+#include <qfileinfo.h>
 #include <opencv2\core\core.hpp>
 #include <opencv2\imgproc\imgproc.hpp>
 #include <opencv2\contrib\contrib.hpp>
@@ -19,12 +21,16 @@ namespace frs {
             virtual bool trained() const = 0;
             virtual void save() const = 0;
             virtual void load(QString const& faceRecognitionTrainingName) = 0;
+            virtual QStringList stateFileNameList() const = 0;
             virtual FaceRecognitionAlgorithm algorithm() const = 0;
             QString name() const {
                 return _name;
             }
             void setName(QString const& name) {
                 _name = name;
+            }
+            QString commonFaceRecognitionDirectoryPath() const {
+                return QString("%1/face_recognition/").arg(QCoreApplication::applicationDirPath());;
             }
 
         protected:
@@ -76,6 +82,18 @@ namespace frs {
                 setName(faceRecognitionTrainingName);
                 QString fileName = QString("%1%2.yaml").arg(saveDirectoryPath(), faceRecognitionTrainingName);
                 _faceRecognizer->load(fileName.toStdString());
+                _trained = true;
+            }
+            QStringList stateFileNameList() const { 
+                QDir statePath(saveDirectoryPath());
+                QStringList fileFilters;
+                fileFilters.push_back("*.yaml");
+                QStringList stateFileNames = statePath.entryList(fileFilters,QDir::Files, QDir::Name);
+                for(int i = 0; i < stateFileNames.size(); i++){
+                    QFileInfo stateFileInfo(stateFileNames[i]);
+                    stateFileNames[i] = stateFileInfo.baseName();
+                }
+                return stateFileNames;
             }
 
         protected:
@@ -88,7 +106,7 @@ namespace frs {
                 return grayImage;
             }
             QString saveDirectoryPath() const {
-                return QString("%1/face_recognition/%2/").arg(QCoreApplication::applicationDirPath(), directoryName());
+                return QString("%1%2/").arg(commonFaceRecognitionDirectoryPath(), directoryName());
             }
 
         private:
@@ -166,6 +184,7 @@ namespace frs {
             bool trained() const { return true; }
             void save() const { }
             void load(QString const& faceRecognitionTrainingName) { }
+            QStringList stateFileNameList() const { return QStringList(); }
             FaceRecognitionAlgorithm algorithm() const { return (FaceRecognitionAlgorithm)-1; }
         };
     }

@@ -88,6 +88,52 @@ void Model::loadFaceRecognitionState(QString const& faceRecognitionTrainingName)
     _faceRecognitionStrategyFactory->createStrategy(Lbph)->load(faceRecognitionTrainingName);
 }
 
+QStringList Model::getFaceRecognitionMethodStateFileNameList() const {
+    QList<QStringList> stateFileNamesList;
+    stateFileNamesList.append(_faceRecognitionStrategyFactory->createStrategy(Eigenfaces)->stateFileNameList());
+    stateFileNamesList.append(_faceRecognitionStrategyFactory->createStrategy(Fisherfaces)->stateFileNameList());
+    stateFileNamesList.append(_faceRecognitionStrategyFactory->createStrategy(Lbph)->stateFileNameList());
+    if(stateFileNamesList.size() == 1 || areStringListCollectionEquals(stateFileNamesList))
+        return stateFileNamesList.first();
+    int maxSizeIndex = maxSizeStringListIndex(stateFileNamesList);
+    QStringList maxSizeStringList = stateFileNamesList.takeAt(maxSizeIndex);
+    QStringList stateFileNames;
+    for(int i = 0; i < maxSizeStringList.size(); i++){
+        if(allStringListContainsValue(stateFileNamesList, maxSizeStringList[i]))
+            stateFileNames.append(maxSizeStringList[i]);
+    }
+    return stateFileNames;
+}
+
+bool Model::areStringListCollectionEquals(QList<QStringList> const& stringListCollection) const {
+    for(int i = 0; i < stringListCollection.size() - 1; i++)
+        if(stringListCollection[i] != stringListCollection[i + 1])
+            return false;
+    return true;
+}
+
+int Model::maxSizeStringListIndex(QList<QStringList> const& stringListCollection) const {
+    int maxSize = 0;
+    int maxSizeIndex = 0;
+    for(int i = 0; i < stringListCollection.size(); i++)
+        if(stringListCollection[i].size() > maxSize){
+            maxSize = stringListCollection[i].size();
+            maxSizeIndex = i;
+        }
+    return maxSizeIndex;
+}
+
+bool Model::allStringListContainsValue(QList<QStringList> const& stringListCollection, QString const& value) const {
+    for(int i = 0; i < stringListCollection.size(); i++)
+        if(stringListCollection[i].contains(value) == false)
+            return false;
+    return true;
+}
+
 FaceRecognitionAlgorithm Model::currentFaceRecognitionAlgorithm() const {
     return _faceRecognitionStrategy->algorithm();
+}
+
+QString Model::commonFaceRecognitionDirectoryPath() const {
+    return _faceRecognitionStrategy->commonFaceRecognitionDirectoryPath();
 }

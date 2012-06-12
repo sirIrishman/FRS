@@ -40,7 +40,7 @@ void View::initialize(Model* const& model, Controller* const& controller) {
 
 void View::initializeInnerState(Model* const& model, Controller* const& controller) {
     DialogService::associateWith(this);
-    SettingsService::associateWith(this);
+    //SettingsService::associateWith(this);
     if(SettingsService::empty())
         SettingsService::fill();
 
@@ -91,6 +91,13 @@ void View::initializeUI() {
     faceRecognitionMenu->addAction(_ui.actn_SetLbphFaceRecognitionMethod);
     faceRecognitionMenu->addSeparator();
     faceRecognitionMenu->addAction(_ui.actn_TrainFaceRecognition);
+    faceRecognitionMenu->addSeparator();
+    _loadFaceRecognitionMethodState = new QMenu("Load State");
+    _loadFaceRecognitionMethodState->setEnabled(false);
+    QStringList stateFileNameList = _model->getFaceRecognitionMethodStateFileNameList();
+    foreach(QString stateFileName, stateFileNameList)
+        addLoadFaceRecognitionMethodStateMenuItem(stateFileName);
+    faceRecognitionMenu->addMenu(_loadFaceRecognitionMethodState);
 
     _ui.tlBttn_FaceRecognition->setMenu(faceRecognitionMenu);
 }
@@ -108,7 +115,7 @@ void View::subscribeToEvents() {
     connect(_ui.actn_SetEigenfacesFaceRecognitionMethod, SIGNAL(toggled(bool)), this, SLOT(actn_SetEigenfacesFaceRecognitionMethod_Toggled(bool)));
     connect(_ui.actn_SetFisherfacesFaceRecognitionMethod, SIGNAL(toggled(bool)), this, SLOT(actn_SetFisherfacesFaceRecognitionMethod_Toggled(bool)));
     connect(_ui.actn_SetLbphFaceRecognitionMethod, SIGNAL(toggled(bool)), this, SLOT(actn_SetLbphFaceRecognitionMethod_Toggled(bool)));
-    connect(_ui.actn_TrainFaceRecognition, SIGNAL(triggered(bool)), this, SLOT(actn_TrainFaceRecognition_Triggered(bool)));
+    connect(_ui.actn_TrainFaceRecognition, SIGNAL(triggered()), this, SLOT(actn_TrainFaceRecognition_Triggered()));
 }
 
 void View::update() {
@@ -166,6 +173,7 @@ void View::drawText(QPixmap* const& image, std::vector<cv::Rect> rectCollection,
 void View::drawText(QPixmap* const& image, cv::Point const& leftTop, QString const& text) const {
     _painter->begin(image);
     _painter->setPen(Qt::red);
+    _painter->setFont(QFont(QApplication::font().defaultFamily(), 12, QFont::Normal));
     const int offset = 5;
     _painter->drawText(leftTop.x + offset, leftTop.y + _painter->fontMetrics().height(), text);
     _painter->end();
@@ -271,8 +279,14 @@ void View::actn_SetLbphFaceRecognitionMethod_Toggled(bool checked) {
     }
 }
 
-void View::actn_TrainFaceRecognition_Triggered(bool checked) {
+void View::actn_TrainFaceRecognition_Triggered() {
     trainFaceRecognition();
+}
+
+void View::actn_LoadFaceRecognitionMethodState_Triggered() {
+    QAction *action = qobject_cast<QAction*>(sender());
+    if (action != NULL)
+        loadFaceRecognitionMethodState(action->data().toString());
 }
 
 void View::trainFaceRecognition() {
@@ -293,9 +307,9 @@ void View::trainFaceRecognition() {
         showStatusMessage("Training face recognition...");
         _controller->trainFaceRecognition(trainingData);
         trainingData.release();
+        saveFaceRecognitionMethodState(trainingInfo.name());
 
-        showStatusMessage("Saving face recognition state...");
-        _controller->saveFaceRecognitionState();
+        addLoadFaceRecognitionMethodStateMenuItem(trainingInfo.name());
         clearStatusMessage();
     } catch(framework::BaseException& e) {
         trainingData.release();
@@ -304,7 +318,50 @@ void View::trainFaceRecognition() {
     }
 }
 
-TrainingData View::readImageClassMapFile(QString const& fileName, QChar separator) {
+void View::loadFaceRecognitionMethodState(QString const& fileName) {
+    showStatusMessage("Loading face recognition state...");
+    _controller->loadFaceRecognitionState(fileName);
+    loadClassNumberClassNameMap(fileName);
+    showStatusMessage("Loading face recognition state... Completed");
+}
+
+void View::loadClassNumberClassNameMap(QString const& fileName) {
+    QString fullFileName = QString("%1%2.csv").arg(_model->commonFaceRecognitionDirectoryPath(), fileName);
+    QFile file(fullFileName);
+    if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
+        FileOperationException(QString("Can not open '%1' file").arg(fullFileName)).raise();
+
+    _classNumberClassNameMap.clear();
+    QTextStream inputTextStream(&file);
+    while (!inputTextStream.atEnd()) {
+        QString line = inputTextStream.readLine();
+        QStringList classNumberAndName = line.split(',', QString::SkipEmptyParts);
+        int classNumber = classNumberAndName.first().toInt();
+        QString className = classNumberAndName.last();
+        _classNumberClassNameMap[classNumber] = className;
+    }
+    file.close();
+}
+
+void View::saveFaceRecognitionMethodState(QString const& fileName) const {
+    showStatusMessage("Saving face recognition state...");
+    _controller->saveFaceRecognitionState();
+    saveClassNumberClassNameMap(fileName);
+    showStatusMessage("Saving face recognition state... Completed");
+}
+
+void View::saveClassNumberClassNameMap(QString const& fileName) const {
+    QString fullFileName = QString("%1%2.csv").arg(_model->commonFaceRecognitionDirectoryPath(), fileName);
+    QFile file(fullFileName);
+    if(!file.open(QIODevice::WriteOnly | QIODevice::Text))
+        FileOperationException(QString("Can not create '%1' file").arg(fullFileName)).raise();
+    QTextStream outputTextStream(&file);
+    for(int i = 0; i < _classNumberClassNameMap.size(); i++)
+        outputTextStream << _classNumberClassNameMap.keys()[i] << ',' << _classNumberClassNameMap.values()[i] << "\n";
+    file.close();
+}
+
+TrainingData View::readImageClassMapFile(QString const& fileName) {
     QFile file(fileName);
     if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
         FileOperationException(QString("Can not open '%1' file").arg(fileName)).raise();
@@ -315,12 +372,12 @@ TrainingData View::readImageClassMapFile(QString const& fileName, QChar separato
     QTextStream inputTextStream(&file);
     while (!inputTextStream.atEnd()) {
         QString line = inputTextStream.readLine();
-        QStringList imagePathClassName = line.split(separator, QString::SkipEmptyParts);
-        QString imageName = combinePathIfRelative(imagePathClassName.first(), fileName);
+        QStringList imageNameAndClass = line.split(',', QString::SkipEmptyParts);
+        QString imageName = combinePathIfRelative(imageNameAndClass.first(), fileName);
 
         if(QFile::exists(imageName) == false)
             FileOperationException(QString("File '%1' is not found").arg(imageName)).raise();
-        QString imageClass = imagePathClassName.last();
+        QString imageClass = imageNameAndClass.last();
         int imageClassNumber;
         if(_classNumberClassNameMap.values().contains(imageClass)) {
             imageClassNumber = _classNumberClassNameMap.key(imageClass);
@@ -354,6 +411,21 @@ void View::validateTrainingData(TrainingData trainingData) const {
         if(trainingData.imageCollection()[i].cols != width || trainingData.imageCollection()[i].rows != height)
             ArgumentException("All training images should have an equal size").raise();
     }
+}
+
+QAction* View::createLoadFaceRecognitionMethodStateAction(QString const& fileName) const {
+    QAction* action = new QAction((QObject*)this);
+    action->setText(fileName);
+    action->setData(fileName);
+    connect(action, SIGNAL(triggered()), this, SLOT(actn_LoadFaceRecognitionMethodState_Triggered()));
+    return action;
+}
+
+void View::addLoadFaceRecognitionMethodStateMenuItem(QString const& fileName) {
+    QAction* action = createLoadFaceRecognitionMethodStateAction(fileName);
+    _loadFaceRecognitionMethodState->addAction(action);
+    if(_loadFaceRecognitionMethodState->isEnabled() == false)
+        _loadFaceRecognitionMethodState->setEnabled(true);
 }
 
 QString View::fileName(FileType fileType) const {

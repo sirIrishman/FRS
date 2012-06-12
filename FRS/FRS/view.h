@@ -32,6 +32,7 @@ namespace frs {
         QPainter* _painter;
         cv::Mat _lastFrame;
         QHash<int, QString> _classNumberClassNameMap;
+        QMenu* _loadFaceRecognitionMethodState;
 
         void initialize(Model* const& model, Controller* const& controller);
         QString fileName(FileType fileType) const;
@@ -42,13 +43,19 @@ namespace frs {
         void drawText(QPixmap* const& image, std::vector<cv::Rect> rectCollection, std::vector<QString> textCollection) const;
         void drawText(QPixmap* const& image, cv::Point const& topLeft, QString const& text) const;
         void trainFaceRecognition();
-        TrainingData readImageClassMapFile(QString const& fileName, QChar separator = ',');
+        TrainingData readImageClassMapFile(QString const& fileName);
         QString combinePathIfRelative(QString const& checkableFileName, QString const& absoluteFileName) const;
         bool faceRecognitionEnabled() const;
         bool objectDetectionEnabled() const;
         void showStatusMessage(QString const& message) const;
         void clearStatusMessage() const;
         void validateTrainingData(TrainingData trainingData) const;
+        QAction* createLoadFaceRecognitionMethodStateAction(QString const& fileName) const;
+        void addLoadFaceRecognitionMethodStateMenuItem(QString const& fileName);
+        void loadFaceRecognitionMethodState(QString const& fileName);
+        void saveFaceRecognitionMethodState(QString const& fileName) const;
+        void loadClassNumberClassNameMap(QString const& fileName);
+        void saveClassNumberClassNameMap(QString const& fileName) const;
 
     private slots:
         void tlBttn_OpenImageFile_Clicked();
@@ -63,7 +70,8 @@ namespace frs {
         void actn_SetEigenfacesFaceRecognitionMethod_Toggled(bool checked);
         void actn_SetFisherfacesFaceRecognitionMethod_Toggled(bool checked);
         void actn_SetLbphFaceRecognitionMethod_Toggled(bool checked);
-        void actn_TrainFaceRecognition_Triggered(bool checked);
+        void actn_TrainFaceRecognition_Triggered();
+        void actn_LoadFaceRecognitionMethodState_Triggered();
     };
 }
 
