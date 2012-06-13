@@ -4,7 +4,6 @@ Active:
     20. Fix opening files with spaces symbols in path
     27. Add status service class
     31. Add submenu for choosing detectable object type
-    37. Add simple help system
 
 Fixed/Implemented:
     3. Surround header's code with #ifndef #define ... #endif
@@ -33,3 +32,4 @@ Fixed/Implemented:
     36. Add capability to load training images with relative path
     34. Add About dialog (note: cv::getBuildInformation())
     35. Add submenu for choosing face recognition state file to load
+    37. Add simple help system

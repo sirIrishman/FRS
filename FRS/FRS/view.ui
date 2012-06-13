@@ -10,16 +10,25 @@
     <height>652</height>
    </rect>
   </property>
+  <property name="contextMenuPolicy">
+   <enum>Qt::NoContextMenu</enum>
+  </property>
   <property name="windowTitle">
    <string>Face Recognition Software</string>
   </property>
   <widget class="QWidget" name="wdgt_CentralWidget">
+   <property name="contextMenuPolicy">
+    <enum>Qt::NoContextMenu</enum>
+   </property>
    <layout class="QGridLayout" name="gridLayout">
     <property name="margin">
      <number>5</number>
     </property>
     <item row="8" column="0">
      <widget class="QScrollArea" name="scrllAr_ScrollFrameContainer">
+      <property name="contextMenuPolicy">
+       <enum>Qt::NoContextMenu</enum>
+      </property>
       <property name="widgetResizable">
        <bool>true</bool>
       </property>
@@ -32,12 +41,21 @@
          <height>181</height>
         </rect>
        </property>
+       <property name="contextMenuPolicy">
+        <enum>Qt::NoContextMenu</enum>
+       </property>
        <layout class="QGridLayout" name="gridLayout_5">
         <property name="margin">
          <number>0</number>
         </property>
         <item row="2" column="0">
          <widget class="QLabel" name="lbl_Frame">
+          <property name="contextMenuPolicy">
+           <enum>Qt::NoContextMenu</enum>
+          </property>
+          <property name="whatsThis">
+           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Frame&lt;/span&gt;&lt;/p&gt;&lt;p&gt;Displaying frame area. Area is empty until frame source isn't set.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+          </property>
           <property name="text">
            <string> Frame</string>
           </property>
@@ -52,6 +70,12 @@
     </item>
     <item row="1" column="0">
      <widget class="QToolButton" name="tlBttn_OpenImageFile">
+      <property name="contextMenuPolicy">
+       <enum>Qt::NoContextMenu</enum>
+      </property>
+      <property name="whatsThis">
+       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Open Image File&lt;/span&gt;&lt;/p&gt;&lt;p&gt;Sets selected image file from file system as frame source. Image displays without any size or color modification.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+      </property>
       <property name="text">
        <string>Open Image File</string>
       </property>
@@ -79,7 +103,10 @@
        </sizepolicy>
       </property>
       <property name="contextMenuPolicy">
-       <enum>Qt::DefaultContextMenu</enum>
+       <enum>Qt::NoContextMenu</enum>
+      </property>
+      <property name="whatsThis">
+       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Object Detection&lt;/span&gt;&lt;/p&gt;&lt;p&gt;Enabling/disabling object detection mode is applying for displayed frame. In general this mode detects faces. Its drop-down menu allows to select current object detection method.&lt;/p&gt;&lt;p&gt;Detected object contours by green rectangle.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
       </property>
       <property name="text">
        <string>Object Detection</string>
@@ -110,6 +137,12 @@
     </item>
     <item row="2" column="0">
      <widget class="QToolButton" name="tlBttn_OpenVideoFile">
+      <property name="contextMenuPolicy">
+       <enum>Qt::NoContextMenu</enum>
+      </property>
+      <property name="whatsThis">
+       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Open Video File&lt;/span&gt;&lt;/p&gt;&lt;p&gt;Sets selected video file from file system as frame source. Frames display without any size or color modification.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+      </property>
       <property name="text">
        <string>Open Video File</string>
       </property>
@@ -130,6 +163,12 @@
     </item>
     <item row="4" column="0">
      <widget class="QToolButton" name="tlBttn_CaptureWebcamVideo">
+      <property name="contextMenuPolicy">
+       <enum>Qt::NoContextMenu</enum>
+      </property>
+      <property name="whatsThis">
+       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Capture Webcam Video&lt;/span&gt;&lt;/p&gt;&lt;p&gt;Sets active webcam device as frame source. Frames display without any size or color modification.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+      </property>
       <property name="text">
        <string>Capture Webcam Video</string>
       </property>
@@ -150,6 +189,12 @@
     </item>
     <item row="3" column="0">
      <widget class="QToolButton" name="tlBttn_CaptureWebcamImage">
+      <property name="contextMenuPolicy">
+       <enum>Qt::NoContextMenu</enum>
+      </property>
+      <property name="whatsThis">
+       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Capture Webcam Image&lt;/span&gt;&lt;/p&gt;&lt;p&gt;Sets active webcam device as frame source and captures single image. Image displays without any size or color modification.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+      </property>
       <property name="text">
        <string>Capture Webcam Image</string>
       </property>
@@ -170,6 +215,12 @@
     </item>
     <item row="6" column="0">
      <widget class="QToolButton" name="tlBttn_FaceRecognition">
+      <property name="contextMenuPolicy">
+       <enum>Qt::NoContextMenu</enum>
+      </property>
+      <property name="whatsThis">
+       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Face Recognition&lt;/span&gt;&lt;/p&gt;&lt;p&gt;Enabling/disabling face recognition mode is applying for displayed frame. Its drop-down menu allows to select current face recognition method from the list, to open face recognition method training dialog or to load already saved face recognition method states.&lt;/p&gt;&lt;p&gt;Detected face class displays at the top left corner of the frame or of the each face-detected area (if Object Detection Mode is enabled).&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+      </property>
       <property name="text">
        <string>Face Recognition</string>
       </property>
@@ -196,6 +247,12 @@
     </item>
     <item row="7" column="0">
      <widget class="QToolButton" name="tlBttn_About">
+      <property name="contextMenuPolicy">
+       <enum>Qt::NoContextMenu</enum>
+      </property>
+      <property name="whatsThis">
+       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;About FRS...&lt;/span&gt;&lt;/p&gt;&lt;p&gt;Dialog window contains simple information about this program (author, used components, icon sources, etc).&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+      </property>
       <property name="text">
        <string>About FRS...</string>
       </property>
@@ -216,8 +273,15 @@
     </item>
    </layout>
   </widget>
-  <widget class="QStatusBar" name="stsBr_MainStatusBar"/>
+  <widget class="QStatusBar" name="stsBr_MainStatusBar">
+   <property name="whatsThis">
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Status Bar&lt;/span&gt;&lt;/p&gt;&lt;p&gt;Displays context related messages of application.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+   </property>
+  </widget>
   <widget class="QToolBar" name="tlBr_MainToolbar">
+   <property name="contextMenuPolicy">
+    <enum>Qt::NoContextMenu</enum>
+   </property>
    <property name="movable">
     <bool>false</bool>
    </property>

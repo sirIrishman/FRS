@@ -15,7 +15,7 @@ using namespace frs;
 using namespace services;
 
 View::View(Model* const& model, Controller* const& controller, QWidget* const& parent, Qt::WFlags flags)
-    : QMainWindow(parent, flags) {
+    : QMainWindow(parent, flags | Qt::WindowTitleHint | Qt::WindowSystemMenuHint | Qt::WindowContextHelpButtonHint) {
         utils::Guard::argumentNotNull(model, "model");
         utils::Guard::argumentNotNull(controller, "controller");
         initialize(model, controller);
