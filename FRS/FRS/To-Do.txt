@@ -1,35 +1,6 @@
-Active:
+Active (total - 37):
     7. Add capability to change FPS (note: cvSetCaptureProperty, CV_CAP_PROP_FPS)
     9. Add new icons for actions
     20. Fix opening files with spaces symbols in path
     27. Add status service class
     31. Add submenu for choosing detectable object type
-
-Fixed/Implemented:
-    3. Surround header's code with #ifndef #define ... #endif
-    2. Fix 'actn_captureVideo' typo
-    4. Add webcam image capturing functionality
-    5. Add OFD for image & video file loading
-    10. Move webcam initializing time to constant
-    1. Release frame and image resources in model's destructor
-    8. Add capability to change active webcam
-    6. Fix Guard's argumentInRange method
-    15. Add frame getting strategies
-    17. Rename header and source files according to c++ style
-    19. Add info string into status bar
-    13. Find out supported video files for 'cvCaptureFromFile' method
-    21. Use OpenCV C++ API instead of old C API
-    22. Update OpenCV from 2.3.1 to 2.4.0 version
-    24. Try to use OpenCV's GPU API
-    25. Refactor rect drawing code
-    26. Add dialog service class
-    30. Add object detection
-    28. Rename recognition to detection
-    29. Add drop-down menu for object detection mode button
-    12. Does not update frame if video file have ended
-    16. Add face recognition (use new face recognition algorithms from OpenCV 2.4.0: "face recognition algorithms have been contributed by Philipp Wagner. Please, check opencv/contrib/contrib.hpp, FaceRecognizer class, and opencv/samples/cpp/facerec_demo.cpp")
-    32. Rename namespaces from upper-camel-case to lower-camel-case
-    36. Add capability to load training images with relative path
-    34. Add About dialog (note: cv::getBuildInformation())
-    35. Add submenu for choosing face recognition state file to load
-    37. Add simple help system
