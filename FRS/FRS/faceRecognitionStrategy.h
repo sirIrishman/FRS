@@ -4,6 +4,7 @@
 #include <qdir.h>
 #include <qstringlist.h>
 #include <qfileinfo.h>
+#include <qtextstream.h>
 #include <opencv2\core\core.hpp>
 #include <opencv2\imgproc\imgproc.hpp>
 #include <opencv2\contrib\contrib.hpp>
@@ -42,8 +43,8 @@ namespace frs {
             OpenCvFaceRecognizerStrategyBase(Ptr<FaceRecognizer> faceRecognizer) {
                 _faceRecognizer = faceRecognizer;
                 _trained = false;
-                _width = 170;
-                _height = 170;
+                _width = 0;
+                _height = 0;
             }
             virtual ~OpenCvFaceRecognizerStrategyBase() {
                 releaseResources();
@@ -77,12 +78,14 @@ namespace frs {
                 QDir().mkpath(saveDirectoryPath());
                 QString fileName = QString("%1%2.yaml").arg(saveDirectoryPath(), _name);
                 _faceRecognizer->save(fileName.toStdString());
+                saveWidthAndHeight();
             }
             void load(QString const& faceRecognitionTrainingName) {
                 setName(faceRecognitionTrainingName);
                 QString fileName = QString("%1%2.yaml").arg(saveDirectoryPath(), faceRecognitionTrainingName);
                 _faceRecognizer->load(fileName.toStdString());
                 _trained = true;
+                loadWidthAndHeight();
             }
             QStringList stateFileNameList() const { 
                 QDir statePath(saveDirectoryPath());
@@ -119,6 +122,28 @@ namespace frs {
                 cv::equalizeHist(grayImage, grayImage);
                 return grayImage;
             }
+            void loadWidthAndHeight() {
+                QString fullFileName = QString("%1%2.csv").arg(saveDirectoryPath(), _name);
+                QFile file(fullFileName);
+                if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
+                    FileOperationException(QString("Can not open '%1' file").arg(fullFileName)).raise();
+
+                QTextStream inputTextStream(&file);
+                _width = inputTextStream.readLine().toInt();
+                _height = inputTextStream.readLine().toInt();
+                file.close();
+            }
+            void saveWidthAndHeight() const {
+                QString fullFileName = QString("%1%2.csv").arg(saveDirectoryPath(), _name);
+                QFile file(fullFileName);
+                if(!file.open(QIODevice::WriteOnly | QIODevice::Text))
+                    FileOperationException(QString("Can not create\open '%1' file").arg(fullFileName)).raise();
+
+                QTextStream outputTextStream(&file);
+                outputTextStream << _width << "\n";
+                outputTextStream << _height << "\n";
+                file.close();
+            }
         };
 
         class EigenFaceRecognitionStrategy sealed : public OpenCvFaceRecognizerStrategyBase {
@@ -136,7 +161,8 @@ namespace frs {
             }
             cv::Mat preprocessImage(cv::Mat const& image) const {
                 cv::Mat preprocessedImage = OpenCvFaceRecognizerStrategyBase::preprocessImage(image);
-                cv::resize(preprocessedImage, preprocessedImage, cv::Size(_width, _height));
+                if(_width != 0 && _height != 0)
+                    cv::resize(preprocessedImage, preprocessedImage, cv::Size(_width, _height));
                 return preprocessedImage;
             }
         };
@@ -156,7 +182,8 @@ namespace frs {
             }
             cv::Mat preprocessImage(cv::Mat const& image) const {
                 cv::Mat preprocessedImage = OpenCvFaceRecognizerStrategyBase::preprocessImage(image);
-                cv::resize(preprocessedImage, preprocessedImage, cv::Size(_width, _height));
+                if(_width != 0 && _height != 0)
+                    cv::resize(preprocessedImage, preprocessedImage, cv::Size(_width, _height));
                 return preprocessedImage;
             }
         };
