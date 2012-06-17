@@ -291,7 +291,6 @@ void View::actn_LoadFaceRecognitionMethodState_Triggered() {
 
 void View::trainFaceRecognition() {
     TrainingInfo trainingInfo = FaceRecognitionTrainingDialog::getTrainingInfo((QWidget*)this);
-    //TrainingInfo trainingInfo("name", "d:/Test/test.csv");
     if(trainingInfo == TrainingInfo::empty()) {
         _ui.tlBttn_FaceRecognition->setChecked(false);
         return;
@@ -314,6 +313,7 @@ void View::trainFaceRecognition() {
     } catch(framework::BaseException& e) {
         trainingData.release();
         clearStatusMessage();
+        _ui.tlBttn_FaceRecognition->setChecked(false);
         throw e;
     }
 }
@@ -354,7 +354,7 @@ void View::saveClassNumberClassNameMap(QString const& fileName) const {
     QString fullFileName = QString("%1%2.csv").arg(_model->commonFaceRecognitionDirectoryPath(), fileName);
     QFile file(fullFileName);
     if(!file.open(QIODevice::WriteOnly | QIODevice::Text))
-        FileOperationException(QString("Can not create '%1' file").arg(fullFileName)).raise();
+        FileOperationException(QString("Can not create\open '%1' file").arg(fullFileName)).raise();
     QTextStream outputTextStream(&file);
     for(int i = 0; i < _classNumberClassNameMap.size(); i++)
         outputTextStream << _classNumberClassNameMap.keys()[i] << ',' << _classNumberClassNameMap.values()[i] << "\n";
@@ -422,6 +422,9 @@ QAction* View::createLoadFaceRecognitionMethodStateAction(QString const& fileNam
 }
 
 void View::addLoadFaceRecognitionMethodStateMenuItem(QString const& fileName) {
+    for(int i = 0; i < _loadFaceRecognitionMethodState->actions().size(); i++)
+        if(_loadFaceRecognitionMethodState->actions()[i]->text() == fileName)
+            return;
     QAction* action = createLoadFaceRecognitionMethodStateAction(fileName);
     _loadFaceRecognitionMethodState->addAction(action);
     if(_loadFaceRecognitionMethodState->isEnabled() == false)
