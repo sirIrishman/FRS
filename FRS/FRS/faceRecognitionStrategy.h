@@ -137,7 +137,7 @@ namespace frs {
                 QString fullFileName = QString("%1%2.csv").arg(saveDirectoryPath(), _name);
                 QFile file(fullFileName);
                 if(!file.open(QIODevice::WriteOnly | QIODevice::Text))
-                    FileOperationException(QString("Can not create\open '%1' file").arg(fullFileName)).raise();
+                    FileOperationException(QString("Can not create\\open '%1' file").arg(fullFileName)).raise();
 
                 QTextStream outputTextStream(&file);
                 outputTextStream << _width << "\n";

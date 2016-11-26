@@ -354,7 +354,7 @@ void View::saveClassNumberClassNameMap(QString const& fileName) const {
     QString fullFileName = QString("%1%2.csv").arg(_model->commonFaceRecognitionDirectoryPath(), fileName);
     QFile file(fullFileName);
     if(!file.open(QIODevice::WriteOnly | QIODevice::Text))
-        FileOperationException(QString("Can not create\open '%1' file").arg(fullFileName)).raise();
+        FileOperationException(QString("Can not create\\open '%1' file").arg(fullFileName)).raise();
     QTextStream outputTextStream(&file);
     for(int i = 0; i < _classNumberClassNameMap.size(); i++)
         outputTextStream << _classNumberClassNameMap.keys()[i] << ',' << _classNumberClassNameMap.values()[i] << "\n";
