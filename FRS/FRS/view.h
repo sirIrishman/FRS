@@ -1,11 +1,11 @@
 #ifndef FRS_VIEW_H
 #define FRS_VIEW_H
 
-#include <QtGui/QMainWindow>
-#include <qhash.h>
-#include <qpainter.h>
-#include <qchar.h>
-#include <qstring.h>
+#include <QtCore/qhash.h>
+#include <QtCore/qchar.h>
+#include <QtCore/qstring.h>
+#include <QtWidgets/QMainWindow>
+#include <QtGui/qpainter.h>
 #include "ui_View.h"
 #include "controller.h"
 #include "trainingData.h"
@@ -16,7 +16,7 @@ namespace frs {
     class View : public QMainWindow, public Observer {
         Q_OBJECT
     public:
-        View(Model* const& model, Controller* const& controller, QWidget* const& parent = 0, Qt::WFlags flags = 0);
+        View(Model* const& model, Controller* const& controller, QWidget* const& parent = 0, Qt::WindowFlags flags = 0);
         virtual ~View();
 
     protected:

@@ -2,8 +2,8 @@
 #define FRS_MODEL_H
 
 #include <vector>
-#include <qstring.h>
-#include <qstringlist.h>
+#include <QtCore/qstring.h>
+#include <QtCore/qstringlist.h>
 #include "observer.h"
 #include "enums.h"
 #include "gettingFrameStrategyCachingFactory.h"

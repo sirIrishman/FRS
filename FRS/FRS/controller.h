@@ -1,7 +1,7 @@
 #ifndef FRS_CONTROLLER_H
 #define FRS_CONTROLLER_H
 
-#include <qstring.h>
+#include <QtCore/qstring.h>
 #include "model.h"
 
 namespace frs {

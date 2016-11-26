@@ -1,7 +1,7 @@
 #ifndef FRS_FRSAPPLICATION_H
 #define FRS_FRSAPPLICATION_H
 
-#include <qapplication.h>
+#include <QtWidgets/qapplication>
 #include "dialogService.h"
 #include "exceptions.h"
 

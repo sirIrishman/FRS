@@ -1,7 +1,7 @@
 #ifndef FRS_GUARD_H
 #define FRS_GUARD_H
 
-#include <qstring.h>
+#include <QtCore/qstring.h>
 #include "exceptions.h"
 
 using namespace framework;

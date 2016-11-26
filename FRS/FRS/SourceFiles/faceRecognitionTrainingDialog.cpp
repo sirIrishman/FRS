@@ -1,6 +1,5 @@
+#include <QtCore/qfile.h>
 #include "faceRecognitionTrainingDialog.h"
-
-#include <qfile.h>
 #include "dialogService.h"
 
 using namespace frs::native;

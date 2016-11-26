@@ -1,9 +1,9 @@
 #ifndef FRS_SETTINGSSERVICE_H
 #define FRS_SETTINGSSERVICE_H
 
-#include <qsettings.h>
-#include <qapplication.h>
-#include <qfile.h>
+#include <QtCore/qsettings.h>
+#include <QtCore/qfile.h>
+#include <QtWidgets/qapplication.h>
 
 namespace services {
     class SettingsService sealed {

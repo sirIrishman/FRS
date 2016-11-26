@@ -1,16 +1,16 @@
 #ifndef FRS_EXCEPTIONS_H
 #define FRS_EXCEPTIONS_H
 
-#include <qtconcurrentexception.h>
-#include <qstring.h>
+#include <QtCore/qexception>
+#include <QtCore/qstring.h>
 
 namespace framework {
-    class BaseException : public QtConcurrent::Exception {
+    class BaseException : public QException {
     public:
         void raise() const {
             throw *this;
         }
-        virtual Exception* clone() const {
+        virtual QException* clone() const {
             return new BaseException(*this);
         }
         virtual QString message() const {

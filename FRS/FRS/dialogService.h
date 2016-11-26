@@ -1,8 +1,8 @@
 #ifndef FRS_DIALOGSERVICE_H
 #define FRS_DIALOGSERVICE_H
 
-#include <qfiledialog.h>
-#include <qmessagebox.h>
+#include <QtWidgets/QFileDialog.h>
+#include <QtWidgets/QMessageBox.h>
 #include "guard.h"
 #include "exceptions.h"
 

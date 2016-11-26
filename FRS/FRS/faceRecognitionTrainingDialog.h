@@ -1,7 +1,7 @@
 #ifndef FRS_FACERECOGNITIONTRAININGDIALOG_H
 #define FRS_FACERECOGNITIONTRAININGDIALOG_H
 
-#include <qdialog.h>
+#include <QtWidgets/qdialog.h>
 #include "ui_faceRecognitionTrainingDialog.h"
 #include "trainingInfo.h"
 

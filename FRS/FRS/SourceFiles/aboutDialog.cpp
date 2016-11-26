@@ -1,4 +1,5 @@
-#include <qglobal.h>
+#include <QtWidgets/qwidget.h>
+#include <QtWidgets/qdialog.h>
 #include "aboutDialog.h"
 
 using namespace frs::native;

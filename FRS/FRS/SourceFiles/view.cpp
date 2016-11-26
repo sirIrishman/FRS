@@ -1,9 +1,9 @@
 #include <opencv2\core\core.hpp>
-#include <qmenu.h>
-#include <qfile.h>
-#include <qdir.h>
-#include <qstringlist.h>
-#include <qtextstream.h>
+#include <QtCore/qfile.h>
+#include <QtCore/qdir.h>
+#include <QtCore/qstringlist.h>
+#include <QtCore/qtextstream.h>
+#include <QtWidgets/QMenu.h>
 #include "view.h"
 #include "guard.h"
 #include "dialogService.h"
@@ -14,7 +14,7 @@
 using namespace frs;
 using namespace services;
 
-View::View(Model* const& model, Controller* const& controller, QWidget* const& parent, Qt::WFlags flags)
+View::View(Model* const& model, Controller* const& controller, QWidget* const& parent, Qt::WindowFlags flags)
     : QMainWindow(parent, flags | Qt::WindowTitleHint | Qt::WindowSystemMenuHint | Qt::WindowContextHelpButtonHint) {
         utils::Guard::argumentNotNull(model, "model");
         utils::Guard::argumentNotNull(controller, "controller");

@@ -1,7 +1,7 @@
 #ifndef FRS_TRAININGINFO_H
 #define FRS_TRAININGINFO_H
 
-#include <qstring.h>
+#include <QtCore/qstring.h>
 #include "guard.h"
 
 namespace frs {

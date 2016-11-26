@@ -2,9 +2,9 @@
 #define FRS_GETTINGFRAMESTRATEGY_H
 
 #include <Windows.h>
-#include <qtimer.h>
 #include <opencv2\core\core.hpp>
 #include <opencv2\highgui\highgui.hpp>
+#include <QtCore/qtimer.h>
 #include "observer.h"
 #include "exceptions.h"
 

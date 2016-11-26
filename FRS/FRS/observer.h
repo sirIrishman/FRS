@@ -1,7 +1,7 @@
 #ifndef FRS_OBSERVER_H
 #define FRS_OBSERVER_H
 
-#include <qlist.h>
+#include <QtCore/qlist.h>
 
 namespace patterns {
     class Observer {
