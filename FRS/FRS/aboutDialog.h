@@ -1,9 +1,9 @@
 #ifndef FRS_ABOUTDIALOG_H
 #define FRS_ABOUTDIALOG_H
 
-#include <ui_aboutDialog.h>
-#include <opencv2\core\core.hpp>
 #include <qtwidgets/qdialog.h>
+#include <opencv2/core.hpp>
+#include "ui_aboutDialog.h"
 
 namespace frs {
     namespace native {

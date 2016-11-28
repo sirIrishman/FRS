@@ -1,9 +1,9 @@
-#include <opencv2\core\core.hpp>
 #include <QtCore/qfile.h>
 #include <QtCore/qdir.h>
 #include <QtCore/qstringlist.h>
 #include <QtCore/qtextstream.h>
 #include <QtWidgets/QMenu.h>
+#include <opencv2/core.hpp>
 #include "view.h"
 #include "guard.h"
 #include "dialogService.h"

@@ -1,13 +1,13 @@
 #ifndef FRS_FACERECOGNITIONSTRATEGY_H
 #define FRS_FACERECOGNITIONSTRATEGY_H
 
-#include <opencv2\core\core.hpp>
-#include <opencv2\imgproc\imgproc.hpp>
-#include <opencv2\contrib\contrib.hpp>
 #include <QtCore/qdir.h>
 #include <QtCore/qstringlist.h>
 #include <QtCore/qfileinfo.h>
 #include <QtCore/qtextstream.h>
+#include <opencv2/core.hpp>
+#include <opencv2/imgproc.hpp>
+#include <opencv2/contrib/contrib.hpp>
 #include "trainingData.h"
 
 using namespace cv;

@@ -1,10 +1,10 @@
 #ifndef FRS_OBJECTDETECTIONSTRATEGY_H
 #define FRS_OBJECTDETECTIONSTRATEGY_H
 
-#include <opencv2\core\core.hpp>
-#include <opencv2\imgproc\imgproc.hpp>
-#include <opencv2\objdetect\objdetect.hpp>
 #include <QtCore/qcoreapplication.h>
+#include <opencv2/core.hpp>
+#include <opencv2/imgproc.hpp>
+#include <opencv2/objdetect.hpp>
 #include "enums.h"
 #include "settingsService.h"
 

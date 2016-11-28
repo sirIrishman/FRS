@@ -1,7 +1,7 @@
 #ifndef FRS_TRAININGDATA_H
 #define FRS_TRAININGDATA_H
 
-#include <opencv2\core\core.hpp>
+#include <opencv2/core.hpp>
 #include <vector>
 
 namespace frs {

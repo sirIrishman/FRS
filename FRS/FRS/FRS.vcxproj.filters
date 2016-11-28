@@ -65,15 +65,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="GeneratedFiles\Debug\moc_view.cpp">
-      <Filter>Generated Files\Debug</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Release\moc_view.cpp">
-      <Filter>Generated Files\Release</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\qrc_View.cpp">
-      <Filter>Generated Files</Filter>
-    </ClCompile>
     <ClCompile Include="SourceFiles\controller.cpp">
       <Filter>Source Files\MVC</Filter>
     </ClCompile>
@@ -86,16 +77,22 @@
     <ClCompile Include="SourceFiles\main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="SourceFiles\aboutDialog.cpp">
+      <Filter>Source Files\Dialogs</Filter>
+    </ClCompile>
+    <ClCompile Include="SourceFiles\faceRecognitionTrainingDialog.cpp">
+      <Filter>Source Files\Dialogs</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_view.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_view.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
     <ClCompile Include="GeneratedFiles\Debug\moc_gettingFrameStrategy.cpp">
       <Filter>Generated Files\Debug</Filter>
     </ClCompile>
     <ClCompile Include="GeneratedFiles\Release\moc_gettingFrameStrategy.cpp">
-      <Filter>Generated Files\Release</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Debug\moc_faceRecognitionTrainingDialog.cpp">
-      <Filter>Generated Files\Debug</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Release\moc_faceRecognitionTrainingDialog.cpp">
       <Filter>Generated Files\Release</Filter>
     </ClCompile>
     <ClCompile Include="GeneratedFiles\Debug\moc_aboutDialog.cpp">
@@ -104,11 +101,14 @@
     <ClCompile Include="GeneratedFiles\Release\moc_aboutDialog.cpp">
       <Filter>Generated Files\Release</Filter>
     </ClCompile>
-    <ClCompile Include="SourceFiles\aboutDialog.cpp">
-      <Filter>Source Files\Dialogs</Filter>
+    <ClCompile Include="GeneratedFiles\Debug\moc_faceRecognitionTrainingDialog.cpp">
+      <Filter>Generated Files\Debug</Filter>
     </ClCompile>
-    <ClCompile Include="SourceFiles\faceRecognitionTrainingDialog.cpp">
-      <Filter>Source Files\Dialogs</Filter>
+    <ClCompile Include="GeneratedFiles\Release\moc_faceRecognitionTrainingDialog.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\qrc_view.cpp">
+      <Filter>Generated Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -139,68 +139,88 @@
     <CustomBuild Include="aboutDialog.h">
       <Filter>Header Files\Dialogs</Filter>
     </CustomBuild>
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="GeneratedFiles\ui_View.h">
-      <Filter>Generated Files</Filter>
-    </ClInclude>
-    <ClInclude Include="controller.h">
-      <Filter>Header Files\MVC</Filter>
-    </ClInclude>
-    <ClInclude Include="enums.h">
+    <CustomBuild Include="frs.pro" />
+    <CustomBuild Include="opencv.props" />
+    <CustomBuild Include="To-Do.txt" />
+    <CustomBuild Include="enums.h">
       <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="exceptions.h">
+    </CustomBuild>
+    <CustomBuild Include="exceptions.h">
       <Filter>Header Files\Framework</Filter>
-    </ClInclude>
-    <ClInclude Include="guard.h">
-      <Filter>Header Files\Utils</Filter>
-    </ClInclude>
-    <ClInclude Include="observer.h">
+    </CustomBuild>
+    <CustomBuild Include="observer.h">
       <Filter>Header Files\Patterns</Filter>
-    </ClInclude>
-    <ClInclude Include="gettingFrameStrategyCachingFactory.h">
+    </CustomBuild>
+    <CustomBuild Include="guard.h">
+      <Filter>Header Files\Utils</Filter>
+    </CustomBuild>
+    <CustomBuild Include="controller.h">
+      <Filter>Header Files\MVC</Filter>
+    </CustomBuild>
+    <CustomBuild Include="faceRecognitionStrategy.h">
       <Filter>Header Files\Native</Filter>
-    </ClInclude>
-    <ClInclude Include="dialogService.h">
+    </CustomBuild>
+    <CustomBuild Include="faceRecognitionStrategyCachingFactory.h">
+      <Filter>Header Files\Native</Filter>
+    </CustomBuild>
+    <CustomBuild Include="objectDetectionStrategy.h">
+      <Filter>Header Files\Native</Filter>
+    </CustomBuild>
+    <CustomBuild Include="objectDetectionStrategyCachingFactory.h">
+      <Filter>Header Files\Native</Filter>
+    </CustomBuild>
+    <CustomBuild Include="trainingData.h">
+      <Filter>Header Files\Native</Filter>
+    </CustomBuild>
+    <CustomBuild Include="trainingInfo.h">
+      <Filter>Header Files\Native</Filter>
+    </CustomBuild>
+    <CustomBuild Include="gettingFrameStrategyCachingFactory.h">
+      <Filter>Header Files\Native</Filter>
+    </CustomBuild>
+    <CustomBuild Include="dialogService.h">
       <Filter>Header Files\Services</Filter>
-    </ClInclude>
-    <ClInclude Include="frsApplication.h">
+    </CustomBuild>
+    <CustomBuild Include="settingsService.h">
+      <Filter>Header Files\Services</Filter>
+    </CustomBuild>
+    <CustomBuild Include="frsApplication.h">
       <Filter>Header Files\Application</Filter>
-    </ClInclude>
-    <ClInclude Include="objectDetectionStrategy.h">
-      <Filter>Header Files\Native</Filter>
-    </ClInclude>
-    <ClInclude Include="objectDetectionStrategyCachingFactory.h">
-      <Filter>Header Files\Native</Filter>
-    </ClInclude>
-    <ClInclude Include="faceRecognitionStrategy.h">
-      <Filter>Header Files\Native</Filter>
-    </ClInclude>
-    <ClInclude Include="faceRecognitionStrategyCachingFactory.h">
-      <Filter>Header Files\Native</Filter>
-    </ClInclude>
-    <ClInclude Include="GeneratedFiles\ui_faceRecognitionTrainingDialog.h">
-      <Filter>Generated Files</Filter>
-    </ClInclude>
-    <ClInclude Include="trainingInfo.h">
-      <Filter>Header Files\Native</Filter>
-    </ClInclude>
-    <ClInclude Include="trainingData.h">
-      <Filter>Header Files\Native</Filter>
-    </ClInclude>
-    <ClInclude Include="GeneratedFiles\ui_aboutDialog.h">
-      <Filter>Generated Files</Filter>
-    </ClInclude>
-    <ClInclude Include="settingsService.h">
-      <Filter>Header Files\Services</Filter>
-    </ClInclude>
+    </CustomBuild>
+    <CustomBuild Include="Images\capture_webcam_image.png">
+      <Filter>Resource Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Images\capture_webcam_video.png">
+      <Filter>Resource Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Images\face_recognition.png">
+      <Filter>Resource Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Images\information.png">
+      <Filter>Resource Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Images\object_detection.png">
+      <Filter>Resource Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Images\open_image_file.png">
+      <Filter>Resource Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Images\open_video_file.png">
+      <Filter>Resource Files</Filter>
+    </CustomBuild>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="frs.rc" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="opencv.props" />
-    <None Include="To-Do.txt" />
+    <ClInclude Include="GeneratedFiles\ui_view.h">
+      <Filter>Generated Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GeneratedFiles\ui_aboutDialog.h">
+      <Filter>Generated Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GeneratedFiles\ui_faceRecognitionTrainingDialog.h">
+      <Filter>Generated Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
