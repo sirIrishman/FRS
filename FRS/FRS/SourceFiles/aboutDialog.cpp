@@ -4,8 +4,8 @@
 
 using namespace frs::native;
 
-AboutDialog::AboutDialog(QWidget* const& parent) 
-    : QDialog(parent, Qt::WindowTitleHint | Qt::WindowSystemMenuHint | Qt::MSWindowsFixedSizeDialogHint) {
+AboutDialog::AboutDialog(QWidget* const& parent)
+    : QDialog(parent, Qt::Dialog | Qt::WindowCloseButtonHint) {
         _ui.setupUi(this);
 
         QString qtText = QString("Qt %1").arg(QT_VERSION_STR);

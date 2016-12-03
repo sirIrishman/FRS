@@ -4,8 +4,8 @@
 
 using namespace frs::native;
 
-FaceRecognitionTrainingDialog::FaceRecognitionTrainingDialog(QWidget* const& parent) 
-    : QDialog(parent, Qt::WindowTitleHint | Qt::WindowSystemMenuHint | Qt::MSWindowsFixedSizeDialogHint) {
+FaceRecognitionTrainingDialog::FaceRecognitionTrainingDialog(QWidget* const& parent)
+    : QDialog(parent, Qt::Dialog | Qt::WindowCloseButtonHint) {
         _ui.setupUi(this);
         connect(_ui.lnEdt_Name, SIGNAL(textChanged(QString)), this, SLOT(lnEdt_TextChanged(QString)));
         connect(_ui.lnEdt_ClassImageMapFileName, SIGNAL(textChanged(QString)), this, SLOT(lnEdt_TextChanged(QString)));

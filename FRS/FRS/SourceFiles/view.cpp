@@ -15,7 +15,7 @@ using namespace frs;
 using namespace services;
 
 View::View(Model* const& model, Controller* const& controller, QWidget* const& parent, Qt::WindowFlags flags)
-    : QMainWindow(parent, flags | Qt::WindowTitleHint | Qt::WindowSystemMenuHint | Qt::WindowContextHelpButtonHint) {
+    : QMainWindow(parent, flags | Qt::Window | Qt::WindowContextHelpButtonHint | Qt::WindowCloseButtonHint) {
         utils::Guard::argumentNotNull(model, "model");
         utils::Guard::argumentNotNull(controller, "controller");
         initialize(model, controller);
@@ -54,6 +54,8 @@ void View::initializeInnerState(Model* const& model, Controller* const& controll
 
 void View::initializeUI() {
     _ui.setupUi(this);
+
+    setFixedSize(size());
 
     //fill toolbar
     _ui.tlBr_MainToolbar->addWidget(_ui.tlBttn_OpenImageFile);

@@ -295,6 +295,9 @@
    <property name="whatsThis">
     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Status Bar&lt;/span&gt;&lt;/p&gt;&lt;p&gt;Displays context related messages of application.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
    </property>
+   <property name="sizeGripEnabled">
+    <bool>false</bool>
+   </property>
   </widget>
   <widget class="QToolBar" name="tlBr_MainToolbar">
    <property name="contextMenuPolicy">
