@@ -12,15 +12,7 @@ AboutDialog::AboutDialog(QWidget* const& parent)
         qtText = _ui.lbl_BasedOnSectionQtText->text().replace("{Qt_Text}", qtText);
         _ui.lbl_BasedOnSectionQtText->setText(qtText);
 
-        QString openCVText = QString("OpenCV %1").arg(findVersionInOpenCvBuildInfo());
+        QString openCVText = QString("OpenCV %1").arg(CV_VERSION);
         openCVText = _ui.lbl_BasedOnSectionOpenCvText->text().replace("{OpenCV_Text}", openCVText);
         _ui.lbl_BasedOnSectionOpenCvText->setText(openCVText);
-}
-
-QString AboutDialog::findVersionInOpenCvBuildInfo() const {
-    QString buildInfo = QString::fromStdString(cv::getBuildInformation());
-    const QString searchingString("OpenCV ");
-    int start = buildInfo.indexOf(searchingString) + searchingString.length();
-    int finish = buildInfo.indexOf(" ", start);
-    return buildInfo.mid(start, finish - start);
 }
