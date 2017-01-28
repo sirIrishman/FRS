@@ -7,7 +7,8 @@
 #include <QtCore/qtextstream.h>
 #include <opencv2/core.hpp>
 #include <opencv2/imgproc.hpp>
-#include <opencv2/contrib/contrib.hpp>
+#include <opencv2/face.hpp>
+#include <opencv2/face/facerec.hpp>
 #include "trainingData.h"
 
 using namespace cv;
@@ -40,7 +41,7 @@ namespace frs {
 
         class OpenCvFaceRecognizerStrategyBase : public FaceRecognitionStrategyBase {
         public:
-            OpenCvFaceRecognizerStrategyBase(Ptr<FaceRecognizer> faceRecognizer) {
+            OpenCvFaceRecognizerStrategyBase(Ptr<face::FaceRecognizer> faceRecognizer) {
                 _faceRecognizer = faceRecognizer;
                 _trained = false;
                 _width = 0;
@@ -113,7 +114,7 @@ namespace frs {
             }
 
         private:
-            Ptr<FaceRecognizer> _faceRecognizer;
+            Ptr<face::FaceRecognizer> _faceRecognizer;
             bool _trained;
 
             cv::Mat makeGreyImage(cv::Mat const& image) const {
@@ -149,7 +150,7 @@ namespace frs {
         class EigenFaceRecognitionStrategy sealed : public OpenCvFaceRecognizerStrategyBase {
         public:
             EigenFaceRecognitionStrategy()
-                : OpenCvFaceRecognizerStrategyBase(createEigenFaceRecognizer()) {
+                : OpenCvFaceRecognizerStrategyBase(face::createEigenFaceRecognizer()) {
             }
 
         protected:
@@ -170,7 +171,7 @@ namespace frs {
         class FisherFaceRecognitionStrategy sealed : public OpenCvFaceRecognizerStrategyBase {
         public:
             FisherFaceRecognitionStrategy()
-                : OpenCvFaceRecognizerStrategyBase(createFisherFaceRecognizer()) {
+                : OpenCvFaceRecognizerStrategyBase(face::createFisherFaceRecognizer()) {
             }
 
         protected:
@@ -191,7 +192,7 @@ namespace frs {
         class LbphFaceRecognitionStrategy sealed : public OpenCvFaceRecognizerStrategyBase {
         public:
             LbphFaceRecognitionStrategy()
-                : OpenCvFaceRecognizerStrategyBase(createLBPHFaceRecognizer()) {
+                : OpenCvFaceRecognizerStrategyBase(face::createLBPHFaceRecognizer()) {
             }
 
         protected:

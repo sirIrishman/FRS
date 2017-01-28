@@ -3,10 +3,11 @@
   <ImportGroup Label="PropertySheets" />
 
   <PropertyGroup Label="UserMacros">
-    <OpenCvDir>d:\sdk\opencv\2.4.13\build</OpenCvDir>
+    <OpenCvDir>d:\sdk\opencv\3.2.0\opencv\build</OpenCvDir>
     <OpenCvHeaderDir>$(OpenCvDir)\include</OpenCvHeaderDir>
-    <OpenCvLibDir>$(OpenCvDir)\x64\vc12\lib</OpenCvLibDir>
-    <OpenCvDataDir>$(OpenCvDir)\share\OpenCV</OpenCvDataDir>
+    <OpenCvLibDir>$(OpenCvDir)\x64\vc14\lib</OpenCvLibDir>
+    <OpenCvDllDir>$(OpenCvDir)\x64\vc14\bin</OpenCvDllDir>
+    <OpenCvDataDir>$(OpenCvDir)\etc</OpenCvDataDir>
   </PropertyGroup>
 
   <ItemDefinitionGroup />
@@ -22,6 +23,10 @@
 
     <BuildMacro Include="OpenCvLibDir">
       <Value>$(OpenCvLibDir)</Value>
+    </BuildMacro>
+
+    <BuildMacro Include="OpenCvDllDir">
+      <Value>$(OpenCvDllDir)</Value>
     </BuildMacro>
 
     <BuildMacro Include="OpenCvDataDir">

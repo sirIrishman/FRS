@@ -71,33 +71,17 @@
       <OutputFile>$(OutDir)\$(ProjectName).exe</OutputFile>
       <AdditionalLibraryDirectories>D:\sdk\qt\5.6.2\5.6\msvc2015_64\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>$(QTDIR)\lib\qtmaind.lib;$(QTDIR)\lib\Qt5Cored.lib;$(QTDIR)\lib\Qt5Widgetsd.lib;$(QTDIR)\lib\Qt5Guid.lib;$(QTDIR)\lib\Qt5Multimediad.lib;$(QTDIR)\lib\Qt5UiToolsd.lib;$(OpenCvLibDir)\opencv_calib3d2413.lib;$(OpenCvLibDir)\opencv_contrib2413.lib;$(OpenCvLibDir)\opencv_core2413.lib;$(OpenCvLibDir)\opencv_features2d2413.lib;$(OpenCvLibDir)\opencv_flann2413.lib;$(OpenCvLibDir)\opencv_highgui2413.lib;$(OpenCvLibDir)\opencv_imgproc2413.lib;$(OpenCvLibDir)\opencv_ml2413.lib;$(OpenCvLibDir)\opencv_objdetect2413.lib;$(OpenCvLibDir)\opencv_video2413.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>$(QTDIR)\lib\qtmaind.lib;$(QTDIR)\lib\Qt5Cored.lib;$(QTDIR)\lib\Qt5Widgetsd.lib;$(QTDIR)\lib\Qt5Guid.lib;$(QTDIR)\lib\Qt5Multimediad.lib;$(QTDIR)\lib\Qt5UiToolsd.lib;$(OpenCvLibDir)\opencv_world320d.lib;$(OpenCvLibDir)\opencv_face320d.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalOptions>/ignore:4099  /SUBSYSTEM:WINDOWS %(AdditionalOptions)</AdditionalOptions>
       <TargetMachine>MachineX64</TargetMachine>
     </Link>
     <PostBuildEvent>
-      <Command>copy "$(QTDIR)\bin\Qt5Cored.dll" "$(ProjectDir)bin\$(Configuration)\$(Platform)\"
-copy "$(QTDIR)\bin\Qt5Guid.dll" "$(ProjectDir)bin\$(Configuration)\$(Platform)\"
-copy "$(QTDIR)\bin\Qt5Multimediad.dll" "$(ProjectDir)bin\$(Configuration)\$(Platform)\"
-copy "$(QTDIR)\bin\Qt5Widgetsd.dll" "$(ProjectDir)bin\$(Configuration)\$(Platform)\"
-copy "$(OpenCvDir)\x64\vc12\bin\opencv_calib3d2413.dll" "$(ProjectDir)bin\$(Configuration)\$(Platform)\"
-copy "$(OpenCvDir)\x64\vc12\bin\opencv_contrib2413.dll" "$(ProjectDir)bin\$(Configuration)\$(Platform)\"
-copy "$(OpenCvDir)\x64\vc12\bin\opencv_core2413.dll" "$(ProjectDir)bin\$(Configuration)\$(Platform)\"
-copy "$(OpenCvDir)\x64\vc12\bin\opencv_features2d2413.dll" "$(ProjectDir)bin\$(Configuration)\$(Platform)\"
-copy "$(OpenCvDir)\x64\vc12\bin\opencv_flann2413.dll" "$(ProjectDir)bin\$(Configuration)\$(Platform)\"
-copy "$(OpenCvDir)\x64\vc12\bin\opencv_gpu2413.dll" "$(ProjectDir)bin\$(Configuration)\$(Platform)\"
-copy "$(OpenCvDir)\x64\vc12\bin\opencv_highgui2413.dll" "$(ProjectDir)bin\$(Configuration)\$(Platform)\"
-copy "$(OpenCvDir)\x64\vc12\bin\opencv_imgproc2413.dll" "$(ProjectDir)bin\$(Configuration)\$(Platform)\"
-copy "$(OpenCvDir)\x64\vc12\bin\opencv_legacy2413.dll" "$(ProjectDir)bin\$(Configuration)\$(Platform)\"
-copy "$(OpenCvDir)\x64\vc12\bin\opencv_ml2413.dll" "$(ProjectDir)bin\$(Configuration)\$(Platform)\"
-copy "$(OpenCvDir)\x64\vc12\bin\opencv_nonfree2413.dll" "$(ProjectDir)bin\$(Configuration)\$(Platform)\"
-copy "$(OpenCvDir)\x64\vc12\bin\opencv_objdetect2413.dll" "$(ProjectDir)bin\$(Configuration)\$(Platform)\"
-copy "$(OpenCvDir)\x64\vc12\bin\opencv_ocl2413.dll" "$(ProjectDir)bin\$(Configuration)\$(Platform)\"
-copy "$(OpenCvDir)\x64\vc12\bin\opencv_photo2413.dll" "$(ProjectDir)bin\$(Configuration)\$(Platform)\"
-copy "$(OpenCvDir)\x64\vc12\bin\opencv_stitching2413.dll" "$(ProjectDir)bin\$(Configuration)\$(Platform)\"
-copy "$(OpenCvDir)\x64\vc12\bin\opencv_superres2413.dll" "$(ProjectDir)bin\$(Configuration)\$(Platform)\"
-copy "$(OpenCvDir)\x64\vc12\bin\opencv_video2413.dll" "$(ProjectDir)bin\$(Configuration)\$(Platform)\"
-copy "$(OpenCvDir)\x64\vc12\bin\opencv_videostab2413d.dll" "$(ProjectDir)bin\$(Configuration)\$(Platform)\"
+      <Command>copy "$(QTDIR)\bin\Qt5Core.dll" "$(ProjectDir)bin\$(Configuration)\$(Platform)\"
+copy "$(QTDIR)\bin\Qt5Gui.dll" "$(ProjectDir)bin\$(Configuration)\$(Platform)\"
+copy "$(QTDIR)\bin\Qt5Multimedia.dll" "$(ProjectDir)bin\$(Configuration)\$(Platform)\"
+copy "$(QTDIR)\bin\Qt5Widgets.dll" "$(ProjectDir)bin\$(Configuration)\$(Platform)\"
+copy "$(OpenCvDllDir)\opencv_world320d.dll" "$(ProjectDir)bin\$(Configuration)\$(Platform)\"
+copy "$(OpenCvDllDir)\opencv_face320d.dll" "$(ProjectDir)bin\$(Configuration)\$(Platform)\"
 xcopy "$(OpenCvDataDir)\haarcascades" "$(ProjectDir)bin\$(Configuration)\$(Platform)\data" /E /I /R /Y
 xcopy "$(OpenCvDataDir)\lbpcascades" "$(ProjectDir)bin\$(Configuration)\$(Platform)\data" /E /I /R /Y</Command>
     </PostBuildEvent>
@@ -119,7 +103,7 @@ xcopy "$(OpenCvDataDir)\lbpcascades" "$(ProjectDir)bin\$(Configuration)\$(Platfo
       <OutputFile>$(OutDir)\$(ProjectName).exe</OutputFile>
       <AdditionalLibraryDirectories>D:\sdk\qt\5.6.2\5.6\msvc2015_64\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <GenerateDebugInformation>false</GenerateDebugInformation>
-      <AdditionalDependencies>$(QTDIR)\lib\qtmain.lib;$(QTDIR)\lib\Qt5Core.lib;$(QTDIR)\lib\Qt5Widgets.lib;$(QTDIR)\lib\Qt5Gui.lib;$(QTDIR)\lib\Qt5Multimedia.lib;$(QTDIR)\lib\Qt5UiTools.lib;$(OpenCvLibDir)\opencv_calib3d2413.lib;$(OpenCvLibDir)\opencv_contrib2413.lib;$(OpenCvLibDir)\opencv_core2413.lib;$(OpenCvLibDir)\opencv_features2d2413.lib;$(OpenCvLibDir)\opencv_flann2413.lib;$(OpenCvLibDir)\opencv_highgui2413.lib;$(OpenCvLibDir)\opencv_imgproc2413.lib;$(OpenCvLibDir)\opencv_ml2413.lib;$(OpenCvLibDir)\opencv_objdetect2413.lib;$(OpenCvLibDir)\opencv_video2413.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>$(QTDIR)\lib\qtmain.lib;$(QTDIR)\lib\Qt5Core.lib;$(QTDIR)\lib\Qt5Widgets.lib;$(QTDIR)\lib\Qt5Gui.lib;$(QTDIR)\lib\Qt5Multimedia.lib;$(QTDIR)\lib\Qt5UiTools.lib;$(OpenCvLibDir)\opencv_world320.lib;$(OpenCvLibDir)\opencv_face320.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <TargetMachine>MachineX64</TargetMachine>
       <AdditionalOptions> /SUBSYSTEM:WINDOWS</AdditionalOptions>
     </Link>
@@ -128,24 +112,8 @@ xcopy "$(OpenCvDataDir)\lbpcascades" "$(ProjectDir)bin\$(Configuration)\$(Platfo
 copy "$(QTDIR)\bin\Qt5Gui.dll" "$(ProjectDir)bin\$(Configuration)\$(Platform)\"
 copy "$(QTDIR)\bin\Qt5Multimedia.dll" "$(ProjectDir)bin\$(Configuration)\$(Platform)\"
 copy "$(QTDIR)\bin\Qt5Widgets.dll" "$(ProjectDir)bin\$(Configuration)\$(Platform)\"
-copy "$(OpenCvDir)\x64\vc12\bin\opencv_calib3d2413.dll" "$(ProjectDir)bin\$(Configuration)\$(Platform)\"
-copy "$(OpenCvDir)\x64\vc12\bin\opencv_contrib2413.dll" "$(ProjectDir)bin\$(Configuration)\$(Platform)\"
-copy "$(OpenCvDir)\x64\vc12\bin\opencv_core2413.dll" "$(ProjectDir)bin\$(Configuration)\$(Platform)\"
-copy "$(OpenCvDir)\x64\vc12\bin\opencv_features2d2413.dll" "$(ProjectDir)bin\$(Configuration)\$(Platform)\"
-copy "$(OpenCvDir)\x64\vc12\bin\opencv_flann2413.dll" "$(ProjectDir)bin\$(Configuration)\$(Platform)\"
-copy "$(OpenCvDir)\x64\vc12\bin\opencv_gpu2413.dll" "$(ProjectDir)bin\$(Configuration)\$(Platform)\"
-copy "$(OpenCvDir)\x64\vc12\bin\opencv_highgui2413.dll" "$(ProjectDir)bin\$(Configuration)\$(Platform)\"
-copy "$(OpenCvDir)\x64\vc12\bin\opencv_imgproc2413.dll" "$(ProjectDir)bin\$(Configuration)\$(Platform)\"
-copy "$(OpenCvDir)\x64\vc12\bin\opencv_legacy2413.dll" "$(ProjectDir)bin\$(Configuration)\$(Platform)\"
-copy "$(OpenCvDir)\x64\vc12\bin\opencv_ml2413.dll" "$(ProjectDir)bin\$(Configuration)\$(Platform)\"
-copy "$(OpenCvDir)\x64\vc12\bin\opencv_nonfree2413.dll" "$(ProjectDir)bin\$(Configuration)\$(Platform)\"
-copy "$(OpenCvDir)\x64\vc12\bin\opencv_objdetect2413.dll" "$(ProjectDir)bin\$(Configuration)\$(Platform)\"
-copy "$(OpenCvDir)\x64\vc12\bin\opencv_ocl2413.dll" "$(ProjectDir)bin\$(Configuration)\$(Platform)\"
-copy "$(OpenCvDir)\x64\vc12\bin\opencv_photo2413.dll" "$(ProjectDir)bin\$(Configuration)\$(Platform)\"
-copy "$(OpenCvDir)\x64\vc12\bin\opencv_stitching2413.dll" "$(ProjectDir)bin\$(Configuration)\$(Platform)\"
-copy "$(OpenCvDir)\x64\vc12\bin\opencv_superres2413.dll" "$(ProjectDir)bin\$(Configuration)\$(Platform)\"
-copy "$(OpenCvDir)\x64\vc12\bin\opencv_video2413.dll" "$(ProjectDir)bin\$(Configuration)\$(Platform)\"
-copy "$(OpenCvDir)\x64\vc12\bin\opencv_videostab2413.dll" "$(ProjectDir)bin\$(Configuration)\$(Platform)\"
+copy "$(OpenCvDllDir)\opencv_world320.dll" "$(ProjectDir)bin\$(Configuration)\$(Platform)\"
+copy "$(OpenCvDllDir)\opencv_face320.dll" "$(ProjectDir)bin\$(Configuration)\$(Platform)\"
 xcopy "$(OpenCvDataDir)\haarcascades" "$(ProjectDir)bin\$(Configuration)\$(Platform)\data" /E /I /R /Y
 xcopy "$(OpenCvDataDir)\lbpcascades" "$(ProjectDir)bin\$(Configuration)\$(Platform)\data" /E /I /R /Y</Command>
     </PostBuildEvent>
